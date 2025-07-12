@@ -18,12 +18,12 @@
 
     <item
         android:id="@+id/nav_edv"
-
+        android:icon="@drawable/receipt50"
         android:title="ƏDV geri al" />
 
     <item
         android:id="@+id/nav_menu"
-        
+        android:icon="@drawable/menu48"
         android:title="Menyu" />
 
 
