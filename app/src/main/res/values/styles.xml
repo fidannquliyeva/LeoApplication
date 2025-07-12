@@ -2,15 +2,22 @@
 <resources>
 
     <style name="KeyButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <!-- Genişlik 0dp olmalıdır ki, columnWeight işləsin -->
+        <item name="android:layout_width">0dp</item>
+        <!-- Hündürlük sabit saxlanılır -->
+        <item name="android:layout_height">60dp</item>
+        <!-- Sütun çəkisi: bərabər paylansın -->
         <item name="android:layout_columnWeight">1</item>
-        <item name="android:layout_rowWeight">1</item>
-        <item name="android:textSize">22sp</item>
+        <!-- Mətn ölçüsü -->
+        <item name="android:textSize">24sp</item>
+        <!-- Mətn rengi -->
         <item name="android:textColor">#000000</item>
+        <!-- Arxa fon -->
         <item name="android:backgroundTint">#EEEEEE</item>
-        <item name="android:gravity">center</item>
+        <!-- Kənar radius və padding istəyə bağlı -->
+        <item name="android:padding">8dp</item>
     </style>
+
 
 
 </resources>

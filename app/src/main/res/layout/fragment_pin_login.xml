@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_2"
+        android:orientation="vertical"
+        tools:context=".PinLoginFragment">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@drawable/gradient_login">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/materialButton"
+                android:layout_width="wrap_content"
+                android:layout_height="50sp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="10dp"
+                android:backgroundTint="#5AC8C6C6"
+                android:drawableLeft="@drawable/icons8"
+                android:text="Dəstək"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/img_account"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/account_60" />
+
+        </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/phoneCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:cardBackgroundColor="@android:color/white"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="4dp">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/phoneNumberText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PIN kod"
+                        android:textColor="#888888"
+                        android:textSize="23sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.15" />
+
+                    <LinearLayout
+                        android:id="@+id/pinLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/phoneNumberText">
+
+                        <ImageView
+                            android:id="@+id/pin1"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/paw" />
+
+                        <ImageView
+                            android:id="@+id/pin2"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/paw" />
+
+                        <ImageView
+                            android:id="@+id/pin3"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/paw" />
+
+                        <ImageView
+                            android:id="@+id/pin4"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_margin="8dp"
+                            android:src="@drawable/paw" />
+                    </LinearLayout>
+
+                    <GridLayout
+                        android:id="@+id/numberPad"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:columnCount="3"
+                        android:rowCount="4"
+                        android:useDefaultMargins="true"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/pinLayout"
+                        app:layout_constraintVertical_bias="0.6">
+
+                        <Button
+                            android:id="@+id/btn_1"
+                            style="@style/KeyButton"
+                            android:text="1" />
+
+                        <Button
+                            android:id="@+id/btn_2"
+                            style="@style/KeyButton"
+                            android:text="2" />
+
+                        <Button
+                            android:id="@+id/btn_3"
+                            style="@style/KeyButton"
+                            android:text="3" />
+
+                        <Button
+                            android:id="@+id/btn_4"
+                            style="@style/KeyButton"
+                            android:text="4" />
+
+                        <Button
+                            android:id="@+id/btn_5"
+                            style="@style/KeyButton"
+                            android:text="5" />
+
+                        <Button
+                            android:id="@+id/btn_6"
+                            style="@style/KeyButton"
+                            android:text="6" />
+
+                        <Button
+                            android:id="@+id/btn_7"
+                            style="@style/KeyButton"
+                            android:text="7" />
+
+                        <Button
+                            android:id="@+id/btn_8"
+                            style="@style/KeyButton"
+                            android:text="8" />
+
+                        <Button
+                            android:id="@+id/btn_9"
+                            style="@style/KeyButton"
+                            android:text="9" />
+
+                        <Space
+                            android:layout_width="0dp"
+                            android:layout_height="60dp"
+                            android:layout_columnWeight="1" />
+
+                        <Button
+                            android:id="@+id/btn_0"
+                            style="@style/KeyButton"
+                            android:text="0" />
+
+                        <Button
+                            android:id="@+id/btn_delete"
+                            style="@style/KeyButton"
+                            android:text="⌫" />
+                    </GridLayout>
+
+                    <TextView
+                        android:id="@+id/txt_forget"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="PIN kodu unutmusunuz?"
+                        android:textSize="19sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/numberPad" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+
+

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home50"
+        android:title="Əsas Səhifə" />
+
+    <item
+        android:id="@+id/nav_collect"
+        android:icon="@drawable/bank50"
+        android:title="Yığım" />
+
+    <item
+        android:id="@+id/nav_investment"
+        android:icon="@drawable/macbook48"
+        android:title="Sərmayələr" />
+
+    <item
+        android:id="@+id/nav_edv"
+
+        android:title="ƏDV geri al" />
+
+    <item
+        android:id="@+id/nav_menu"
+        
+        android:title="Menyu" />
+
+
+</menu>

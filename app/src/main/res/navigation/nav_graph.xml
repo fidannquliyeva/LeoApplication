@@ -15,4 +15,19 @@
         android:name="com.example.leoapplication.LoginWithNumberFragment"
         android:label="fragment_login_with_number"
         tools:layout="@layout/fragment_login_with_number" />
+    <fragment
+        android:id="@+id/aboutLeoFragment"
+        android:name="com.example.leoapplication.AboutLeoFragment"
+        android:label="fragment_about_leo"
+        tools:layout="@layout/fragment_about_leo" />
+    <fragment
+        android:id="@+id/smsLoginFragment"
+        android:name="com.example.leoapplication.SmsLoginFragment"
+        android:label="fragment_sms_login"
+        tools:layout="@layout/fragment_sms_login" />
+    <fragment
+        android:id="@+id/pinLoginFragment"
+        android:name="com.example.leoapplication.PinLoginFragment"
+        android:label="fragment_pin_login"
+        tools:layout="@layout/fragment_pin_login" />
 </navigation>
