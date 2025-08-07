@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.google.android.material:material:1.11.0 ")// Ən son versiya ola bilər
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
     implementation(libs.androidx.core.ktx)

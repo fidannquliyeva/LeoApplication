@@ -3,18 +3,29 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.example.leoapplication.SplashScreenFragment"
         android:label="fragment_splash_screen"
-        tools:layout="@layout/fragment_splash_screen" />
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_loginWithNumberFragment"
+            app:destination="@id/loginWithNumberFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginWithNumberFragment"
         android:name="com.example.leoapplication.LoginWithNumberFragment"
         android:label="fragment_login_with_number"
-        tools:layout="@layout/fragment_login_with_number" />
+        tools:layout="@layout/fragment_login_with_number" >
+        <action
+            android:id="@+id/action_loginWithNumberFragment_to_aboutLeoFragment"
+            app:destination="@id/aboutLeoFragment" />
+        <action
+            android:id="@+id/action_loginWithNumberFragment_to_smsLoginFragment"
+            app:destination="@id/smsLoginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/aboutLeoFragment"
         android:name="com.example.leoapplication.AboutLeoFragment"
@@ -24,10 +35,44 @@
         android:id="@+id/smsLoginFragment"
         android:name="com.example.leoapplication.SmsLoginFragment"
         android:label="fragment_sms_login"
-        tools:layout="@layout/fragment_sms_login" />
+        tools:layout="@layout/fragment_sms_login" >
+        <action
+            android:id="@+id/action_smsLoginFragment_to_pinLoginFragment"
+            app:destination="@id/pinLoginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pinLoginFragment"
         android:name="com.example.leoapplication.PinLoginFragment"
         android:label="fragment_pin_login"
-        tools:layout="@layout/fragment_pin_login" />
+        tools:layout="@layout/fragment_pin_login" >
+        <action
+            android:id="@+id/action_pinLoginFragment_to_homeFragment"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.leoapplication.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/nav_collect"
+        android:name="com.example.leoapplication.CollectFragment"
+        android:label="fragment_collect"
+        tools:layout="@layout/fragment_collect" />
+    <fragment
+        android:id="@+id/nav_investment"
+        android:name="com.example.leoapplication.InvestmentFragment"
+        android:label="fragment_investment"
+        tools:layout="@layout/fragment_investment" />
+    <fragment
+        android:id="@+id/nav_edv"
+        android:name="com.example.leoapplication.EdvFragment"
+        android:label="fragment_edv"
+        tools:layout="@layout/fragment_edv" />
+    <fragment
+        android:id="@+id/nav_menu"
+        android:name="com.example.leoapplication.MenuFragment"
+        android:label="fragment_menu"
+        tools:layout="@layout/fragment_menu" />
+
 </navigation>
