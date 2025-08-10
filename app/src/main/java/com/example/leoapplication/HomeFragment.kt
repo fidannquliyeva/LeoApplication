@@ -26,22 +26,5 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val bottomSheet = view.findViewById<LinearLayout>(R.id.bottomSheet)
-        val cardView = view.findViewById<LinearLayout>(R.id.cardView)
-
-        val behavior = BottomSheetBehavior.from(bottomSheet)
-
-        behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-            override fun onStateChanged(bottomSheet: View, newState: Int) {}
-
-            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                cardView.alpha = 1 - slideOffset
-                if (slideOffset > 0.6f) {
-                    cardView.visibility = View.GONE
-                } else {
-                    cardView.visibility = View.VISIBLE
-                }
-            }
-        })
     }
 }

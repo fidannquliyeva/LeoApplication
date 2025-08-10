@@ -39,11 +39,20 @@ android {
 }
 
 dependencies {
-    implementation ("com.google.android.material:material:1.11.0 ")// Ən son versiya ola bilər
+
+        implementation ("androidx.appcompat:appcompat:1.6.1")
+        implementation ("com.google.android.material:material:1.9.0")
+
+
+    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
+        // To use constraintlayout in compose
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.1")
+
+//    implementation ("com.google.android.material:material:1.11.0 ")// Ən son versiya ola bilər
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
     implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
+//    implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
