@@ -1,0 +1,45 @@
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/end"
+        motion:duration="500" />
+
+    <!-- Start vəziyyəti -->
+    <ConstraintSet android:id="@+id/start">
+        <Constraint android:id="@+id/headerImage"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            motion:layout_constraintTop_toTopOf="parent"/>
+
+        <Constraint android:id="@+id/amountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/headerImage"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:scaleX="1.0"
+            android:scaleY="1.0"/>
+    </ConstraintSet>
+
+    <!-- End vəziyyəti -->
+    <ConstraintSet android:id="@+id/end">
+        <Constraint android:id="@+id/headerImage"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            motion:layout_constraintTop_toTopOf="parent"/>
+
+        <Constraint android:id="@+id/amountText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@id/headerImage"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:scaleX="0.7"
+            android:scaleY="0.7"/>
+    </ConstraintSet>
+
+</MotionScene>

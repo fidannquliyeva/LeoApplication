@@ -1,18 +1,12 @@
 package com.example.leoapplication
 
-import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import android.widget.LinearLayout
-import androidx.cardview.widget.CardView
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import androidx.constraintlayout.motion.widget.MotionLayout
+import com.google.android.material.appbar.AppBarLayout
 
 class HomeFragment : Fragment() {
 
@@ -20,11 +14,19 @@ class HomeFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)  // layout adını dəyiş
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val motionLayout = view.findViewById<MotionLayout>(R.id.motionLayout)
+        val appBarLayout = view.findViewById<AppBarLayout>(R.id.app_bar)
+
+        appBarLayout.addOnOffsetChangedListener { _, verticalOffset ->
+            val totalScrollRange = appBarLayout.totalScrollRange
+            val progress = -verticalOffset / totalScrollRange.toFloat()
+            motionLayout.progress = progress
+        }
     }
 }

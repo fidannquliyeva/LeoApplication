@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.leoapplication.CollapsibleToolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/motionLayoutInvestment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/scene_scroll_collect"
+    android:minHeight="50dp"
+    android:fitsSystemWindows="false"
+    app:layout_scrollFlags="scroll|enterAlways|snap|exitUntilCollapsed">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_collapseMode="pin"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutInvestment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_investment">
+
+        <TextView
+            android:id="@+id/balance_num_investment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$0.00"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.2"/>
+
+        <TextView
+            android:id="@+id/balance_txt_investment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yatırım edilib $0.00"
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/balance_num_investment" />
+
+        <TextView
+            android:id="@+id/balance_txt_investment2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="Qazanılıb $0.00"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="@+id/balance_txt_investment"
+            app:layout_constraintStart_toStartOf="@+id/balance_txt_investment"
+            app:layout_constraintTop_toBottomOf="@+id/balance_txt_investment" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.example.leoapplication.CollapsibleToolbar>
