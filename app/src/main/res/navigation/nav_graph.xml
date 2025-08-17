@@ -74,5 +74,10 @@
         android:name="com.example.leoapplication.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.leoapplication.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

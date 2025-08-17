@@ -1,0 +1,20 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Aktiv tab -->
+    <item android:state_selected="true">
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#FF6A00"
+                android:endColor="#FFB347"
+                android:angle="45"/>
+            <corners android:radius="20dp"/>
+        </shape>
+    </item>
+
+    <!-- Passiv tab -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#E0E0E0"/>
+            <corners android:radius="20dp"/>
+        </shape>
+    </item>
+</selector>

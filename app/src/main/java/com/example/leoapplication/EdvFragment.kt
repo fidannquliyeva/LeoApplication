@@ -42,5 +42,21 @@ class EdvFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = titles[position]
         }.attach()
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val tabView = tab.view
+                tabView.animate().scaleX(1.1f).scaleY(1.1f).setDuration(150).start()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                val tabView = tab.view
+                tabView.animate().scaleX(1f).scaleY(1f).setDuration(150).start()
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
     }
+
 }

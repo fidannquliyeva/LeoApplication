@@ -1,14 +1,600 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MenuFragment">
+    android:fillViewport="true">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="menuuu" />
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        card_view:layout_constraintBottom_toBottomOf="parent"
+        card_view:layout_constraintEnd_toEndOf="parent"
+        card_view:layout_constraintStart_toStartOf="parent"
+        card_view:layout_constraintTop_toTopOf="parent">
 
-</FrameLayout>
+
+        <ImageView
+            android:id="@+id/cardMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:src="@drawable/icons8_magnetic_card_65"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toTopOf="parent"
+            card_view:layout_constraintVertical_bias="0.05"
+            card_view:layout_constraintHorizontal_bias="0.03"
+            android:clickable="true"/>
+
+        <ImageView
+            android:id="@+id/cardStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintHorizontal_bias="0.15"
+            android:src="@drawable/icons8magneticcard60"
+            card_view:layout_constraintBottom_toBottomOf="@+id/cardMain"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/cardMain"
+            card_view:layout_constraintTop_toTopOf="@+id/cardMain" />
+
+        <ImageView
+            android:id="@+id/cardIndividual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            card_view:layout_constraintHorizontal_bias="0.25"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/icons8card60"
+            card_view:layout_constraintBottom_toBottomOf="@+id/cardStatus"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/cardStatus"
+            card_view:layout_constraintTop_toTopOf="@+id/cardStatus" />
+
+        <TextView
+            android:id="@+id/txtMain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sas"
+            android:textSize="16sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/cardMain"
+            card_view:layout_constraintStart_toStartOf="@+id/cardMain"
+            card_view:layout_constraintTop_toBottomOf="@+id/cardMain" />
+        <TextView
+            android:id="@+id/txtMainNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_0_001"
+            android:textSize="16sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/cardMain"
+            card_view:layout_constraintStart_toStartOf="@+id/cardMain"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtMain" />
+
+        <TextView
+            android:id="@+id/txtStatus"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/kart_n_z_n_statusunu_t_kmill_dirin"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/cardStatus"
+            card_view:layout_constraintStart_toStartOf="@+id/cardStatus"
+            card_view:layout_constraintTop_toBottomOf="@+id/cardStatus" />
+
+        <TextView
+            android:id="@+id/txtİndividual"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/f_rdi_sahibkar_hesab_v_kredit"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/cardIndividual"
+            card_view:layout_constraintStart_toStartOf="@+id/cardIndividual"
+            card_view:layout_constraintTop_toBottomOf="@+id/cardIndividual" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorUnchecked"
+            card_view:layout_constraintBottom_toTopOf="@+id/creditMenu"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtStatus" />
+
+        <ImageView
+            android:id="@+id/cashback"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintVertical_bias="0.1"
+            android:src="@drawable/icons8_circle_65_cashback"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintHorizontal_weight="1"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtMainNum"
+            card_view:layout_constraintEnd_toStartOf="@id/creditMenu"/>
+
+        <ImageView
+            android:id="@+id/cashbackFront"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/icons8gift30"
+            card_view:layout_constraintBottom_toBottomOf="@+id/cashback"
+            card_view:layout_constraintEnd_toEndOf="@+id/cashback"
+            card_view:layout_constraintStart_toStartOf="@+id/cashback"
+            card_view:layout_constraintTop_toTopOf="@+id/cashback" />
+
+        <ImageView
+            android:id="@+id/creditMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintVertical_bias="0.1"
+            card_view:layout_constraintEnd_toStartOf="@id/collectMenu"
+            android:src="@drawable/icons8_circle_65_credit"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintHorizontal_weight="1"
+            card_view:layout_constraintStart_toEndOf="@+id/cashback"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtMainNum" />
+
+        <ImageView
+            android:id="@+id/creditFront"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/icons8time30"
+            card_view:layout_constraintBottom_toBottomOf="@+id/creditMenu"
+            card_view:layout_constraintEnd_toEndOf="@+id/creditMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/creditMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/creditMenu" />
+
+        <ImageView
+            android:id="@+id/collectMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/icons8_circle_65_collect"
+            card_view:layout_constraintVertical_bias="0.1"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintHorizontal_weight="1"
+            card_view:layout_constraintEnd_toStartOf="@id/inviteMenu"
+            card_view:layout_constraintStart_toEndOf="@+id/creditMenu"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtMainNum" />
+
+
+        <ImageView
+            android:id="@+id/collectFront"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/icons8safe30"
+            card_view:layout_constraintBottom_toBottomOf="@+id/collectMenu"
+            card_view:layout_constraintEnd_toEndOf="@+id/collectMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/collectMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/collectMenu" />
+        <ImageView
+            android:id="@+id/inviteMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintVertical_bias="0.1"
+            android:src="@drawable/icons8_circle_65_invite"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_weight="1"
+            card_view:layout_constraintStart_toEndOf="@+id/collectMenu"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtMainNum" />
+
+
+        <ImageView
+            android:id="@+id/inviteFront"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/icons8letter30"
+            card_view:layout_constraintBottom_toBottomOf="@+id/inviteMenu"
+            card_view:layout_constraintEnd_toEndOf="@+id/inviteMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/inviteMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/inviteMenu" />
+
+        <ImageView
+            android:id="@+id/statisticMenu"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintVertical_bias="0.05"
+            android:src="@drawable/icons8_circle_65_statistics"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="@+id/cashback"
+            card_view:layout_constraintHorizontal_weight="1"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtCashNum" />
+
+
+        <ImageView
+            android:id="@+id/statisticsFront"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@drawable/icons8combochart30"
+            card_view:layout_constraintBottom_toBottomOf="@+id/statisticMenu"
+            card_view:layout_constraintEnd_toEndOf="@+id/statisticMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/statisticMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/statisticMenu" />
+
+
+        <TextView
+            android:id="@+id/txtCashback"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cashback"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/cashback"
+            card_view:layout_constraintStart_toStartOf="@+id/cashback"
+            card_view:layout_constraintTop_toBottomOf="@+id/cashback" />
+
+        <TextView
+            android:id="@+id/txtCashNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00₼"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/txtCashback"
+            card_view:layout_constraintStart_toStartOf="@+id/txtCashback"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtCashback" />
+
+
+        <TextView
+            android:id="@+id/txtCreditMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/kreditl_r"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/creditMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/creditMenu"
+            card_view:layout_constraintTop_toBottomOf="@+id/creditMenu" />
+
+        <TextView
+            android:id="@+id/txtCreditNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_50_000_d_k"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/txtCreditMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/txtCreditMenu"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtCreditMenu" />
+
+        <TextView
+            android:id="@+id/txtCollectMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/y_m"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/collectMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/collectMenu"
+            card_view:layout_constraintTop_toBottomOf="@+id/collectMenu" />
+
+        <TextView
+            android:id="@+id/txtCollectNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/_0_00"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/txtCollectMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/txtCollectMenu"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtCollectMenu" />
+
+
+        <TextView
+            android:id="@+id/txtİnviteMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/d_v_t_etm_k"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/inviteMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/inviteMenu"
+            card_view:layout_constraintTop_toBottomOf="@+id/inviteMenu" />
+
+        <TextView
+            android:id="@+id/txtİnviteNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/h_r_y_3"
+            android:textSize="14sp"
+            card_view:layout_constraintEnd_toEndOf="@+id/txtİnviteMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/txtİnviteMenu"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtİnviteMenu" />
+
+        <TextView
+            android:id="@+id/txtStatisticMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/x_rcl_m_statistikas"
+            android:textSize="14sp"
+            card_view:layout_constraintStart_toStartOf="@+id/statisticMenu"
+            card_view:layout_constraintTop_toBottomOf="@+id/statisticMenu" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:backgroundTint="#76FFFFFF"
+            card_view:layout_constraintTop_toBottomOf="@+id/txtStatisticMenu"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:cardCornerRadius="20dp"
+            card_view:layout_constraintVertical_bias="0.07"
+
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayoutMenu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintStart_toStartOf="parent"
+                >
+                <ImageView
+                    android:id="@+id/imgCardMoney"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/icons8_money_30"
+                    card_view:layout_constraintBottom_toBottomOf="parent"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintHorizontal_bias="0.0"
+                    card_view:layout_constraintStart_toStartOf="parent"
+                    card_view:layout_constraintTop_toTopOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/inviteMenuTxt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dostunuzu_d_v_t_edin_v_h_r_biriniz_3_qazanin"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                   android:layout_marginStart="10dp"
+                    android:layout_marginBottom="10dp"
+                    card_view:layout_constraintStart_toEndOf="@+id/imgCardMoney"
+                    card_view:layout_constraintTop_toTopOf="@+id/imgCardMoney"
+                    />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/https_leobank_az_r_gggp"
+                    android:textColor="@color/black"
+                    android:textSize="18sp"
+                    card_view:layout_constraintBottom_toBottomOf="@+id/imgCardMoney"
+                    card_view:layout_constraintEnd_toEndOf="parent"
+                    card_view:layout_constraintStart_toEndOf="@+id/imgCardMoney"
+                    card_view:layout_constraintTop_toBottomOf="@+id/inviteMenuTxt" />
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <View
+            android:id="@+id/line2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/colorUnchecked"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/cardView"
+            card_view:layout_constraintVertical_bias="0.07"
+
+            />
+
+        <ImageView
+            android:id="@+id/imgAccountMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8_customer_30"
+            card_view:layout_constraintBottom_toBottomOf="parent"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/line2"
+            card_view:layout_constraintVertical_bias="0.1"/>
+
+        <TextView
+            android:id="@+id/txtAccountMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/profil_v_ayarlar"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintBottom_toBottomOf="@+id/imgAccountMenu"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/imgAccountMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/imgAccountMenu"
+            card_view:layout_constraintHorizontal_bias="0.1"/>
+
+        <ImageView
+            android:id="@+id/imgCurrencyMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8world30"
+            android:layout_marginTop="20dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/imgAccountMenu"
+            />
+
+        <TextView
+            android:id="@+id/txtCurrencyMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/valyuta_m_z_nn_si"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintBottom_toBottomOf="@+id/imgCurrencyMenu"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintStart_toEndOf="@+id/imgCurrencyMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/imgCurrencyMenu"
+            card_view:layout_constraintHorizontal_bias="0.1"
+            />
+
+        <ImageView
+            android:id="@+id/imgTipMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8_tip_30"
+            android:layout_marginTop="20dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/imgCurrencyMenu"
+    />
+
+        <TextView
+            android:id="@+id/txtTipMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ipucular"
+            android:textSize="18sp"
+            card_view:layout_constraintBottom_toBottomOf="@+id/imgTipMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/txtCurrencyMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/imgTipMenu"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <ImageView
+            android:id="@+id/imgQuestionMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8question30"
+            android:layout_marginTop="20dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/imgTipMenu"
+            />
+
+        <TextView
+            android:id="@+id/txtQuestionMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tez_tez_veril_n_suallar"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintBottom_toBottomOf="@+id/imgQuestionMenu"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintHorizontal_bias="0.1"
+            card_view:layout_constraintStart_toEndOf="@+id/imgQuestionMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/imgQuestionMenu" />
+
+
+        <ImageView
+            android:id="@+id/imgRateMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8note30"
+            android:layout_marginTop="20dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/imgQuestionMenu"
+            />
+
+        <TextView
+            android:id="@+id/txtRateMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tarifl_r"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintBottom_toBottomOf="@+id/imgRateMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/txtQuestionMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/imgRateMenu" />
+
+
+        <ImageView
+            android:id="@+id/imgHelpMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8message30"
+            android:layout_marginTop="20dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/imgRateMenu"
+            />
+
+        <TextView
+            android:id="@+id/txtHelpMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/d_st_k_24_7"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintBottom_toBottomOf="@+id/imgHelpMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/txtRateMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/imgHelpMenu" />
+
+        <ImageView
+            android:id="@+id/imgİgMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8instagram30"
+            android:layout_marginTop="20dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/imgHelpMenu"
+            />
+
+        <TextView
+            android:id="@+id/txtİgMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/leobank_nstagramda"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintBottom_toBottomOf="@+id/imgİgMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/txtHelpMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/imgİgMenu" />
+
+
+        <ImageView
+            android:id="@+id/imgNavigationMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8visit30"
+            android:layout_marginTop="20dp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintTop_toBottomOf="@+id/imgİgMenu"
+            />
+
+        <TextView
+
+            android:id="@+id/txtNavigationMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/filiallar_atm"
+            android:textSize="18sp"
+            android:clickable="true"
+            android:focusable="true"
+            card_view:layout_constraintBottom_toBottomOf="@+id/imgNavigationMenu"
+            card_view:layout_constraintStart_toStartOf="@+id/txtİgMenu"
+            card_view:layout_constraintTop_toTopOf="@+id/imgNavigationMenu" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>

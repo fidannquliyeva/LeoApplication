@@ -15,6 +15,28 @@
     <string name="collect">collect</string>
     <string name="depozit_hesab_aç">Depozit hesabı aç</string>
     <string name="x_zin_yarat">Xəzinə yarat</string>
+    <string name="sas">Əsas</string>
+    <string name="kart_n_z_n_statusunu_t_kmill_dirin">Kartınızın statusunu təkmilləşdirin</string>
+    <string name="f_rdi_sahibkar_hesab_v_kredit">Fərdi sahibkar hesabı və kredit</string>
+    <string name="cashback">Cashback</string>
+    <string name="y_m">Yığım</string>
+    <string name="filiallar_atm">Filiallar ATM</string>
+    <string name="leobank_nstagramda">Leobank İnstagramda</string>
+    <string name="d_st_k_24_7">Dəstək 24/7</string>
+    <string name="tarifl_r">Tariflər</string>
+    <string name="tez_tez_veril_n_suallar">Tez-tez verilən suallar</string>
+    <string name="ipucular">Ipucular</string>
+    <string name="valyuta_m_z_nn_si">Valyuta məzənnəsi</string>
+    <string name="profil_v_ayarlar">Profil və ayarlar</string>
+    <string name="https_leobank_az_r_gggp">https://leobank.az/r/gGGp</string>
+    <string name="dostunuzu_d_v_t_edin_v_h_r_biriniz_3_qazanin">Dostunuzu dəvət edin və hər biriniz 3₼ qazanin</string>
+    <string name="x_rcl_m_statistikas">Xərcləmə statistikası</string>
+    <string name="h_r_y_3">Hərəyə 3₼</string>
+    <string name="d_v_t_etm_k">Dəvət etmək</string>
+    <string name="_0_00">0.00₼</string>
+    <string name="_50_000_d_k">50 000 ₼-dək</string>
+    <string name="kreditl_r">Kreditlər</string>
+    <string name="_0_001">0.00₼</string>
 
 
 </resources>

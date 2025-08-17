@@ -1,4 +1,4 @@
-package com.example.leoapplication
+package com.example.leoapplication.investmentPagersFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.leoapplication.R
+import com.example.leoapplication.RecyclerAdapter
 
 class CryptoFragment : Fragment(R.layout.fragment_crypto) {
 

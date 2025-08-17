@@ -1,0 +1,226 @@
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    android:background="@android:color/white">-->
+
+<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:padding="16dp">-->
+
+<!--        &lt;!&ndash; Back button &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/btnBack"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/ic_arrow_back"-->
+<!--            android:contentDescription="Back"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
+
+<!--        &lt;!&ndash; Title &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/tvTitle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="12dp"-->
+<!--            android:text="Profil və ayarlar"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/btnBack"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toEndOf="@id/btnBack"-->
+<!--            app:layout_constraintTop_toTopOf="@id/btnBack" />-->
+
+<!--        &lt;!&ndash; Avatar &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/imgAvatar"-->
+<!--            android:layout_width="80dp"-->
+<!--            android:layout_height="80dp"-->
+<!--            android:src="@drawable/ic_person"-->
+<!--            android:background="@drawable/circle_bg"-->
+<!--            android:padding="16dp"-->
+<!--            android:contentDescription="Avatar"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/btnBack"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:layout_marginTop="24dp"/>-->
+
+<!--        &lt;!&ndash; Edit button &ndash;&gt;-->
+<!--        <Button-->
+<!--            android:id="@+id/btnEdit"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Düzəliş et"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/imgAvatar"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:layout_marginTop="8dp"/>-->
+
+<!--        &lt;!&ndash; Name row &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/iconName"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/ic_person"-->
+<!--            app:tint="@color/purple_500"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/btnEdit"-->
+<!--            android:layout_marginTop="32dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/labelName"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Sizə necə müraciət edək?"-->
+<!--            app:layout_constraintTop_toTopOf="@id/iconName"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/iconName"-->
+<!--            app:layout_constraintStart_toEndOf="@id/iconName"-->
+<!--            android:layout_marginStart="12dp"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/valueName"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Fidan"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelName"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+<!--        &lt;!&ndash; Telefon row &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/iconPhone"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/ic_phone"-->
+<!--            app:tint="@color/red"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/iconName"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/labelPhone"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Telefon"-->
+<!--            app:layout_constraintTop_toTopOf="@id/iconPhone"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/iconPhone"-->
+<!--            app:layout_constraintStart_toEndOf="@id/iconPhone"-->
+<!--            android:layout_marginStart="12dp"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/valuePhone"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="+994 70 851 21 91"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelPhone"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+<!--        &lt;!&ndash; Email row &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/iconEmail"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/ic_email"-->
+<!--            app:tint="@color/gray"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/iconPhone"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/labelEmail"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="E-poçt"-->
+<!--            app:layout_constraintTop_toTopOf="@id/iconEmail"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/iconEmail"-->
+<!--            app:layout_constraintStart_toEndOf="@id/iconEmail"-->
+<!--            android:layout_marginStart="12dp"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/valueEmail"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="quliyevafidan70@gmail.com"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelEmail"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+<!--        &lt;!&ndash; Biometrik giriş &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/iconBio"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/ic_fingerprint"-->
+<!--            app:tint="@color/purple_500"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/iconEmail"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/labelBio"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Biometrik məlumatlarla giriş"-->
+<!--            app:layout_constraintTop_toTopOf="@id/iconBio"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/iconBio"-->
+<!--            app:layout_constraintStart_toEndOf="@id/iconBio"-->
+<!--            app:layout_constraintEnd_toStartOf="@id/switchBio"-->
+<!--            android:layout_marginStart="12dp"/>-->
+
+<!--        <Switch-->
+<!--            android:id="@+id/switchBio"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:checked="true"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelBio"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+<!--        &lt;!&ndash; Dil &ndash;&gt;-->
+<!--        <ImageView-->
+<!--            android:id="@+id/iconLang"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@drawable/ic_language"-->
+<!--            app:tint="@color/green"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/iconBio"-->
+<!--            android:layout_marginTop="24dp"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/labelLang"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Dil"-->
+<!--            app:layout_constraintTop_toTopOf="@id/iconLang"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/iconLang"-->
+<!--            app:layout_constraintStart_toEndOf="@id/iconLang"-->
+<!--            android:layout_marginStart="12dp"/>-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/valueLang"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Azərbaycan dili"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelLang"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+
+<!--        &lt;!&ndash; Çıxış &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/btnLogout"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Çıxış"-->
+<!--            android:textColor="@android:color/holo_red_dark"-->
+<!--            android:textStyle="bold"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/iconLang"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            android:layout_marginTop="32dp"/>-->
+
+<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
+<!--</ScrollView>-->
