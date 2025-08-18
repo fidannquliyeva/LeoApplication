@@ -5,55 +5,92 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
+import com.example.leoapplication.databinding.FragmentInvestmentBinding
+import com.example.leoapplication.databinding.FragmentLoginWithNumberBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [LoginWithNumberFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class LoginWithNumberFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var binding: FragmentLoginWithNumberBinding
+    private val viewModel: LoginWithNumberVM by activityViewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login_with_number, container, false)
+        binding = FragmentLoginWithNumberBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment LoginWithNumberFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            LoginWithNumberFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        goToAboutLeo()
+        goToSmsLogin()
+        gridLayout()
+
     }
+
+    private fun goToAboutLeo(){
+        binding.infoTextNext.setOnClickListener {
+            findNavController().navigate(R.id.action_loginWithNumberFragment_to_aboutLeoFragment)
+        }
+    }
+    private fun goToSmsLogin(){
+        binding.nextButton.setOnClickListener {
+            val currentNumber = binding.phoneNumberText.text.toString()
+            if (currentNumber.length <= 13) {
+                Toast.makeText(requireContext(), "Zəhmət olmasa nömrə daxil edin", Toast.LENGTH_SHORT).show()
+            } else{
+                findNavController().navigate(R.id.action_loginWithNumberFragment_to_smsLoginFragment)
+            }
+        }
+
+    }
+
+    private fun gridLayout() {
+        val MAX_DIGITS = 9
+
+        val numberClickListener = View.OnClickListener { view ->
+            val button = view as Button
+            val digit = button.text.toString()
+
+
+            val currentNumber = binding.phoneNumberText.text.toString().substring(5)
+
+            if (currentNumber.length < MAX_DIGITS) {
+                binding.phoneNumberText.append(digit)
+                viewModel.phoneNumber = binding.phoneNumberText.text.toString()
+            }
+        }
+
+        binding.btn0.setOnClickListener(numberClickListener)
+        binding.btn1.setOnClickListener(numberClickListener)
+        binding.btn2.setOnClickListener(numberClickListener)
+        binding.btn3.setOnClickListener(numberClickListener)
+        binding.btn4.setOnClickListener(numberClickListener)
+        binding.btn5.setOnClickListener(numberClickListener)
+        binding.btn6.setOnClickListener(numberClickListener)
+        binding.btn7.setOnClickListener(numberClickListener)
+        binding.btn8.setOnClickListener(numberClickListener)
+        binding.btn9.setOnClickListener(numberClickListener)
+
+
+        binding.btnDelete.setOnClickListener {
+            val currentText = binding.phoneNumberText.text.toString()
+            if (currentText.length > 5) {
+                binding.phoneNumberText.text = currentText.dropLast(1)
+                viewModel.phoneNumber = binding.phoneNumberText.text.toString()
+            }
+        }
+
+        binding.phoneNumberText.text = viewModel.phoneNumber.ifEmpty { "+994 " }
+    }
+
 }

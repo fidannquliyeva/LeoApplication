@@ -5,13 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
+    android:background="@color/white"
     tools:context=".AboutLeoFragment">
 
     <ImageView
-        android:id="@+id/btn_goBack"
+        android:id="@+id/btnGoBack"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:background="@drawable/baseline_arrow_back_24"
+        android:clickable="true"
+        app:layout_constraintVertical_bias="0.06"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,7 +29,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_goBack"
+        app:layout_constraintTop_toBottomOf="@+id/btnGoBack"
         app:layout_constraintVertical_bias="0.03" />
 
     <TextView
@@ -70,8 +74,11 @@ Biz bütün bank prosedurlarını sadələşdirib,
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:clickable="true"
+        android:focusable="true"
         android:text="Şərtlər və xidmət qaydaları"
         android:textSize="18sp"
+        android:background="?attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/img_rule"
         app:layout_constraintStart_toEndOf="@+id/img_rule"
         app:layout_constraintTop_toTopOf="@+id/img_rule" />
@@ -94,6 +101,9 @@ Biz bütün bank prosedurlarını sadələşdirib,
         android:layout_marginStart="10dp"
         android:text="Kredit bürosuna edilən sorğuya razılıq"
         android:textSize="18sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
         app:layout_constraintBottom_toBottomOf="@+id/img_credit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/img_credit"
@@ -114,6 +124,9 @@ Biz bütün bank prosedurlarını sadələşdirib,
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="?attr/selectableItemBackground"
         android:text="ASAN Finans razılıq ərizəsi"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/img_ASAN"
@@ -136,7 +149,10 @@ Biz bütün bank prosedurlarını sadələşdirib,
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
+        android:background="?attr/selectableItemBackground"
         android:text="Tariflər"
+        android:clickable="true"
+        android:focusable="true"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/img_tarif"
         app:layout_constraintEnd_toEndOf="parent"
@@ -159,7 +175,10 @@ Biz bütün bank prosedurlarını sadələşdirib,
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:text="Gizlilik siyasəti"
+        android:background="?attr/selectableItemBackground"
         android:textSize="18sp"
+        android:clickable="true"
+        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="@+id/img_security"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/img_security"

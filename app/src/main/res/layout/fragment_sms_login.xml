@@ -16,14 +16,17 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_help"
             android:layout_width="wrap_content"
-            android:layout_height="50sp"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
-            android:backgroundTint="#5AC8C6C6"
-            android:drawableLeft="@drawable/icons8"
+            android:padding="5dp"
+            android:backgroundTint="#33E0DFDF"
+            android:drawableLeft="@drawable/icons8message30"
+            android:drawableTint="@color/white"
             android:text="Dəstək"
+            android:textSize="14sp"
             android:textColor="@color/black" />
 
         <TextView
@@ -95,24 +98,29 @@
                     android:gravity="center"
                     android:text="SMS gəlmir?"
                     android:textColor="#757575"
-                    android:textSize="18sp"
-                    app:layout_constraintBottom_toTopOf="@+id/numberPad"
+                    android:textSize="16sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    app:layout_constraintBottom_toBottomOf="@+id/info_msg2"
                     app:layout_constraintEnd_toStartOf="@id/info_msg2"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/msg_number"
-                    app:layout_constraintVertical_bias="0.8" />
+                    app:layout_constraintStart_toStartOf="@id/msg_number"
+                    app:layout_constraintTop_toTopOf="@+id/info_msg2" />
 
                 <TextView
                     android:id="@+id/info_msg2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:clickable="true"
+                    android:focusable="true"
                     android:text="Zəng sifariş etmək"
                     android:textColor="#000000"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/info_msg"
-                    app:layout_constraintTop_toTopOf="@+id/info_msg" />
+                    android:textSize="16sp"
+                    app:layout_constraintVertical_bias="0.8"
+                    app:layout_constraintBottom_toTopOf="@+id/numberPad"
+                    app:layout_constraintEnd_toEndOf="@+id/msg_number"
+                    app:layout_constraintStart_toEndOf="@id/info_msg"
+                    app:layout_constraintTop_toBottomOf="@+id/msg_number" />
 
 
 
@@ -130,46 +138,55 @@
                     <Button
                         android:id="@+id/btn_1"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="1" />
 
                     <Button
                         android:id="@+id/btn_2"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="2" />
 
                     <Button
                         android:id="@+id/btn_3"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="3" />
 
                     <Button
                         android:id="@+id/btn_4"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="4" />
 
                     <Button
                         android:id="@+id/btn_5"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="5" />
 
                     <Button
                         android:id="@+id/btn_6"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="6" />
 
                     <Button
                         android:id="@+id/btn_7"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="7" />
 
                     <Button
                         android:id="@+id/btn_8"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="8" />
 
                     <Button
                         android:id="@+id/btn_9"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="9" />
 
                     <Space
@@ -180,11 +197,13 @@
                     <Button
                         android:id="@+id/btn_0"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="0" />
 
                     <Button
                         android:id="@+id/btn_delete"
                         style="@style/KeyButton"
+                        android:background="?attr/selectableItemBackground"
                         android:text="⌫" />
                 </GridLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
