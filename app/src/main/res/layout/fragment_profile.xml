@@ -1,226 +1,423 @@
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
-<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
-<!--    android:layout_width="match_parent"-->
-<!--    android:layout_height="match_parent"-->
-<!--    android:background="@android:color/white">-->
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@android:color/white">
 
-<!--    <androidx.constraintlayout.widget.ConstraintLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:padding="16dp">-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
 
-<!--        &lt;!&ndash; Back button &ndash;&gt;-->
-<!--        <ImageView-->
-<!--            android:id="@+id/btnBack"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:src="@drawable/ic_arrow_back"-->
-<!--            android:contentDescription="Back"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent" />-->
+        <!-- Back button -->
+        <ImageView
+            android:id="@+id/btnBack"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/baseline_arrow_back_24"
+            android:contentDescription="Back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-<!--        &lt;!&ndash; Title &ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:id="@+id/tvTitle"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="12dp"-->
-<!--            android:text="Profil və ayarlar"-->
-<!--            android:textSize="18sp"-->
-<!--            android:textStyle="bold"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/btnBack"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toEndOf="@id/btnBack"-->
-<!--            app:layout_constraintTop_toTopOf="@id/btnBack" />-->
+        <!-- Title -->
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Profil və ayarlar"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/btnBack"
+            app:layout_constraintEnd_toEndOf="parent"
 
-<!--        &lt;!&ndash; Avatar &ndash;&gt;-->
-<!--        <ImageView-->
-<!--            android:id="@+id/imgAvatar"-->
-<!--            android:layout_width="80dp"-->
-<!--            android:layout_height="80dp"-->
-<!--            android:src="@drawable/ic_person"-->
-<!--            android:background="@drawable/circle_bg"-->
-<!--            android:padding="16dp"-->
-<!--            android:contentDescription="Avatar"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/btnBack"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            android:layout_marginTop="24dp"/>-->
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnBack" />
 
-<!--        &lt;!&ndash; Edit button &ndash;&gt;-->
-<!--        <Button-->
-<!--            android:id="@+id/btnEdit"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Düzəliş et"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/imgAvatar"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            android:layout_marginTop="8dp"/>-->
+        <!-- Avatar -->
+        <ImageView
+            android:id="@+id/imgAvatar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8testaccount80"
+            android:padding="16dp"
+            android:contentDescription="Avatar"
+            app:layout_constraintTop_toBottomOf="@id/btnBack"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="24dp"/>
 
-<!--        &lt;!&ndash; Name row &ndash;&gt;-->
-<!--        <ImageView-->
-<!--            android:id="@+id/iconName"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:src="@drawable/ic_person"-->
-<!--            app:tint="@color/purple_500"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/btnEdit"-->
-<!--            android:layout_marginTop="32dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+        <!-- Edit button -->
+        <Button
+            android:id="@+id/btnEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Düzəliş et"
+            android:textColor="@color/black"
+            android:backgroundTint="#D0D0D0"
 
-<!--        <TextView-->
-<!--            android:id="@+id/labelName"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Sizə necə müraciət edək?"-->
-<!--            app:layout_constraintTop_toTopOf="@id/iconName"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/iconName"-->
-<!--            app:layout_constraintStart_toEndOf="@id/iconName"-->
-<!--            android:layout_marginStart="12dp"/>-->
+            app:layout_constraintTop_toBottomOf="@id/imgAvatar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="8dp"/>
 
-<!--        <TextView-->
-<!--            android:id="@+id/valueName"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Fidan"-->
-<!--            android:textStyle="bold"-->
-<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelName"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
 
-<!--        &lt;!&ndash; Telefon row &ndash;&gt;-->
-<!--        <ImageView-->
-<!--            android:id="@+id/iconPhone"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:src="@drawable/ic_phone"-->
-<!--            app:tint="@color/red"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/iconName"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+        <View
+            android:id="@+id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#7A7A7A"
+            app:layout_constraintVertical_bias="0.5"
+            app:layout_constraintBottom_toTopOf="@id/labelName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnEdit" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/labelPhone"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Telefon"-->
-<!--            app:layout_constraintTop_toTopOf="@id/iconPhone"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/iconPhone"-->
-<!--            app:layout_constraintStart_toEndOf="@id/iconPhone"-->
-<!--            android:layout_marginStart="12dp"/>-->
+        <!-- Name row -->
+        <ImageView
+            android:id="@+id/iconName"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icons8_circle_65_cashback"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnEdit"
+            app:layout_constraintVertical_bias="0.1"
+            app:tint="#5757D5" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/valuePhone"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="+994 70 851 21 91"-->
-<!--            android:textStyle="bold"-->
-<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelPhone"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+        <ImageView
+            android:id="@+id/iconNameFront"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icons8_customer_30"
+            app:layout_constraintBottom_toBottomOf="@+id/iconName"
+            app:layout_constraintEnd_toEndOf="@+id/iconName"
+            app:layout_constraintStart_toStartOf="@+id/iconName"
+            app:layout_constraintTop_toTopOf="@+id/iconName"
+            app:tint="@color/white" />
 
-<!--        &lt;!&ndash; Email row &ndash;&gt;-->
-<!--        <ImageView-->
-<!--            android:id="@+id/iconEmail"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:src="@drawable/ic_email"-->
-<!--            app:tint="@color/gray"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/iconPhone"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"/>-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/labelEmail"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="E-poçt"-->
-<!--            app:layout_constraintTop_toTopOf="@id/iconEmail"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/iconEmail"-->
-<!--            app:layout_constraintStart_toEndOf="@id/iconEmail"-->
-<!--            android:layout_marginStart="12dp"/>-->
+        <TextView
+            android:id="@+id/labelName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sizə necə müraciət edək?"
+            app:layout_constraintTop_toTopOf="@id/iconName"
 
-<!--        <TextView-->
-<!--            android:id="@+id/valueEmail"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="quliyevafidan70@gmail.com"-->
-<!--            android:textStyle="bold"-->
-<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelEmail"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+            app:layout_constraintStart_toEndOf="@id/iconName"
+            android:layout_marginStart="12dp"/>
 
-<!--        &lt;!&ndash; Biometrik giriş &ndash;&gt;-->
-<!--        <ImageView-->
-<!--            android:id="@+id/iconBio"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:src="@drawable/ic_fingerprint"-->
-<!--            app:tint="@color/purple_500"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/iconEmail"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+        <TextView
+            android:id="@+id/valueName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fidan"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/labelName"
+            app:layout_constraintTop_toBottomOf="@+id/labelName" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/labelBio"-->
-<!--            android:layout_width="0dp"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Biometrik məlumatlarla giriş"-->
-<!--            app:layout_constraintTop_toTopOf="@id/iconBio"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/iconBio"-->
-<!--            app:layout_constraintStart_toEndOf="@id/iconBio"-->
-<!--            app:layout_constraintEnd_toStartOf="@id/switchBio"-->
-<!--            android:layout_marginStart="12dp"/>-->
+        <!-- Telefon row -->
+        <ImageView
+            android:id="@+id/iconPhone"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icons8_circle_65_invite"
 
-<!--        <Switch-->
-<!--            android:id="@+id/switchBio"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:checked="true"-->
-<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelBio"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+            app:layout_constraintTop_toBottomOf="@id/iconName"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-<!--        &lt;!&ndash; Dil &ndash;&gt;-->
-<!--        <ImageView-->
-<!--            android:id="@+id/iconLang"-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:src="@drawable/ic_language"-->
-<!--            app:tint="@color/green"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/iconBio"-->
-<!--            android:layout_marginTop="24dp"-->
-<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+        <ImageView
+            android:id="@+id/iconPhoneFront"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icons8smartphone20"
+            app:layout_constraintBottom_toBottomOf="@+id/iconPhone"
+            app:layout_constraintEnd_toEndOf="@+id/iconPhone"
+            app:layout_constraintStart_toStartOf="@+id/iconPhone"
+            app:layout_constraintTop_toTopOf="@+id/iconPhone"
+ />
 
-<!--        <TextView-->
-<!--            android:id="@+id/labelLang"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Dil"-->
-<!--            app:layout_constraintTop_toTopOf="@id/iconLang"-->
-<!--            app:layout_constraintBottom_toBottomOf="@id/iconLang"-->
-<!--            app:layout_constraintStart_toEndOf="@id/iconLang"-->
-<!--            android:layout_marginStart="12dp"/>-->
+        <TextView
+            android:id="@+id/labelPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Telefon"
+            app:layout_constraintTop_toTopOf="@id/iconPhone"
 
-<!--        <TextView-->
-<!--            android:id="@+id/valueLang"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Azərbaycan dili"-->
-<!--            android:textStyle="bold"-->
-<!--            app:layout_constraintBaseline_toBaselineOf="@id/labelLang"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"/>-->
+            app:layout_constraintStart_toEndOf="@id/iconPhone"
+            android:layout_marginStart="12dp"/>
 
-<!--        &lt;!&ndash; Çıxış &ndash;&gt;-->
-<!--        <TextView-->
-<!--            android:id="@+id/btnLogout"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Çıxış"-->
-<!--            android:textColor="@android:color/holo_red_dark"-->
-<!--            android:textStyle="bold"-->
-<!--            app:layout_constraintTop_toBottomOf="@id/iconLang"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            android:layout_marginTop="32dp"/>-->
+        <TextView
+            android:id="@+id/valuePhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+994 70 851 21 91"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/labelPhone"
+            app:layout_constraintTop_toBottomOf="@+id/labelPhone"
+            />
 
-<!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
-<!--</ScrollView>-->
+        <!-- Email row -->
+        <ImageView
+            android:id="@+id/iconEmail"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icons8_circle_65_invite"
+            app:tint="#AD3E414B"
+            app:layout_constraintTop_toBottomOf="@id/iconPhone"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
+        <ImageView
+            android:id="@+id/iconEmailFront"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icons8email20"
+            app:layout_constraintBottom_toBottomOf="@+id/iconEmail"
+            app:layout_constraintEnd_toEndOf="@+id/iconEmail"
+            app:layout_constraintStart_toStartOf="@+id/iconEmail"
+            app:layout_constraintTop_toTopOf="@+id/iconEmail"
+            />
+
+        <TextView
+            android:id="@+id/labelEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="E-poçt"
+            app:layout_constraintTop_toTopOf="@id/iconEmail"
+            app:layout_constraintStart_toEndOf="@id/iconEmail"
+            android:layout_marginStart="12dp"/>
+
+        <TextView
+            android:id="@+id/valueEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="quliyevafidan70@gmail.com"
+            android:textStyle="bold"
+
+            app:layout_constraintStart_toStartOf="@+id/labelEmail"
+            app:layout_constraintTop_toBottomOf="@+id/labelEmail" />
+
+
+        <View
+            android:id="@+id/line3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#7A7A7A"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valueEmail"
+            app:layout_constraintVertical_bias="0.06"/>
+        <!-- Biometrik giriş -->
+        <ImageView
+            android:id="@+id/iconBio"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icons8_circle_65_collect"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/iconEmail"
+            app:layout_constraintTop_toBottomOf="@+id/line3"
+            app:tint="#C51EE6"
+            app:layout_constraintVertical_bias="0.06"/>
+
+        <ImageView
+            android:id="@+id/iconBioFront"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8faceid20"
+            app:layout_constraintBottom_toBottomOf="@+id/iconBio"
+            app:layout_constraintEnd_toEndOf="@+id/iconBio"
+            app:layout_constraintStart_toStartOf="@+id/iconBio"
+            app:layout_constraintTop_toTopOf="@+id/iconBio"
+            />
+
+        <TextView
+            android:id="@+id/labelBio"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Biometrik məlumatlarla giriş"
+            app:layout_constraintBottom_toBottomOf="@+id/iconBio"
+            app:layout_constraintStart_toStartOf="@+id/valueEmail"
+            app:layout_constraintTop_toTopOf="@+id/iconBio" />
+
+        <Switch
+            android:id="@+id/switchBio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            app:layout_constraintBaseline_toBaselineOf="@id/labelBio"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <ImageView
+            android:id="@+id/iconOtherUser"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icons8_circle_65_collect"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="@+id/iconBio"
+            app:layout_constraintTop_toBottomOf="@+id/iconBio"
+            app:tint="#957750" />
+
+        <ImageView
+            android:id="@+id/iconOtherUserFront"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icons8user"
+            app:layout_constraintBottom_toBottomOf="@+id/iconOtherUser"
+            app:layout_constraintEnd_toEndOf="@+id/iconOtherUser"
+            app:layout_constraintStart_toStartOf="@+id/iconOtherUser"
+            app:layout_constraintTop_toTopOf="@+id/iconOtherUser"
+            />
+
+        <TextView
+            android:id="@+id/labelOtherUser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Digər istifadəçilərin əlaqələr kitabçasında göstər"
+            app:layout_constraintBottom_toBottomOf="@+id/iconOtherUser"
+            app:layout_constraintEnd_toStartOf="@+id/switchOtherUser"
+            app:layout_constraintStart_toStartOf="@+id/labelBio"
+            app:layout_constraintTop_toTopOf="@+id/iconOtherUser" />
+
+        <Switch
+            android:id="@+id/switchOtherUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            app:layout_constraintBaseline_toBaselineOf="@id/labelOtherUser"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <!-- Dil -->
+        <ImageView
+            android:id="@+id/iconLang"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="24dp"
+            android:src="@drawable/icons8_circle_65_credit"
+            app:layout_constraintStart_toStartOf="@+id/iconOtherUser"
+            app:layout_constraintTop_toBottomOf="@+id/iconOtherUser" />
+
+        <ImageView
+            android:id="@+id/iconLangFront"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icons8world30"
+            app:layout_constraintBottom_toBottomOf="@+id/iconLang"
+            app:layout_constraintEnd_toEndOf="@+id/iconLang"
+            app:layout_constraintStart_toStartOf="@+id/iconLang"
+            app:layout_constraintTop_toTopOf="@+id/iconLang"
+            app:tint="@color/white" />
+
+
+
+        <TextView
+            android:id="@+id/labelLang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dil"
+            app:layout_constraintTop_toTopOf="@id/iconLang"
+            app:layout_constraintStart_toEndOf="@id/iconLang"
+            android:layout_marginStart="12dp"/>
+
+        <TextView
+            android:id="@+id/valueLang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Azərbaycan dili"
+            android:textStyle="bold"
+
+            app:layout_constraintStart_toStartOf="@+id/labelLang"
+            app:layout_constraintTop_toBottomOf="@+id/labelLang" />
+
+
+        <ImageView
+            android:id="@+id/iconTheme"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icons8_circle_65_credit"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="@+id/iconLang"
+            app:layout_constraintTop_toBottomOf="@+id/iconLang"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/labelTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tətniqin rejimi"
+            app:layout_constraintStart_toStartOf="@+id/valueLang"
+            app:layout_constraintTop_toTopOf="@+id/iconTheme" />
+
+        <ImageView
+            android:id="@+id/iconThemeFront"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icons8_tip_30"
+            app:layout_constraintBottom_toBottomOf="@+id/iconTheme"
+            app:layout_constraintEnd_toEndOf="@+id/iconTheme"
+            app:layout_constraintStart_toStartOf="@+id/iconTheme"
+            app:layout_constraintTop_toTopOf="@+id/iconTheme"
+            app:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/valueTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Defolt"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@+id/valueLang"
+            app:layout_constraintTop_toBottomOf="@+id/labelTheme" />
+
+        <View
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#7A7A7A"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/valueTheme"
+            app:layout_constraintVertical_bias="0.2"
+            />
+
+        <ImageView
+            android:id="@+id/iconSignOut"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icons8_circle_65_credit"
+            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/iconTheme"
+            app:layout_constraintTop_toBottomOf="@+id/line5"
+            app:tint="#F4AFBE" />
+
+        <ImageView
+            android:id="@+id/iconSignOutFront"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/icons8signout24"
+
+            app:layout_constraintBottom_toBottomOf="@+id/iconSignOut"
+            app:layout_constraintEnd_toEndOf="@+id/iconSignOut"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iconSignOut" />
+
+        <!-- Çıxış -->
+        <TextView
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Çıxış"
+            android:textColor="@android:color/holo_red_dark"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/iconSignOut"
+            app:layout_constraintStart_toStartOf="@+id/labelTheme"
+            app:layout_constraintTop_toTopOf="@+id/iconSignOut" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
