@@ -22,12 +22,11 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="10dp"
-            android:padding="5dp"
             android:backgroundTint="#33E0DFDF"
             android:drawableLeft="@drawable/icons8message30"
             android:drawableTint="@color/white"
-            android:text="Dəstək"
-            android:textSize="14sp"
+            android:text="@string/d_st_k"
+            android:textSize="12sp"
             android:textColor="@color/black" />
 
         <TextView
@@ -37,7 +36,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="28dp"
-            android:text="Mobil nömrənizi daxil edin"
+            android:text="@string/mobil_n_mr_nizi_daxil_edin"
             android:textColor="@color/black"
             android:textSize="24sp"
             android:textStyle="bold" />
@@ -63,7 +62,7 @@
                 android:id="@+id/phoneNumberText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="+994"
+                android:text="@string/_994"
                 android:textColor="#000000"
                 android:textSize="32sp"
                 android:textStyle="bold"
@@ -79,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:background="?attr/selectableItemBackground"
-                android:text="İrəli düyməsini sıxmaqla siz"
+                android:text="@string/r_li_d_ym_sini_s_xmaqla_siz"
                 android:textColor="#888888"
                 android:textSize="16sp"
                 android:clickable="true"
@@ -94,7 +93,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
-                android:text="şərtlər və tarifləri qəbul edirsiniz"
+                android:text="@string/rtl_r_v_tarifl_ri_q_bul_edirsiniz"
                 android:textColor="#000000"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/nextButton"
@@ -106,7 +105,7 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/black"
-                android:text="İrəli"
+                android:text="@string/r_li"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toTopOf="@+id/numberPad" />
 
@@ -125,55 +124,55 @@
                     android:id="@+id/btn_1"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="1" />
+                    android:text="@string/_1" />
 
                 <Button
                     android:id="@+id/btn_2"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="2" />
+                    android:text="@string/_2" />
 
                 <Button
                     android:id="@+id/btn_3"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="3" />
+                    android:text="@string/_3" />
 
                 <Button
                     android:id="@+id/btn_4"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="4" />
+                    android:text="@string/_4" />
 
                 <Button
                     android:id="@+id/btn_5"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="5" />
+                    android:text="@string/_5" />
 
                 <Button
                     android:id="@+id/btn_6"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="6" />
+                    android:text="@string/_6" />
 
                 <Button
                     android:id="@+id/btn_7"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="7" />
+                    android:text="@string/_7" />
 
                 <Button
                     android:id="@+id/btn_8"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="8" />
+                    android:text="@string/_8" />
 
                 <Button
                     android:id="@+id/btn_9"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="9" />
+                    android:text="@string/_9" />
 
                 <Space
                     android:layout_width="0dp"
@@ -184,13 +183,13 @@
                     android:id="@+id/btn_0"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="0" />
+                    android:text="@string/_0" />
 
                 <Button
                     android:id="@+id/btn_delete"
                     style="@style/KeyButton"
                     android:background="?attr/selectableItemBackground"
-                    android:text="⌫" />
+                    android:text="@string/delete" />
             </GridLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

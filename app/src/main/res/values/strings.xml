@@ -37,6 +37,32 @@
     <string name="_50_000_d_k">50 000 ₼-dək</string>
     <string name="kreditl_r">Kreditlər</string>
     <string name="_0_001">0.00₼</string>
+    <string name="mobil_n_mr_nizi_daxil_edin">Mobil nömrənizi daxil edin</string>
+    <string name="_994">+994</string>
+    <string name="r_li_d_ym_sini_s_xmaqla_siz">İrəli düyməsini sıxmaqla siz</string>
+    <string name="rtl_r_v_tarifl_ri_q_bul_edirsiniz">şərtlər və tarifləri qəbul edirsiniz</string>
+    <string name="r_li">İrəli</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
+    <string name="_0">0</string>
+    <string name="delete">⌫</string>
+    <string name="d_st_k">Dəstək</string>
+    <string name="az_rbaycan_dili">Azərbaycan dili</string>
+    <string name="rus_dili">Rus dili</string>
+    <string name="dil">Dil</string>
+    <string name="az_rbaycan">Azərbaycan</string>
+    <string name="rus">Русский</string>
+    <string name="kod">Kod</string>
+    <string name="_994_555_555_555">+994 (555) 555-555</string>
+    <string name="n_mr_sin_g_nd_rildi">nömrəsinə gündərildi</string>
+    <string name="code">Kod</string>
 
 
 </resources>

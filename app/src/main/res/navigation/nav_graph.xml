@@ -38,6 +38,9 @@
         android:name="com.example.leoapplication.SmsLoginFragment"
         android:label="fragment_sms_login"
         tools:layout="@layout/fragment_sms_login" >
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
         <action
             android:id="@+id/action_smsLoginFragment_to_pinLoginFragment"
             app:destination="@id/pinLoginFragment" />
@@ -75,7 +78,11 @@
         android:id="@+id/nav_menu"
         android:name="com.example.leoapplication.MenuFragment"
         android:label="fragment_menu"
-        tools:layout="@layout/fragment_menu" />
+        tools:layout="@layout/fragment_menu" >
+        <action
+            android:id="@+id/action_nav_menu_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.leoapplication.ProfileFragment"

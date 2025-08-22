@@ -13,15 +13,16 @@
             android:background="@drawable/gradient_login">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/materialButton"
+                android:id="@+id/helpPin"
                 android:layout_width="wrap_content"
                 android:layout_height="50sp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="10dp"
-                android:backgroundTint="#5AC8C6C6"
-                android:drawableLeft="@drawable/icons8"
+                android:backgroundTint="#33E0DFDF"
+                android:drawableLeft="@drawable/icons8message30"
+                android:drawableTint="@color/white"
                 android:text="Dəstək"
                 android:textColor="@color/black" />
 
@@ -124,47 +125,56 @@
                         <Button
                             android:id="@+id/btn_1"
                             style="@style/KeyButton"
-                            android:text="1" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_1" />
 
                         <Button
                             android:id="@+id/btn_2"
                             style="@style/KeyButton"
-                            android:text="2" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_2" />
 
                         <Button
                             android:id="@+id/btn_3"
                             style="@style/KeyButton"
-                            android:text="3" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_3" />
 
                         <Button
                             android:id="@+id/btn_4"
                             style="@style/KeyButton"
-                            android:text="4" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_4" />
 
                         <Button
                             android:id="@+id/btn_5"
                             style="@style/KeyButton"
-                            android:text="5" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_5" />
 
                         <Button
                             android:id="@+id/btn_6"
                             style="@style/KeyButton"
-                            android:text="6" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_6" />
 
                         <Button
                             android:id="@+id/btn_7"
                             style="@style/KeyButton"
-                            android:text="7" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_7" />
 
                         <Button
                             android:id="@+id/btn_8"
                             style="@style/KeyButton"
-                            android:text="8" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_8" />
 
                         <Button
                             android:id="@+id/btn_9"
                             style="@style/KeyButton"
-                            android:text="9" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_9" />
 
                         <Space
                             android:layout_width="0dp"
@@ -174,12 +184,14 @@
                         <Button
                             android:id="@+id/btn_0"
                             style="@style/KeyButton"
-                            android:text="0" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/_0" />
 
                         <Button
                             android:id="@+id/btn_delete"
                             style="@style/KeyButton"
-                            android:text="⌫" />
+                            android:background="?attr/selectableItemBackground"
+                            android:text="@string/delete" />
                     </GridLayout>
 
                     <TextView
@@ -187,7 +199,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="PIN kodu unutmusunuz?"
-                        android:textSize="19sp"
+                        android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

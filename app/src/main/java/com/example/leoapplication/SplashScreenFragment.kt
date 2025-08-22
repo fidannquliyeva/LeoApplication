@@ -7,15 +7,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.leoapplication.databinding.FragmentSplashScreenBinding
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class SplashScreenFragment : Fragment() {
 
     private lateinit var binding: FragmentSplashScreenBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        animateTextWithScale("Leobank")
         goToSign()
 
     }
@@ -36,4 +41,27 @@ class SplashScreenFragment : Fragment() {
         }, 2000)
 
     }
+
+
+    private fun animateTextWithScale(text: String) {
+        binding.txtSplashScreen.text = ""
+        lifecycleScope.launch {
+            for (i in text.indices) {
+                binding.txtSplashScreen.text = text.substring(0, i + 1)
+
+                binding.txtSplashScreen.animate()
+                    .scaleX(1.1f)
+                    .scaleY(1.1f)
+                    .setDuration(200)
+                    .withEndAction {
+                        binding.txtSplashScreen.scaleX = 1f
+                        binding.txtSplashScreen.scaleY = 1f
+                    }
+
+                delay(120)
+            }
+        }
+    }
+
+
 }
