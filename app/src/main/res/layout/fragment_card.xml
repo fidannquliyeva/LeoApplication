@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scrollCard"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+
+    android:id="@+id/cardFragment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_card"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+
+    <View
+        android:id="@+id/card_visa_card"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@drawable/cardvisa"
+        android:transitionName="card_transition"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar_card"
+      />
+
+    <View
+        android:id="@+id/cardLine"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:background="#262626"
+        app:layout_constraintVertical_bias="0.12"
+        app:layout_constraintBottom_toBottomOf="@+id/card_visa_card"
+        app:layout_constraintEnd_toEndOf="@+id/card_visa_card"
+        app:layout_constraintStart_toStartOf="@+id/card_visa_card"
+        app:layout_constraintTop_toTopOf="@+id/card_visa_card" />
+
+    <TextView
+        android:id="@+id/card_code16"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="4098 1111 1111 1111"
+        android:layout_marginStart="20dp"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        app:layout_constraintVertical_bias="0.2"
+        app:layout_constraintBottom_toBottomOf="@+id/card_visa_card"
+        app:layout_constraintStart_toStartOf="@+id/card_visa_card"
+        app:layout_constraintTop_toBottomOf="@+id/cardLine" />
+
+    <ImageView
+        android:id="@+id/btnCopy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_copy24"
+        app:layout_constraintBottom_toBottomOf="@+id/card_code16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/card_code16"
+        app:layout_constraintTop_toTopOf="@+id/card_code16"
+        app:tint="#575757" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="11/11"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintVertical_bias="0.3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/card_code16"
+        app:layout_constraintTop_toBottomOf="@+id/card_code16" />
+
+    <TextView
+        android:id="@+id/txtDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tarix"
+        android:textColor="#6A6A6A"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txtDate"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
+
+    <TextView
+        android:id="@+id/txtCvvNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="111"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintHorizontal_bias="0.2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtDate"
+        app:layout_constraintTop_toTopOf="@+id/txtDate" />
+
+    <TextView
+        android:id="@+id/txtCvv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CVV"
+        android:textColor="#6A6A6A"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/txtCvvNum"
+        app:layout_constraintStart_toStartOf="@+id/txtCvvNum"
+        app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>

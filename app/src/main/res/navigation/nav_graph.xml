@@ -3,7 +3,7 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/nav_home">
 
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -58,7 +58,15 @@
         android:id="@+id/nav_home"
         android:name="com.example.leoapplication.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_cardFragment"
+            app:destination="@id/cardFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out" />
+    </fragment>
     <fragment
         android:id="@+id/nav_collect"
         android:name="com.example.leoapplication.CollectFragment"
@@ -88,5 +96,10 @@
         android:name="com.example.leoapplication.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/cardFragment"
+        android:name="com.example.leoapplication.CardFragment"
+        android:label="fragment_card"
+        tools:layout="@layout/fragment_card" />
 
 </navigation>

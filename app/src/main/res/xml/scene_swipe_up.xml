@@ -1,39 +1,65 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
+    <!-- Yuxarı sürüş Transition -->
     <Transition
         motion:constraintSetStart="@+id/start"
         motion:constraintSetEnd="@+id/end"
-        motion:duration="300">
-        <OnSwipe />
+        motion:duration="400">
+        <OnSwipe
+            motion:touchAnchorId="@id/motionLayout"
+            motion:touchAnchorSide="top"
+            motion:dragDirection="dragUp"/>
     </Transition>
 
+    <!-- Başlanğıc vəziyyət -->
     <ConstraintSet android:id="@+id/start">
         <Constraint
-            android:id="@+id/balance_num"
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint android:id="@+id/balance_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:rotation="-90"
-            motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"/>
+            motion:layout_constraintTop_toTopOf="@id/app_bar"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:alpha="1"/>
+
+        <Constraint android:id="@+id/card_visa" android:alpha="1"/>
+        <Constraint android:id="@+id/card_number" android:alpha="1"/>
+        <Constraint android:id="@+id/add_button" android:alpha="1"/>
+        <Constraint android:id="@+id/next_button" android:alpha="1"/>
+        <Constraint android:id="@+id/wallet_button" android:alpha="1"/>
     </ConstraintSet>
 
+    <!-- Yekun vəziyyət -->
     <ConstraintSet android:id="@+id/end">
         <Constraint
-            android:id="@+id/balance_num"
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"/>
+
+        <Constraint android:id="@+id/balance_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:rotation="0"
-            motion:layout_constraintBottom_toBottomOf="parent"
-            motion:layout_constraintStart_toStartOf="parent" />
+            motion:layout_constraintTop_toTopOf="@id/app_bar"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:alpha="1"/>
+
+        <Constraint android:id="@+id/card_visa" android:alpha="0"/>
+        <Constraint android:id="@+id/card_number" android:alpha="0"/>
+        <Constraint android:id="@+id/add_button" android:alpha="0"/>
+        <Constraint android:id="@+id/next_button" android:alpha="0"/>
+        <Constraint android:id="@+id/wallet_button" android:alpha="0"/>
     </ConstraintSet>
-    <Transition
-        motion:constraintSetStart="@+id/start"
-        motion:constraintSetEnd="@+id/end" />
-    <Transition
-        motion:constraintSetStart="@+id/start"
-        motion:constraintSetEnd="@+id/end"
-        motion:autoTransition="animateToEnd" />
+
 </MotionScene>
