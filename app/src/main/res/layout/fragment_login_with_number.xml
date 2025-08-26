@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_2"
     android:orientation="vertical"
-    tools:context=".LoginWithNumberFragment">
+    tools:context=".presentation.ui.fragments.LoginWithNumberFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"

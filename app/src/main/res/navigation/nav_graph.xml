@@ -3,11 +3,11 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/nav_home">
+    app:startDestination="@id/splashScreenFragment">
 
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.example.leoapplication.SplashScreenFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginWithNumberFragment"
-        android:name="com.example.leoapplication.LoginWithNumberFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.LoginWithNumberFragment"
         android:label="fragment_login_with_number"
         tools:layout="@layout/fragment_login_with_number" >
         <action
@@ -30,12 +30,12 @@
     </fragment>
     <fragment
         android:id="@+id/aboutLeoFragment"
-        android:name="com.example.leoapplication.AboutLeoFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.AboutLeoFragment"
         android:label="fragment_about_leo"
         tools:layout="@layout/fragment_about_leo" />
     <fragment
         android:id="@+id/smsLoginFragment"
-        android:name="com.example.leoapplication.SmsLoginFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.SmsLoginFragment"
         android:label="fragment_sms_login"
         tools:layout="@layout/fragment_sms_login" >
         <argument
@@ -47,7 +47,7 @@
     </fragment>
     <fragment
         android:id="@+id/pinLoginFragment"
-        android:name="com.example.leoapplication.PinLoginFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.PinLoginFragment"
         android:label="fragment_pin_login"
         tools:layout="@layout/fragment_pin_login" >
         <action
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.leoapplication.HomeFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -66,40 +66,109 @@
             app:exitAnim="@android:anim/fade_out"
             app:popEnterAnim="@android:anim/fade_in"
             app:popExitAnim="@android:anim/fade_out" />
+        <action
+            android:id="@+id/action_nav_home_to_increaseBalanceFragment"
+            app:destination="@id/increaseBalanceFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_exportToFragment"
+            app:destination="@id/exportToFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_collect"
-        android:name="com.example.leoapplication.CollectFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.CollectFragment"
         android:label="fragment_collect"
         tools:layout="@layout/fragment_collect" />
     <fragment
         android:id="@+id/nav_investment"
-        android:name="com.example.leoapplication.InvestmentFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.InvestmentFragment"
         android:label="fragment_investment"
         tools:layout="@layout/fragment_investment" />
     <fragment
         android:id="@+id/nav_edv"
-        android:name="com.example.leoapplication.EdvFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.EdvFragment"
         android:label="fragment_edv"
         tools:layout="@layout/fragment_edv" />
     <fragment
         android:id="@+id/nav_menu"
-        android:name="com.example.leoapplication.MenuFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.MenuFragment"
         android:label="fragment_menu"
         tools:layout="@layout/fragment_menu" >
         <action
             android:id="@+id/action_nav_menu_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_nav_menu_to_nav_home"
+            app:destination="@id/nav_home" />
     </fragment>
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.example.leoapplication.ProfileFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
         android:id="@+id/cardFragment"
-        android:name="com.example.leoapplication.CardFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.CardFragment"
         android:label="fragment_card"
         tools:layout="@layout/fragment_card" />
+    <fragment
+        android:id="@+id/increaseBalanceFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseBalanceFragment"
+        android:label="fragment_increase_balance"
+        tools:layout="@layout/fragment_increase_balance" >
+        <action
+            android:id="@+id/action_increaseBalanceFragment_to_increaseWithGoogleFragment"
+            app:destination="@id/increaseWithGoogleFragment" />
+        <action
+            android:id="@+id/action_increaseBalanceFragment_to_increaseOtherBankFragment"
+            app:destination="@id/increaseOtherBankFragment" />
+        <action
+            android:id="@+id/action_increaseBalanceFragment_to_increaseOtherCardFragment"
+            app:destination="@id/increaseOtherCardFragment" />
+        <action
+            android:id="@+id/action_increaseBalanceFragment_to_increaseWithMoneyFragment"
+            app:destination="@id/increaseWithMoneyFragment" />
+        <action
+            android:id="@+id/action_increaseBalanceFragment_to_increaseWithSwiftFragment"
+            app:destination="@id/increaseWithSwiftFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/increaseWithGoogleFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseWithGoogleFragment"
+        android:label="fragment_increase_with_google"
+        tools:layout="@layout/fragment_increase_with_google" />
+    <fragment
+        android:id="@+id/increaseOtherBankFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseOtherBankFragment"
+        android:label="fragment_increase_other_bank"
+        tools:layout="@layout/fragment_increase_other_bank" />
+    <fragment
+        android:id="@+id/increaseOtherCardFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseOtherCardFragment"
+        android:label="fragment_increase_other_card"
+        tools:layout="@layout/fragment_increase_other_card" >
+        <action
+            android:id="@+id/action_increaseOtherCardFragment_to_increaseBalanceOtherCardsFragment"
+            app:destination="@id/increaseBalanceOtherCardsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/increaseWithMoneyFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseWithMoneyFragment"
+        android:label="fragment_increase_with_money"
+        tools:layout="@layout/fragment_increase_with_money" />
+    <fragment
+        android:id="@+id/increaseWithSwiftFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseWithSwiftFragment"
+        android:label="fragment_increase_with_swift"
+        tools:layout="@layout/fragment_increase_with_swift" />
+    <fragment
+        android:id="@+id/increaseBalanceOtherCardsFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseBalanceOtherCardsFragment"
+        android:label="fragment_increase_balance_other_cards"
+        tools:layout="@layout/fragment_increase_balance_other_cards" />
+    <fragment
+        android:id="@+id/exportToFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.ExportToFragment"
+        android:label="fragment_export_to"
+        tools:layout="@layout/fragment_export_to" />
 
 </navigation>

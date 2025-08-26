@@ -1,8 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("androidx.navigation.safeargs.kotlin") version "2.7.2"
+    alias(libs.plugins.navigation.safe.args)
+    alias(libs.plugins.gms.google.services)
+
 }
+
 
 android {
     namespace = "com.example.leoapplication"
@@ -34,33 +37,32 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
-    buildFeatures {
+    buildFeatures{
         viewBinding = true
+        dataBinding = true
     }
 }
 
 dependencies {
-
-        implementation ("androidx.appcompat:appcompat:1.6.1")
-        implementation ("com.google.android.material:material:1.9.0")
-
-
-    implementation("androidx.constraintlayout:constraintlayout:2.2.1")
-        // To use constraintlayout in compose
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.1.1")
-
-//    implementation ("com.google.android.material:material:1.11.0 ")// Ən son versiya ola bilər
-    implementation(libs.navigation.fragment.ktx)
-    implementation(libs.navigation.ui.ktx)
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.core.ktx)
-//    implementation(libs.androidx.appcompat)
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
+    implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.glide)
+    implementation(libs.retrofit.logging.interceptor)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.annotation)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
+    implementation("com.google.firebase:firebase-firestore")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
+    implementation(libs.firebase.auth.ktx)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

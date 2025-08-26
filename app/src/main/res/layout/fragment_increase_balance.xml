@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contentİncrease"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:background="#AFA8FD"
+    >
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_increase"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <include android:id="@+id/includeAppBar"
+        layout="@layout/coordinator_increase"/>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+   <include android:id="@+id/scrollableIncrease"
+       layout="@layout/content_scrolling_balance" />
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

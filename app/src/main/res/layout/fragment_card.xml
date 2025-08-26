@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollCard"
-    android:padding="20dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
 
 
 <androidx.constraintlayout.widget.ConstraintLayout
 
     android:id="@+id/cardFragment"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-
-    >
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:background="@color/white"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_card"
@@ -41,6 +33,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar_card"
+        app:layout_constraintVertical_bias="0"
       />
 
     <View
@@ -57,7 +50,7 @@
     <TextView
         android:id="@+id/card_code16"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:text="4098 1111 1111 1111"
         android:layout_marginStart="20dp"
         android:textSize="25sp"
@@ -86,7 +79,7 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintVertical_bias="0.3"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/card_visa_card"
         app:layout_constraintStart_toStartOf="@+id/card_code16"
         app:layout_constraintTop_toBottomOf="@+id/card_code16" />
 
@@ -97,7 +90,7 @@
         android:text="Tarix"
         android:textColor="#6A6A6A"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/card_visa_card"
         app:layout_constraintStart_toStartOf="@+id/txtDate"
         app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
@@ -121,10 +114,88 @@
         android:text="CVV"
         android:textColor="#6A6A6A"
         android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/card_visa_card"
         app:layout_constraintEnd_toEndOf="@+id/txtCvvNum"
         app:layout_constraintStart_toStartOf="@+id/txtCvvNum"
         app:layout_constraintTop_toBottomOf="@+id/txtDate" />
+
+
+    <ImageView
+        android:id="@+id/img_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_block_flipped_24"
+        app:layout_constraintBottom_toBottomOf="@id/txt_block_msg"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toBottomOf="@id/card_visa_card" />
+
+    <TextView
+        android:id="@+id/txt_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Plastik kartı blokla"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/txt_block_msg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/img_block"
+        app:layout_constraintTop_toTopOf="@id/img_block" />
+
+    <TextView
+        android:id="@+id/txt_block_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="İstədiyiniz vaxt onu blokdan çıxara bilərsiniz"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_block"
+        app:layout_constraintStart_toStartOf="@+id/txt_block"
+        app:layout_constraintTop_toBottomOf="@id/txt_block" />
+
+
+    <ImageView
+        android:id="@+id/img_change_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_block_flipped_24"
+        app:layout_constraintBottom_toBottomOf="@id/txt_change_pin_msg"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="15dp"
+        app:layout_constraintTop_toTopOf="@id/img_block" />
+
+    <TextView
+        android:id="@+id/txt_change_pin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Plastik kartı blokla"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@id/txt_change_pin_msg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintStart_toEndOf="@+id/img_change_pin"
+        app:layout_constraintTop_toTopOf="@id/img_change_pin" />
+
+    <TextView
+        android:id="@+id/txt_change_pin_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="İstədiyiniz vaxt onu blokdan çıxara bilərsiniz"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@id/txt_change_pin_msg"
+        app:layout_constraintStart_toStartOf="@+id/txt_change_pin"
+        app:layout_constraintTop_toBottomOf="@id/txt_change_pin" />
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -132,4 +203,3 @@
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </ScrollView>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contentExport"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
+    android:background="#F4F3FF">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar_export"
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <include
+            android:id="@+id/includeAppBarExport"
+            layout="@layout/coordinator_wt_google" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/content_scrolling_back">
+
+            <EditText
+                android:id="@+id/edt_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="0 ₼"
+                android:textSize="30dp"
+                android:textStyle="bold"
+                android:inputType="numberSigned"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.5" />
+
+            <TextView
+                android:id="@+id/txt_kom"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Komissiyasız"
+                android:textColor="@color/colorUnchecked"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/edt_money" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Button-u CoordinatorLayout-un içinə, ən altına gətirdim -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/nextButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_margin="15dp"
+        android:backgroundTint="@color/black"
+        android:drawableStart="@drawable/icgoogle24"
+        android:text="Pay"
+        android:textColor="#FFFFFF"
+        app:layout_anchorGravity="bottom"
+        android:layout_gravity="bottom"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
