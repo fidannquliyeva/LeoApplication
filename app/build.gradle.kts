@@ -3,6 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.navigation.safe.args)
     alias(libs.plugins.gms.google.services)
+    alias(libs.plugins.kapt)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 
 }
 
@@ -64,5 +67,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
 
 }

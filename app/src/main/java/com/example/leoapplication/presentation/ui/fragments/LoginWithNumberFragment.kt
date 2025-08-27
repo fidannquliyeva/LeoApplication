@@ -23,6 +23,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
+
 @AndroidEntryPoint
 class LoginWithNumberFragment : Fragment() {
 
@@ -40,53 +41,64 @@ class LoginWithNumberFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Seçilmiş dili oxu və tətbiq et
-        val currentLanguage = getSavedLanguage(requireContext())
-        updateLocale(requireContext(), currentLanguage)
-
-        goToAboutLeo()
-        goToSmsLogin()
-        gridLayout()
-        refreshUI()
-
-        binding.help.setOnClickListener { showSupportDialog() }
+        setupUI()
+        setupObservers()
+        setupListeners()
     }
 
-    private fun refreshUI() {
+    private fun setupUI() {
         binding.infoTextNext.text = getString(R.string.r_li_d_ym_sini_s_xmaqla_siz)
         binding.nextButton.text = getString(R.string.r_li)
         binding.phoneNumberText.hint = getString(R.string._994)
         binding.help.text = getString(R.string.d_st_k)
+
+        // Əvvəlki nömrəni göstər, +994 prefiksi qalır UI üçün
+        binding.phoneNumberText.text = if (viewModel.phoneNumber.isEmpty()) "+994" else viewModel.phoneNumber
+
+        setupNumberGrid()
     }
 
-    private fun goToAboutLeo() {
-        binding.infoTextNext.setOnClickListener {
-            findNavController().navigate(R.id.action_loginWithNumberFragment_to_aboutLeoFragment)
-        }
-    }
-
-
-    private fun goToSmsLogin() {
-        binding.nextButton.setOnClickListener {
-            val currentNumber = binding.phoneNumberText.text.toString()
-
-            if (currentNumber.length <= 13) {
-                Toast.makeText(requireContext(), "Zəhmət olmasa nömrə daxil edin", Toast.LENGTH_SHORT).show()
-            } else {
+    private fun setupObservers() {
+        viewModel.bankCard.observe(viewLifecycleOwner) { card ->
+            card?.let {
                 val action = LoginWithNumberFragmentDirections
-                    .actionLoginWithNumberFragmentToSmsLoginFragment(phoneNumber = currentNumber)
+                    .actionLoginWithNumberFragmentToSmsLoginFragment(phoneNumber = viewModel.phoneNumber)
                 findNavController().navigate(action)
             }
         }
+
+        viewModel.error.observe(viewLifecycleOwner) { message ->
+            Toast.makeText(requireContext(), message ?: "Xəta baş verdi", Toast.LENGTH_SHORT).show()
+        }
     }
 
+    private fun setupListeners() {
+        binding.nextButton.setOnClickListener {
+            val currentNumber = binding.phoneNumberText.text.toString().replace(" ", "")
+            if (currentNumber.length <= 12) {
+                Toast.makeText(requireContext(), "Zəhmət olmasa nömrə daxil edin", Toast.LENGTH_SHORT).show()
+            } else {
+                viewModel.phoneNumber = currentNumber
+                viewModel.fetchOrCreateCard()
+            }
+        }
 
-    private fun gridLayout() {
+        binding.infoTextNext.setOnClickListener {
+            findNavController().navigate(R.id.action_loginWithNumberFragment_to_aboutLeoFragment)
+        }
+
+        binding.help.setOnClickListener { showSupportDialog() }
+    }
+
+    private fun setupNumberGrid() {
         val MAX_DIGITS = 9
         val numberClickListener = View.OnClickListener { view ->
             val button = view as Button
             val digit = button.text.toString()
-            val currentNumber = binding.phoneNumberText.text.toString().substring(5)
+
+            val text = binding.phoneNumberText.text.toString()
+            val currentNumber = text.replace("+994", "").replace(" ", "")
+
             if (currentNumber.length < MAX_DIGITS) {
                 binding.phoneNumberText.append(digit)
                 viewModel.phoneNumber = binding.phoneNumberText.text.toString()
@@ -100,45 +112,19 @@ class LoginWithNumberFragment : Fragment() {
 
         binding.btnDelete.setOnClickListener {
             val currentText = binding.phoneNumberText.text.toString()
-            if (currentText.length > 5) {
+            if (currentText.length > 4) {  // minimum "+994" qalır
                 binding.phoneNumberText.text = currentText.dropLast(1)
                 viewModel.phoneNumber = binding.phoneNumberText.text.toString()
             }
         }
-
-        binding.phoneNumberText.text = viewModel.phoneNumber.ifEmpty { "+994 " }
     }
 
-    private fun saveLanguage(context: Context, language: String) {
-        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        prefs.edit().putString("selected_language", language).apply()
-    }
-
-    private fun getSavedLanguage(context: Context): String {
-        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        return prefs.getString("selected_language", "az") ?: "az"
-    }
-
-    private fun updateLocale(context: Context, language: String) {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val config = context.resources.configuration
-        config.setLocale(locale)
-        context.resources.updateConfiguration(config, context.resources.displayMetrics)
-    }
-
-    private fun applyLanguage(language: String) {
-        saveLanguage(requireContext(), language)
-        updateLocale(requireContext(), language)
-        requireActivity().recreate()  // Activity restart ilə bütün app UI yenilənir
-    }
-
+    // Support / sosial media
     private fun showSupportDialog() {
         val dialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_support, null)
         dialog.setContentView(view)
 
-        // Sosial media
         view.findViewById<LinearLayout>(R.id.layoutWhatsapp).setOnClickListener {
             openLink("https://wa.me/994123101488", "com.whatsapp"); dialog.dismiss()
         }
@@ -152,41 +138,42 @@ class LoginWithNumberFragment : Fragment() {
             openLink("https://www.viber.com/leobank.az/"); dialog.dismiss()
         }
 
-        // Dil seçimi
         view.findViewById<ConstraintLayout>(R.id.layoutLanguage).setOnClickListener {
             dialog.dismiss()
-
-            val dialogLanguage = BottomSheetDialog(requireContext())
-            val viewLanguage = layoutInflater.inflate(R.layout.dialog_language, null)
-            dialogLanguage.setContentView(viewLanguage)
-
-            val radioGroup = viewLanguage.findViewById<RadioGroup>(R.id.radioGroupLanguage)
-            val radioAzerbaijan = viewLanguage.findViewById<RadioButton>(R.id.radioAzerbaijan)
-            val radioRussian = viewLanguage.findViewById<RadioButton>(R.id.radioRussian)
-
-            // Seçilmiş dili göstər
-            if (getSavedLanguage(requireContext()) == "az") radioGroup.check(R.id.radioAzerbaijan)
-            else radioGroup.check(R.id.radioRussian)
-
-            radioAzerbaijan.setOnClickListener {
-                radioGroup.check(R.id.radioAzerbaijan)
-                applyLanguage("az")
-                dialogLanguage.dismiss()
-            }
-
-            radioRussian.setOnClickListener {
-                radioGroup.check(R.id.radioRussian)
-                applyLanguage("ru")
-                dialogLanguage.dismiss()
-            }
-
-            dialogLanguage.show()
+            showLanguageDialog()
         }
+
         dialog.show()
     }
 
+    private fun showLanguageDialog() {
+        val dialogLanguage = BottomSheetDialog(requireContext())
+        val viewLanguage = layoutInflater.inflate(R.layout.dialog_language, null)
+        dialogLanguage.setContentView(viewLanguage)
 
-        private fun openLink(url: String, packageName: String? = null) {
+        val radioGroup = viewLanguage.findViewById<RadioGroup>(R.id.radioGroupLanguage)
+        val radioAzerbaijan = viewLanguage.findViewById<RadioButton>(R.id.radioAzerbaijan)
+        val radioRussian = viewLanguage.findViewById<RadioButton>(R.id.radioRussian)
+
+        if (getSavedLanguage() == "az") radioGroup.check(R.id.radioAzerbaijan)
+        else radioGroup.check(R.id.radioRussian)
+
+        radioAzerbaijan.setOnClickListener {
+            radioGroup.check(R.id.radioAzerbaijan)
+            applyLanguage("az")
+            dialogLanguage.dismiss()
+        }
+
+        radioRussian.setOnClickListener {
+            radioGroup.check(R.id.radioRussian)
+            applyLanguage("ru")
+            dialogLanguage.dismiss()
+        }
+
+        dialogLanguage.show()
+    }
+
+    private fun openLink(url: String, packageName: String? = null) {
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
             if (packageName != null) intent.setPackage(packageName)
@@ -194,5 +181,25 @@ class LoginWithNumberFragment : Fragment() {
         } catch (e: Exception) {
             Toast.makeText(requireContext(), "Tətbiq açılmadı", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun getSavedLanguage(): String {
+        val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return prefs.getString("selected_language", "az") ?: "az"
+    }
+
+    private fun saveLanguage(language: String) {
+        val prefs = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        prefs.edit().putString("selected_language", language).apply()
+    }
+
+    private fun applyLanguage(language: String) {
+        saveLanguage(language)
+        val locale = Locale(language)
+        Locale.setDefault(locale)
+        val config = requireContext().resources.configuration
+        config.setLocale(locale)
+        requireContext().resources.updateConfiguration(config, requireContext().resources.displayMetrics)
+        requireActivity().recreate()
     }
 }
