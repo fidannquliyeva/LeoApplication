@@ -1,6 +1,5 @@
 package com.example.leoapplication.presentation.viewmodel
 
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,13 +26,9 @@ class PinCreatedVM @Inject constructor(
     private val _error = MutableLiveData<String>()
     val error: LiveData<String> get() = _error
 
-    fun setPin(value: String) {
-        _pin.value = value
-    }
+    fun setPin(value: String) { _pin.value = value }
+    fun setConfirmPin(value: String) { _confirmPin.value = value }
 
-    fun setConfirmPin(value: String) {
-        _confirmPin.value = value
-    }
     fun savePin() {
         val p = _pin.value
         val c = _confirmPin.value
@@ -45,6 +40,8 @@ class PinCreatedVM @Inject constructor(
 
         if (p != c) {
             _error.value = "PIN və təsdiq eyni deyil"
+            // confirmPin-i reset et ki, istifadəçi yenidən daxil etsin
+            _confirmPin.value = ""
             return
         }
 
@@ -57,7 +54,7 @@ class PinCreatedVM @Inject constructor(
     }
 
 
-    fun getSavedPin(): String? {
-        return getPinUseCase.execute()
-    }
+    fun getSavedPin(): String? = getPinUseCase.execute()
+
+
 }

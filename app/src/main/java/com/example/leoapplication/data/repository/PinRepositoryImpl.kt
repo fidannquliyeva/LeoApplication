@@ -1,3 +1,5 @@
+package com.example.leoapplication.data.repository
+
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
@@ -5,6 +7,7 @@ import com.example.leoapplication.domain.repository.PinRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
+
 @Singleton
 class PinRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context
@@ -26,7 +29,5 @@ class PinRepositoryImpl @Inject constructor(
         prefs.edit().putString("user_pin", pin).apply()
     }
 
-    override fun getPin(): String? {
-        return prefs.getString("user_pin", null)
-    }
+    override fun getPin(): String? = prefs.getString("user_pin", null)
 }
