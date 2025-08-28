@@ -42,8 +42,11 @@
             android:name="phoneNumber"
             app:argType="string" />
         <action
-            android:id="@+id/action_smsLoginFragment_to_pinLoginFragment"
-            app:destination="@id/pinLoginFragment" />
+            android:id="@+id/action_smsLoginFragment_to_loginWithNumberFragment"
+            app:destination="@id/loginWithNumberFragment" />
+        <action
+            android:id="@+id/action_smsLoginFragment_to_createPinFragment"
+            app:destination="@id/pinCreatedFragment" />
     </fragment>
     <fragment
         android:id="@+id/pinLoginFragment"
@@ -170,5 +173,14 @@
         android:name="com.example.leoapplication.presentation.ui.fragments.ExportToFragment"
         android:label="fragment_export_to"
         tools:layout="@layout/fragment_export_to" />
+    <fragment
+        android:id="@+id/pinCreatedFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.PinCreatedFragment"
+        android:label="fragment_create_pin"
+        tools:layout="@layout/fragment_pin_created" >
+        <action
+            android:id="@+id/action_pinCreatedFragment_to_pinLoginFragment"
+            app:destination="@id/pinLoginFragment" />
+    </fragment>
 
 </navigation>

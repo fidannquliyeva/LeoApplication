@@ -6,5 +6,6 @@ data class BankCard(
     val mm: String = "",
     val yy: String = "",
     val balance: Double = 0.0,
-    val ownerPhone: String = ""
+    val ownerPhone: String = "",
+    val isNewCard: Boolean = false
 )

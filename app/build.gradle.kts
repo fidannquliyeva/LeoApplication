@@ -10,7 +10,7 @@ plugins {
 }
 
 
-android {
+ android {
     namespace = "com.example.leoapplication"
     compileSdk = 35
 
@@ -69,5 +69,10 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     implementation("com.google.dagger:hilt-android:2.56.2")
     ksp("com.google.dagger:hilt-android-compiler:2.56.2")
+    kapt ("com.google.dagger:hilt-compiler:2.49")
+
+    implementation ("androidx.security:security-crypto:1.1.0-alpha04")
+
+
 
 }

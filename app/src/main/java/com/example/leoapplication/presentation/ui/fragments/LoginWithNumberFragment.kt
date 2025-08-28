@@ -1,7 +1,6 @@
 package com.example.leoapplication.presentation.ui.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,7 +21,6 @@ import com.example.leoapplication.presentation.viewmodel.LoginWithNumberVM
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
-
 
 @AndroidEntryPoint
 class LoginWithNumberFragment : Fragment() {
@@ -57,10 +55,17 @@ class LoginWithNumberFragment : Fragment() {
 
         setupNumberGrid()
     }
-
     private fun setupObservers() {
         viewModel.bankCard.observe(viewLifecycleOwner) { card ->
             card?.let {
+                val cleanPhone = viewModel.phoneNumber.replace("+994", "").replace(" ", "")
+
+                // Yalnız yeni kart yaradılıbsa Toast göstər
+                if (it.ownerPhone == cleanPhone && it.isNewCard) { // isNewCard flag əlavə et ViewModel-də
+                    Toast.makeText(requireContext(), "Yeni kart yaradıldı", Toast.LENGTH_SHORT).show()
+                }
+
+                // SMS səhifəsinə yönləndir
                 val action = LoginWithNumberFragmentDirections
                     .actionLoginWithNumberFragmentToSmsLoginFragment(phoneNumber = viewModel.phoneNumber)
                 findNavController().navigate(action)
@@ -68,9 +73,12 @@ class LoginWithNumberFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) { message ->
-            Toast.makeText(requireContext(), message ?: "Xəta baş verdi", Toast.LENGTH_SHORT).show()
+            message?.let {
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            }
         }
     }
+
 
     private fun setupListeners() {
         binding.nextButton.setOnClickListener {
@@ -95,10 +103,8 @@ class LoginWithNumberFragment : Fragment() {
         val numberClickListener = View.OnClickListener { view ->
             val button = view as Button
             val digit = button.text.toString()
-
             val text = binding.phoneNumberText.text.toString()
             val currentNumber = text.replace("+994", "").replace(" ", "")
-
             if (currentNumber.length < MAX_DIGITS) {
                 binding.phoneNumberText.append(digit)
                 viewModel.phoneNumber = binding.phoneNumberText.text.toString()
@@ -175,7 +181,7 @@ class LoginWithNumberFragment : Fragment() {
 
     private fun openLink(url: String, packageName: String? = null) {
         try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            val intent = android.content.Intent(android.content.Intent.ACTION_VIEW, Uri.parse(url))
             if (packageName != null) intent.setPackage(packageName)
             startActivity(intent)
         } catch (e: Exception) {

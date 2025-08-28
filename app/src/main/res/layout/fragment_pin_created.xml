@@ -6,76 +6,35 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_2"
     android:orientation="vertical"
-    tools:context=".presentation.ui.fragments.SmsLoginFragment">
-
+>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="170dp"
+        android:layout_height="180dp"
         android:background="@drawable/gradient_login">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_help"
+            android:id="@+id/helpPin"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50sp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:backgroundTint="#33E0DFDF"
             android:drawableLeft="@drawable/icons8message30"
             android:drawableTint="@color/white"
             android:text="Dəstək"
-            android:textSize="12sp"
             android:textColor="@color/black" />
 
-        <TextView
-            android:id="@+id/txt_sms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_help"
+        <ImageView
+            android:id="@+id/img_account"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:text="SMS-lə gələn kodu daxil edin"
-            android:layout_marginTop="25dp"
-            android:textColor="@color/black"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/account_60" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/txt_sms"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-
-        <TextView
-            android:id="@+id/txt_msg_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/code"
-            android:textColor="#3A3A3A"
-            android:textSize="16sp"
-            android:layout_marginEnd="5dp"/>
-
-        <TextView
-            android:id="@+id/txt_msg"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/_994_555_555_555"
-            android:textColor="#3A3A3A"
-            android:textSize="16sp"
-            android:layout_marginEnd="5dp"
-            />
-
-            <TextView
-                android:id="@+id/txt_msg_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/n_mr_sin_g_nd_rildi"
-                android:textColor="#3A3A3A"
-                android:textSize="16sp"/>
-        </LinearLayout>
     </RelativeLayout>
 
     <androidx.cardview.widget.CardView
@@ -95,74 +54,113 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:orientation="vertical"
                 android:padding="16dp">
 
                 <TextView
-                    android:id="@+id/msg_number"
+                    android:id="@+id/phoneNumberText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 0 0 0"
-                    android:textColor="#999999"
-                    android:textSize="40sp"
-                    android:textStyle="bold"
+                    android:text="Yeni PIN kodunuzu yaradın"
+                    android:textColor="#888888"
+                    android:textSize="23sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.24" />
+                    app:layout_constraintVertical_bias="0.15" />
 
                 <LinearLayout
-                    android:id="@+id/noMsgComing"
+                    android:id="@+id/pinLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:background="?attr/selectableItemBackground"
-                    app:layout_constraintVertical_bias="0.8"
-                    app:layout_constraintBottom_toTopOf="@+id/numberPad"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/msg_number">
+                    app:layout_constraintTop_toBottomOf="@id/phoneNumberText">
 
+                    <ImageView
+                        android:id="@+id/pin1"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/paw" />
 
-                    <TextView
-                        android:id="@+id/info_msg"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:text="SMS gəlmir?"
-                        android:background="?attr/selectableItemBackground"
-                        android:textColor="#757575"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toBottomOf="@+id/info_msg2"
-                        app:layout_constraintEnd_toStartOf="@id/info_msg2"
-                        app:layout_constraintStart_toStartOf="@id/msg_number"
-                        app:layout_constraintTop_toTopOf="@+id/info_msg2" />
+                    <ImageView
+                        android:id="@+id/pin2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/paw" />
 
-                    <TextView
-                        android:id="@+id/info_msg2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:gravity="center"
-                        android:background="?attr/selectableItemBackground"
-                        android:text="Zəng sifariş etmək"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        app:layout_constraintBottom_toTopOf="@+id/numberPad"
-                        app:layout_constraintEnd_toEndOf="@+id/msg_number"
-                        app:layout_constraintStart_toEndOf="@id/info_msg"
-                        app:layout_constraintTop_toBottomOf="@+id/msg_number"
-                        app:layout_constraintVertical_bias="0.8" />
+                    <ImageView
+                        android:id="@+id/pin3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/paw" />
+
+                    <ImageView
+                        android:id="@+id/pin4"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/paw" />
 
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/confirmNumberText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PIN kodunuzu təsdiq edin"
+                    android:textColor="#888888"
+                    android:textSize="23sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pinLayout" />
+
+
+                <LinearLayout
+                    android:id="@+id/pinLayoutConferm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/confirmNumberText">
+
+                    <ImageView
+                        android:id="@+id/pinC1"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/paw" />
+
+                    <ImageView
+                        android:id="@+id/pinC2"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/paw" />
+
+                    <ImageView
+                        android:id="@+id/pinC3"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/paw" />
+
+                    <ImageView
+                        android:id="@+id/pinC4"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_margin="8dp"
+                        android:src="@drawable/paw" />
+                </LinearLayout>
 
 
                 <GridLayout
@@ -174,61 +172,63 @@
                     android:useDefaultMargins="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/pinLayout"
+                    app:layout_constraintVertical_bias="0.6">
 
                     <Button
                         android:id="@+id/btn_1"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="1" />
+                        android:text="@string/_1" />
 
                     <Button
                         android:id="@+id/btn_2"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="2" />
+                        android:text="@string/_2" />
 
                     <Button
                         android:id="@+id/btn_3"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="3" />
+                        android:text="@string/_3" />
 
                     <Button
                         android:id="@+id/btn_4"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="4" />
+                        android:text="@string/_4" />
 
                     <Button
                         android:id="@+id/btn_5"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="5" />
+                        android:text="@string/_5" />
 
                     <Button
                         android:id="@+id/btn_6"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="6" />
+                        android:text="@string/_6" />
 
                     <Button
                         android:id="@+id/btn_7"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="7" />
+                        android:text="@string/_7" />
 
                     <Button
                         android:id="@+id/btn_8"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="8" />
+                        android:text="@string/_8" />
 
                     <Button
                         android:id="@+id/btn_9"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="9" />
+                        android:text="@string/_9" />
 
                     <Space
                         android:layout_width="0dp"
@@ -239,15 +239,19 @@
                         android:id="@+id/btn_0"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="0" />
+                        android:text="@string/_0" />
 
                     <Button
                         android:id="@+id/btn_delete"
                         style="@style/KeyButton"
                         android:background="?attr/selectableItemBackground"
-                        android:text="⌫" />
+                        android:text="@string/delete" />
                 </GridLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.cardview.widget.CardView>
 </LinearLayout>
+
+
+
