@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.splashScreenFragment, R.id.smsLoginFragment, R.id.loginWithNumberFragment, R.id.pinLoginFragment, R.id.aboutLeoFragment, R.id.increaseBalanceFragment, R.id.increaseWithGoogleFragment, R.id.increaseOtherBankFragment, R.id.increaseOtherCardFragment, R.id.increaseWithMoneyFragment, R.id.increaseWithSwiftFragment, R.id.pinCreatedFragment, R.id.pinLoginFragment -> {
+                R.id.splashScreenFragment, R.id.smsLoginFragment, R.id.loginWithNumberFragment, R.id.pinLoginFragment, R.id.aboutLeoFragment, R.id.increaseBalanceFragment, R.id.increaseWithGoogleFragment, R.id.increaseOtherBankFragment, R.id.increaseOtherCardFragment, R.id.increaseWithMoneyFragment, R.id.increaseWithSwiftFragment, R.id.pinCreatedFragment, R.id.pinLoginFragment , R.id.newUserInfoFragment -> {
                     binding.bottomNav.visibility = View.GONE
                 }
                 else -> {

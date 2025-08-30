@@ -6,9 +6,11 @@ import androidx.security.crypto.MasterKey
 import com.example.leoapplication.data.repository.AuthRepositoryImpl
 import com.example.leoapplication.data.repository.BankCardRepositoryImpl
 import com.example.leoapplication.data.repository.PinRepositoryImpl
+import com.example.leoapplication.data.repository.UserRepositoryImpl
 import com.example.leoapplication.domain.repository.AuthRepository
 import com.example.leoapplication.domain.repository.BankCardRepository
 import com.example.leoapplication.domain.repository.PinRepository
+import com.example.leoapplication.domain.repository.UserRepository
 import com.example.leoapplication.domain.usecase.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -43,6 +45,12 @@ object AppModule {
  fun provideAuthRepository(auth: FirebaseAuth): AuthRepository =
   AuthRepositoryImpl(auth)
 
+
+ @Provides
+ @Singleton
+ fun provideUserRepository(firestore: FirebaseFirestore): UserRepository =
+  UserRepositoryImpl(firestore)
+
  @Provides
  @Singleton
  fun provideBankCardRepository(firestore: FirebaseFirestore): BankCardRepository =
@@ -59,13 +67,22 @@ object AppModule {
  fun provideGetPinUseCase(repository: PinRepository): GetPinUseCase =
   GetPinUseCase(repository)
 
- @Provides
- fun provideGetCardUseCase(repository: BankCardRepository): GetCardUseCase =
-  GetCardUseCase(repository)
 
  @Provides
- fun provideCreateCardUseCase(repository: BankCardRepository): CreateCardUseCase =
-  CreateCardUseCase(repository)
+ fun provideGetUserUseCase(repository: UserRepository) = GetUserUseCase(repository)
+
+ @Provides
+ fun provideCreateUserUseCase(repository: UserRepository) = CreateUserUseCase(repository)
+
+ @Provides
+ fun provideAddCardToUserUseCase(repository: UserRepository) = AddCardToUserUseCase(repository)
+
+ @Provides
+ fun provideGetCardUseCase(repository: BankCardRepository) = GetCardUseCase(repository)
+
+ @Provides
+ fun provideCreateCardUseCase(repository: BankCardRepository) = CreateCardUseCase(repository)
+
 
  @Provides
  fun provideSendSmsUseCase(repository: AuthRepository): SendSmsUseCase =
@@ -74,4 +91,8 @@ object AppModule {
  @Provides
  fun provideVerifyCodeUseCase(repository: AuthRepository): VerifyCodeUseCase =
   VerifyCodeUseCase(repository)
+
+
+
+
 }

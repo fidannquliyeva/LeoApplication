@@ -30,18 +30,34 @@
         android:background="@drawable/gradientcard">
 
         <TextView
-            android:id="@+id/balance_num"
+            android:id="@+id/balance_num_small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0.00$"
+            android:text="0.0"
             android:textColor="@color/black"
-            android:textSize="35sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/balance_num_azn_small"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.3" />
+
+             />
+
+        <TextView
+            android:id="@+id/balance_num_azn_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₼"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/balance_num_small"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/balance_num_small"
+            app:layout_constraintTop_toTopOf="@id/balance_num_small"
+           />
 
 
         <ImageView
@@ -87,11 +103,11 @@
             android:text="Balansın artırılması"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintVertical_bias="0.03"
             app:layout_constraintBottom_toTopOf="@+id/card_visa"
             app:layout_constraintEnd_toEndOf="@+id/add_button"
             app:layout_constraintStart_toStartOf="@+id/add_button"
-            app:layout_constraintTop_toBottomOf="@+id/add_button" />
+            app:layout_constraintTop_toBottomOf="@+id/add_button"
+            app:layout_constraintVertical_bias="0.03" />
 
         <TextView
             android:id="@+id/txt_next_button"
@@ -101,11 +117,11 @@
             android:text="Karta köçürmə"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintVertical_bias="0.03"
             app:layout_constraintBottom_toTopOf="@+id/card_visa"
             app:layout_constraintEnd_toEndOf="@+id/next_button"
             app:layout_constraintStart_toEndOf="@+id/add_button"
-            app:layout_constraintTop_toBottomOf="@+id/next_button" />
+            app:layout_constraintTop_toBottomOf="@+id/next_button"
+            app:layout_constraintVertical_bias="0.03" />
 
         <TextView
             android:id="@+id/txt_wallet_button"
@@ -115,11 +131,11 @@
             android:text="Digər ödənişlər"
             android:textColor="@color/black"
             android:textSize="18sp"
-            app:layout_constraintVertical_bias="0.03"
             app:layout_constraintBottom_toTopOf="@+id/card_visa"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/next_button"
-            app:layout_constraintTop_toBottomOf="@+id/wallet_button" />
+            app:layout_constraintTop_toBottomOf="@+id/wallet_button"
+            app:layout_constraintVertical_bias="0.03" />
 
         <View
             android:id="@+id/card_visa"
@@ -133,21 +149,36 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
+
         <TextView
-            android:id="@+id/balance_num_app"
+            android:id="@+id/balance_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0.00$"
-            android:layout_centerHorizontal="true"
-            app:layout_constraintHorizontal_bias="0.5"
+            android:text="0.0"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintVertical_bias="1"
+            android:textSize="35sp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/balance_num_azn"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
+
+        <TextView
+            android:id="@+id/balance_num_azn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="₼"
+            android:textColor="@color/black"
+            android:textSize="35sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/balance_num"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.3" />
 
 
 

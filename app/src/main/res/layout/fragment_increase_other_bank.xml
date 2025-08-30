@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:navigationIcon="@drawable/icarrowback24"
-        app:titleTextColor="@android:color/black" />
+        app:titleTextColor="@android:color/black"
+
+        />
 
     <TextView
         android:layout_width="match_parent"
@@ -42,6 +44,7 @@
 
 
             <TextView
+                android:id="@+id/card_number"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -52,9 +55,12 @@
 
             <!-- Copy icon (istəsən əlavə edərsən) -->
             <ImageView
+                android:id="@+id/img_copy"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/ic_copy24"
+                android:clickable="true"
+                android:focusable="true"
                 android:contentDescription="Kopyala"
                 android:layout_marginStart="8dp"/>
 

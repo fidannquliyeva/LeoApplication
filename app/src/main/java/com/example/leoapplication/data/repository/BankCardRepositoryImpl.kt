@@ -5,19 +5,15 @@ import com.example.leoapplication.domain.repository.BankCardRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class BankCardRepositoryImpl(
-    private val firestore: FirebaseFirestore
-) : BankCardRepository {
-
+// BankCardRepositoryImpl.kt
+class BankCardRepositoryImpl(private val firestore: FirebaseFirestore) : BankCardRepository {
     private val collection = firestore.collection("bankCards")
 
-    override suspend fun getCardByPhone(phone: String): BankCard? {
-        val snapshot = collection.whereEqualTo("ownerPhone", phone).get().await()
-        return if (!snapshot.isEmpty) snapshot.documents[0].toObject(BankCard::class.java)
-        else null
-    }
+    override suspend fun getCardByPhone(phone: String) =
+        collection.whereEqualTo("ownerPhone", phone).get().await()
+            .documents.firstOrNull()?.toObject(BankCard::class.java)
 
     override suspend fun createCard(card: BankCard) {
-        collection.document(card.ownerPhone).set(card).await()
+        collection.document(card.cardNumber).set(card).await()
     }
 }

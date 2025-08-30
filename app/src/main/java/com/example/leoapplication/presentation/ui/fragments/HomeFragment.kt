@@ -8,18 +8,23 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentHomeBinding
 import com.example.leoapplication.presentation.ui.adapters.RecyclerAdapter
+import com.example.leoapplication.presentation.viewmodel.CardVM
+import com.example.leoapplication.presentation.viewmodel.LoginWithNumberVM
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
     lateinit var binding: FragmentHomeBinding
+    private val cardVM: CardVM by activityViewModels()
+    private val loginVM: LoginWithNumberVM by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,68 +42,87 @@ class HomeFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        // Dummy data
-        val list = mutableListOf<String>()
-        for (i in 1..30) list.add("Item #$i")
-        recyclerView.adapter = RecyclerAdapter(list)
 
-        val appBar = view.findViewById<AppBarLayout>(R.id.app_bar)
-        val balanceNum = view.findViewById<TextView>(R.id.balance_num_app)
-        val cardVisa = view.findViewById<View>(R.id.card_visa)
-        val visaTxt = view.findViewById<TextView>(R.id.card_number)
-
-
-
-        // AppBar scroll animasiyası
-        appBar.addOnOffsetChangedListener { _, verticalOffset ->
-            val totalRange = appBar.totalScrollRange
-            val progress = -verticalOffset / totalRange.toFloat()
-
-
-
-            if (progress >= 1f) {
-                // tam gizlə
-                cardVisa.visibility = View.GONE
-                visaTxt.visibility = View.GONE
-            } else {
-                // hərəkət edib aşağıya girsin
-                cardVisa.visibility = View.VISIBLE
-                visaTxt.visibility = View.VISIBLE
-
-                cardVisa.translationY = progress * cardVisa.height
-                visaTxt.translationY = progress * visaTxt.height
-            }
+        // Firebase-dən mövcud kart məlumatını çək
+        val phone = loginVM.phoneNumber
+        if (phone.isNotEmpty()) {
+            cardVM.fetchCardByPhone(phone)
         }
 
+        // Kart məlumatı gələndə UI göstər
+        cardVM.bankCard.observe(viewLifecycleOwner) { card ->
+            card ?: return@observe
 
-        cardVisa.transitionName = "card_transition" // Shared element adı
 
-        cardVisa.setOnClickListener {
-            // Flip animasiyası (y ekseni üzrə 180 dərəcə)
+            binding.homeAppbar.balanceNum.text = card.balance.toString()
+            binding.homeAppbar.balanceNumSmall.text = card.balance.toString()
 
-            visaTxt.isInvisible
 
-            cardVisa.animate()
-                .rotationY(90f) // ön tərəfi gizlədir
-                .setDuration(200)
-                .withEndAction {
-                    // Flip tamamlanandan sonra yeni fragmentə keçid
-                    val extras = androidx.navigation.fragment.FragmentNavigatorExtras(
-                        cardVisa to "card_transition"
-                    )
-                    findNavController().navigate(
-                        R.id.action_nav_home_to_cardFragment,
-                        null,
-                        null,
-                        extras
-                    )
+            // Dummy data
+            val list = mutableListOf<String>()
+            for (i in 1..30) list.add("Item #$i")
+            recyclerView.adapter = RecyclerAdapter(list)
+
+            val appBar = view.findViewById<AppBarLayout>(R.id.app_bar)
+            val cardVisa = view.findViewById<View>(R.id.card_visa)
+            val visaTxt = view.findViewById<TextView>(R.id.card_number)
+
+
+            // AppBar scroll animasiyası
+            appBar.addOnOffsetChangedListener { _, verticalOffset ->
+                val totalRange = appBar.totalScrollRange
+                val progress = -verticalOffset / totalRange.toFloat()
+
+
+
+                if (progress >= 1f) {
+                    // tam gizlə
+                    cardVisa.visibility = View.GONE
+                    visaTxt.visibility = View.GONE
+                } else {
+                    // hərəkət edib aşağıya girsin
+                    cardVisa.visibility = View.VISIBLE
+                    visaTxt.visibility = View.VISIBLE
+
+                    cardVisa.translationY = progress * cardVisa.height
+                    visaTxt.translationY = progress * visaTxt.height
                 }
-                .start()
+            }
+
+
+            cardVisa.transitionName = "card_transition" // Shared element adı
+
+            cardVisa.setOnClickListener {
+                // Flip animasiyası (y ekseni üzrə 180 dərəcə)
+
+                visaTxt.isInvisible
+
+                cardVisa.animate()
+                    .rotationY(90f) // ön tərəfi gizlədir
+                    .setDuration(200)
+                    .withEndAction {
+                        // Flip tamamlanandan sonra yeni fragmentə keçid
+                        val extras = androidx.navigation.fragment.FragmentNavigatorExtras(
+                            cardVisa to "card_transition"
+                        )
+                        findNavController().navigate(
+                            R.id.action_nav_home_to_cardFragment,
+                            null,
+                            null,
+                            extras
+                        )
+                    }
+                    .start()
+            }
+
+
         }
+
+
+
 
 
     }
-
     private fun navigateToIncreaseBalance() {
         binding.appBar.findViewById<ImageView>(R.id.add_button).setOnClickListener {
             findNavController().navigate(R.id.action_nav_home_to_increaseBalanceFragment)
@@ -108,6 +132,4 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_home_to_exportToFragment)
         }
     }
-
-
 }

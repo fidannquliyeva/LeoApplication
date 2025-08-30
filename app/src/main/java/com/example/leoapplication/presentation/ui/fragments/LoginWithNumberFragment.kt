@@ -38,34 +38,27 @@ class LoginWithNumberFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupUI()
         setupObservers()
         setupListeners()
     }
 
     private fun setupUI() {
-        binding.infoTextNext.text = getString(R.string.r_li_d_ym_sini_s_xmaqla_siz)
-        binding.nextButton.text = getString(R.string.r_li)
-        binding.phoneNumberText.hint = getString(R.string._994)
-        binding.help.text = getString(R.string.d_st_k)
-
-        // Əvvəlki nömrəni göstər, +994 prefiksi qalır UI üçün
         binding.phoneNumberText.text = if (viewModel.phoneNumber.isEmpty()) "+994" else viewModel.phoneNumber
-
         setupNumberGrid()
     }
+
     private fun setupObservers() {
-        viewModel.bankCard.observe(viewLifecycleOwner) { card ->
-            card?.let {
-                val cleanPhone = viewModel.phoneNumber.replace("+994", "").replace(" ", "")
+        viewModel.navigateToNewUser.observe(viewLifecycleOwner) { goToNewUser ->
+            if (goToNewUser) {
+                val action = LoginWithNumberFragmentDirections
+                    .actionLoginWithNumberFragmentToNewUserInfoFragment(phone = viewModel.phoneNumber)
+                findNavController().navigate(action)
+            }
+        }
 
-                // Yalnız yeni kart yaradılıbsa Toast göstər
-                if (it.ownerPhone == cleanPhone && it.isNewCard) { // isNewCard flag əlavə et ViewModel-də
-                    Toast.makeText(requireContext(), "Yeni kart yaradıldı", Toast.LENGTH_SHORT).show()
-                }
-
-                // SMS səhifəsinə yönləndir
+        viewModel.navigateToSmsLogin.observe(viewLifecycleOwner) { goToSms ->
+            if (goToSms) {
                 val action = LoginWithNumberFragmentDirections
                     .actionLoginWithNumberFragmentToSmsLoginFragment(phoneNumber = viewModel.phoneNumber)
                 findNavController().navigate(action)
@@ -73,29 +66,29 @@ class LoginWithNumberFragment : Fragment() {
         }
 
         viewModel.error.observe(viewLifecycleOwner) { message ->
-            message?.let {
-                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+            message?.let { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() }
+        }
+
+
+        viewModel.bankCard.observe(viewLifecycleOwner) { card ->
+            card?.let {
+                // Burada kart məlumatını göstərə bilərsən (məs. dialog, fragment və ya RecyclerView)
+                Toast.makeText(requireContext(), "Kart: ${it.cardNumber}", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-
     private fun setupListeners() {
         binding.nextButton.setOnClickListener {
-            val currentNumber = binding.phoneNumberText.text.toString().replace(" ", "")
-            if (currentNumber.length <= 12) {
+            val inputNumber = binding.phoneNumberText.text.toString().replace(" ", "")
+            if (inputNumber.length <= 12) {
                 Toast.makeText(requireContext(), "Zəhmət olmasa nömrə daxil edin", Toast.LENGTH_SHORT).show()
             } else {
-                viewModel.phoneNumber = currentNumber
-                viewModel.fetchOrCreateCard()
+                viewModel.phoneNumber = inputNumber
+                viewModel.fetchUserOrRedirect() // user yoxlanır, kart yaradılır/əlavə olunur
             }
         }
-
-        binding.infoTextNext.setOnClickListener {
-            findNavController().navigate(R.id.action_loginWithNumberFragment_to_aboutLeoFragment)
-        }
-
-        binding.help.setOnClickListener { showSupportDialog() }
+        setupNumberGrid()
     }
 
     private fun setupNumberGrid() {

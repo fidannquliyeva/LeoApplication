@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_loginWithNumberFragment_to_smsLoginFragment"
             app:destination="@id/smsLoginFragment" />
+        <action
+            android:id="@+id/action_loginWithNumberFragment_to_newUserInfoFragment"
+            app:destination="@id/newUserInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/aboutLeoFragment"
@@ -112,7 +115,11 @@
         android:id="@+id/cardFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.CardFragment"
         android:label="fragment_card"
-        tools:layout="@layout/fragment_card" />
+        tools:layout="@layout/fragment_card" >
+        <argument
+            android:name="phoneNumber"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/increaseBalanceFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseBalanceFragment"
@@ -181,6 +188,18 @@
         <action
             android:id="@+id/action_pinCreatedFragment_to_pinLoginFragment"
             app:destination="@id/pinLoginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/newUserInfoFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.NewUserInfoFragment"
+        android:label="fragment_new_user_info"
+        tools:layout="@layout/fragment_new_user_info" >
+        <argument
+            android:name="phone"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_newUserInfoFragment_to_smsLoginFragment"
+            app:destination="@id/smsLoginFragment" />
     </fragment>
 
 </navigation>

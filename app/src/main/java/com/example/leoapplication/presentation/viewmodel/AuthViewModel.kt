@@ -21,7 +21,10 @@ class AuthViewModel @Inject constructor(
     val testNumbers = mapOf(
         "+994708512191" to "121318",
         "+994708512121" to "121304",
-        "+994554261071" to "000000"
+        "+994554261071" to "000000",
+        "+994705116333" to "111111",
+        "+994705113333" to "333333"
+
     )
 
     fun sendSms(phone: String) {
