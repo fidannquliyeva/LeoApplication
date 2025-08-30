@@ -41,6 +41,11 @@ class LoginWithNumberFragment : Fragment() {
         setupUI()
         setupObservers()
         setupListeners()
+
+        binding.infoTextNext.setOnClickListener {
+            findNavController().navigate(R.id.action_loginWithNumberFragment_to_aboutLeoFragment)
+        }
+        binding.help.setOnClickListener { showSupportDialog() }
     }
 
     private fun setupUI() {

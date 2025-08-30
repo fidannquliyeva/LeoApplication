@@ -1,6 +1,7 @@
 package com.example.leoapplication.presentation.viewmodel
 
 import android.net.Uri
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,39 +9,29 @@ import com.example.leoapplication.data.repository.UserRepositoryImpl
 import com.example.leoapplication.domain.model.User
 import com.example.leoapplication.domain.repository.UserRepository
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+class ProfileVM: ViewModel() {
+    private val firestore = FirebaseFirestore.getInstance()
 
-@HiltViewModel
-class ProfileVM @Inject constructor(
-    private val userRepository: UserRepository
-) : ViewModel() {
+    private val _userData = MutableLiveData<Map<String, Any>>()
+    val userData: LiveData<Map<String, Any>> = _userData
 
-    val userLiveData = MutableLiveData<User?>()
-    val logoutEvent = MutableLiveData<Boolean>()
-
-    fun fetchUser(phone: String) {
-        viewModelScope.launch {
-            try {
-                val user = userRepository.getUserByPhone(phone)
-                userLiveData.value = user
-            } catch (e: Exception) {
-                e.printStackTrace()
+    fun loadUser(phone: String) {
+        firestore.collection("users")
+            .document(phone)
+            .get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    _userData.value = document.data
+                } else {
+                    _userData.value = emptyMap()
+                }
             }
-        }
+            .addOnFailureListener {
+                _userData.value = emptyMap()
+            }
     }
-
-    fun logout() {
-        FirebaseAuth.getInstance().signOut()
-        logoutEvent.value = true
-    }
-
-//    // Avatarı dəyiş
-//    fun updateAvatar(phone: String, avatarUri: Uri) {
-//        viewModelScope.launch {
-//            userRepository.updateUserAvatar(phone, avatarUri.toString())
-//            // Yenidən istifadəçi məlumatını yüklə
-//            fetchUser(phone)
-//        }}
 }

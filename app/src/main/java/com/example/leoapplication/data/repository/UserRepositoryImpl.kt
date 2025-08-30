@@ -11,8 +11,15 @@ import kotlinx.coroutines.tasks.await
 class UserRepositoryImpl(private val firestore: FirebaseFirestore) : UserRepository {
     private val collection = firestore.collection("users")
 
-    override suspend fun getUserByPhone(phone: String) =
-        collection.document(phone).get().await().toObject(User::class.java)
+    override suspend fun getUserByPhone(phone: String): User? {
+        val snapshot = firestore.collection("users")
+            .whereEqualTo("phone", phone)
+            .get()
+            .await()
+
+        return snapshot.documents.firstOrNull()?.toObject(User::class.java)
+    }
+
 
     override suspend fun createUser(user: User) {
         collection.document(user.phone).set(user).await()
