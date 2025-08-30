@@ -25,31 +25,49 @@ class NewUserInfoVM @Inject constructor(
     val error = MutableLiveData<String?>()
     val bankCard = MutableLiveData<BankCard?>() // ← əlavə edildi
 
-    fun registerUser(fullName: String, email: String, phone: String) {
-        viewModelScope.launch {
-            try {
-                val cleanPhone = phone.replace("+994", "").replace(" ", "")
-                val newUser = User(fullName = fullName, email = email, phone = cleanPhone)
-                createUserUseCase(newUser)
+    fun registerUser(fullName: String, email: String, phone: String, password: String) {
+        val auth = FirebaseAuth.getInstance()
 
-                val newCard = BankCard(
-                    cardNumber = (1..16).map { (0..9).random() }.joinToString(""),
-                    cvv = (100..999).random().toString(),
-                    mm = (1..12).random().toString().padStart(2, '0'),
-                    yy = ((23..30).random()).toString(),
-                    balance = 0.0,
-                    ownerPhone = cleanPhone, // telefon nömrəsi ilə bağlandı
-                    isNewCard = true
-                )
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val firebaseUser = auth.currentUser
+                    val uid = firebaseUser?.uid ?: return@addOnCompleteListener
 
-                createCardUseCase(newCard)
-                addCardToUserUseCase(cleanPhone, newCard.cardNumber)
+                    viewModelScope.launch {
+                        try {
+                            val cleanPhone = phone.replace("+994", "").replace(" ", "")
+                            val newUser = User(
+                                uid = uid,               // ← UID buraya əlavə olunur
+                                fullName = fullName,
+                                email = email,
+                                phone = cleanPhone
+                            )
+                            createUserUseCase(newUser)
 
-                bankCard.value = newCard // ← burda LiveData doldurulur
-                registrationSuccess.value = true
-            } catch (e: Exception) {
-                error.value = e.message
+                            val newCard = BankCard(
+                                cardNumber = (1..16).map { (0..9).random() }.joinToString(""),
+                                cvv = (100..999).random().toString(),
+                                mm = (1..12).random().toString().padStart(2, '0'),
+                                yy = ((23..30).random()).toString(),
+                                balance = 0.0,
+                                ownerPhone = cleanPhone,
+                                isNewCard = true
+                            )
+
+                            createCardUseCase(newCard)
+                            addCardToUserUseCase(cleanPhone, newCard.cardNumber)
+
+                            bankCard.value = newCard
+                            registrationSuccess.value = true
+                        } catch (e: Exception) {
+                            error.value = e.message
+                        }
+                    }
+                } else {
+                    error.value = task.exception?.message
+                }
             }
-        }
     }
 }
+

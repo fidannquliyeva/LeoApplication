@@ -4,8 +4,9 @@ import com.example.leoapplication.domain.model.User
 import com.example.leoapplication.domain.repository.UserRepository
 
 class GetUserUseCase(private val repository: UserRepository) {
-    suspend operator fun invoke(phone: String) = repository.getUserByPhone(phone)
+    suspend operator fun invoke(uid: String) = repository.getUserByUid(uid)
 }
+
 
 class CreateUserUseCase(private val repository: UserRepository) {
     suspend operator fun invoke(user: User) = repository.createUser(user)

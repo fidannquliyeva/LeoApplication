@@ -65,13 +65,14 @@ class NewUserInfoFragment : Fragment() {
         binding.nextButton.setOnClickListener {
             val fullName = binding.fullNameEditText.text.toString().trim()
             val email = binding.emailEditText.text.toString().trim()
+            val password = binding.passwordEditText.text.toString().trim()
 
-            if (fullName.isBlank() || email.isBlank()) {
+            if (fullName.isBlank() || email.isBlank() || password.isBlank()) {
                 Toast.makeText(requireContext(), "Bütün sahələri doldurun", Toast.LENGTH_SHORT).show()
             } else {
-                // User və kart yaradılır
-                viewModel.registerUser(fullName, email, phoneNumber)
+                viewModel.registerUser(fullName, email, phoneNumber, password)
             }
         }
+
     }
 }
