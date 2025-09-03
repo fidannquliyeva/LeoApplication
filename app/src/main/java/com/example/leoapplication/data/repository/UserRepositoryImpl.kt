@@ -22,15 +22,25 @@ class UserRepositoryImpl(private val firestore: FirebaseFirestore) : UserReposit
 
 
 
-
     override suspend fun createUser(user: User) {
-        collection.document(user.uid).set(user).await()
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users")
+            .document(user.uid)  // uid ilə saxlayırsan
+            .set(user)           // <-- update yox, set()
+            .await()
     }
-
 
     override suspend fun addCardToUser(uid: String, cardNumber: String) {
-        collection.document(uid).update("cards", FieldValue.arrayUnion(cardNumber)).await()
+        val docRef = collection.document(uid)
+        val snapshot = docRef.get().await()
+        if (snapshot.exists()) {
+            docRef.update("cards", FieldValue.arrayUnion(cardNumber)).await()
+        } else {
+            // Əgər sənəd yoxdursa, yaradırıq və cards sahəsini əlavə edirik
+            docRef.set(mapOf("cards" to listOf(cardNumber))).await()
+        }
     }
+
 
 
 //    suspend fun updateUserAvatar(phone: String, avatarUrl: String) {

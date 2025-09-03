@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileVM @Inject constructor(
     private val getUserUseCase: GetUserUseCase,
-    private val repository: UserRepository   
+    private val repository: UserRepository
 ) : ViewModel() {
 
     val userProfile = MutableLiveData<User?>()

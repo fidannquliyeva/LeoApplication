@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="26dp"
 
-            android:text="Karta köçürmə"
+            android:text="@string/karta_k_rm"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

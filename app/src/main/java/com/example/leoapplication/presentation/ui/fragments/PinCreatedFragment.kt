@@ -2,6 +2,9 @@ package com.example.leoapplication.presentation.ui.fragments
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -32,6 +35,9 @@ class PinCreatedFragment : Fragment() {
     private val confirmPin = StringBuilder()
     private var isConfirmPhase = false
 
+    private var isPinVisible = false
+    private var isConfirmPinVisible = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -44,19 +50,9 @@ class PinCreatedFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupNumberPad()
         observeViewModel()
+        setupEyeToggles()
         binding.helpPin.setOnClickListener { showSupportDialog() }
-
-        viewModel.pinSaved.observe(viewLifecycleOwner) { saved ->
-            if (saved) {
-                val savedPin = viewModel.getSavedPin()
-                println("✅ Saxlanmış PIN: $savedPin")  // Konsola yazdırır
-                findNavController().navigate(R.id.action_pinCreatedFragment_to_pinLoginFragment)
-            }
-        }
-
-
     }
-
 
     private fun observeViewModel() {
         viewModel.pinSaved.observe(viewLifecycleOwner) { saved ->
@@ -82,11 +78,11 @@ class PinCreatedFragment : Fragment() {
             btn.setOnClickListener {
                 if (!isConfirmPhase) {
                     if (enteredPin.length < 4) enteredPin.append(btn.text)
-                    updatePinIndicators(binding.pin1, binding.pin2, binding.pin3, binding.pin4, enteredPin.length)
+                    updatePinIndicators(binding.pin1, binding.pin2, binding.pin3, binding.pin4, enteredPin.length, isPinVisible, enteredPin.toString())
                     if (enteredPin.length == 4) startConfirmPhase()
                 } else {
                     if (confirmPin.length < 4) confirmPin.append(btn.text)
-                    updatePinIndicators(binding.pinC1, binding.pinC2, binding.pinC3, binding.pinC4, confirmPin.length)
+                    updatePinIndicators(binding.pinC1, binding.pinC2, binding.pinC3, binding.pinC4, confirmPin.length, isConfirmPinVisible, confirmPin.toString())
                     if (confirmPin.length == 4) finishPinCreation()
                 }
             }
@@ -95,10 +91,10 @@ class PinCreatedFragment : Fragment() {
         binding.btnDelete.setOnClickListener {
             if (!isConfirmPhase) {
                 if (enteredPin.isNotEmpty()) enteredPin.deleteCharAt(enteredPin.lastIndex)
-                updatePinIndicators(binding.pin1, binding.pin2, binding.pin3, binding.pin4, enteredPin.length)
+                updatePinIndicators(binding.pin1, binding.pin2, binding.pin3, binding.pin4, enteredPin.length, isPinVisible, enteredPin.toString())
             } else {
                 if (confirmPin.isNotEmpty()) confirmPin.deleteCharAt(confirmPin.lastIndex)
-                updatePinIndicators(binding.pinC1, binding.pinC2, binding.pinC3, binding.pinC4, confirmPin.length)
+                updatePinIndicators(binding.pinC1, binding.pinC2, binding.pinC3, binding.pinC4, confirmPin.length, isConfirmPinVisible, confirmPin.toString())
             }
         }
     }
@@ -115,26 +111,65 @@ class PinCreatedFragment : Fragment() {
         // Əgər səhv olduqda confirmPin-i reset et
         if (viewModel.pinSaved.value != true) {
             confirmPin.clear()
-            updatePinIndicators(binding.pinC1, binding.pinC2, binding.pinC3, binding.pinC4, 0)
+            updatePinIndicators(binding.pinC1, binding.pinC2, binding.pinC3, binding.pinC4, 0, isConfirmPinVisible, "")
         }
     }
 
-    private fun updatePinIndicators(p1: ImageView, p2: ImageView, p3: ImageView, p4: ImageView, filled: Int) {
+    private fun updatePinIndicators(
+        p1: ImageView, p2: ImageView, p3: ImageView, p4: ImageView,
+        filled: Int, visible: Boolean, pinValue: String
+    ) {
         val pins = listOf(p1, p2, p3, p4)
         pins.forEachIndexed { index, imageView ->
             if (index < filled) {
-                // Rəngi dəyiş və animasiya ver
-                imageView.setColorFilter(resources.getColor(R.color.black))
+                if (visible) {
+                    // Rəqəmi göstər
+                    val digit = pinValue[index].toString()
+                    val bitmap = Bitmap.createBitmap(60, 60, Bitmap.Config.ARGB_8888)
+                    val canvas = Canvas(bitmap)
+                    val paint = Paint()
+                    paint.textSize = 40f
+                    paint.color = resources.getColor(R.color.black)
+                    paint.isAntiAlias = true
+                    canvas.drawText(digit, 20f, 45f, paint)
+                    imageView.setImageBitmap(bitmap)
+                } else {
+                    // Paw göstər
+                    imageView.setImageResource(R.drawable.paw)
+                    imageView.setColorFilter(resources.getColor(R.color.black))
+                }
+
+                // Animasiya əlavə olunur
                 imageView.animate().scaleX(1.5f).scaleY(1.5f).setDuration(150).withEndAction {
                     imageView.animate().scaleX(1f).scaleY(1f).setDuration(150).start()
                 }.start()
+
             } else {
+                // Boş pin
+                imageView.setImageResource(R.drawable.paw)
                 imageView.setColorFilter(resources.getColor(R.color.colorUnchecked))
             }
         }
     }
 
 
+    private fun setupEyeToggles() {
+        binding.eyeToggle.setOnClickListener {
+            isPinVisible = !isPinVisible
+            updatePinIndicators(binding.pin1, binding.pin2, binding.pin3, binding.pin4, enteredPin.length, isPinVisible, enteredPin.toString())
+            binding.eyeToggle.setImageResource(if (isPinVisible) R.drawable.ic_eye_open else R.drawable.ic_eye_closed)
+        }
+
+        binding.eyeToggleConfirm.setOnClickListener {
+            isConfirmPinVisible = !isConfirmPinVisible
+            updatePinIndicators(binding.pinC1, binding.pinC2, binding.pinC3, binding.pinC4, confirmPin.length, isConfirmPinVisible, confirmPin.toString())
+            binding.eyeToggleConfirm.setImageResource(if (isConfirmPinVisible) R.drawable.ic_eye_open else R.drawable.ic_eye_closed)
+        }
+    }
+
+    // -------------------------------
+    // Dil və dəstək dialoqları (sənin orijinal koddan)
+    // -------------------------------
     private fun saveLanguage(context: Context, language: String) {
         val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
         prefs.edit().putString("selected_language", language).apply()

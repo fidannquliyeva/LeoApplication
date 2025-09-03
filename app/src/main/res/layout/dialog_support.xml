@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="DƏSTƏK 24/7"
+        android:text="@string/_24_7"
         android:textSize="18sp"
         android:textStyle="bold"
         android:paddingBottom="8dp"/>
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:textSize="18sp"
-            android:text="WhatsApp" />
+            android:text="@string/whatsapp" />
     </LinearLayout>
 
     <LinearLayout
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Telegram"
+            android:text="@string/telegram"
             android:textSize="18sp"/>
     </LinearLayout>
 
@@ -78,7 +78,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Facebook"
+            android:text="@string/facebook"
             android:textSize="18sp"/>
     </LinearLayout>
 
@@ -100,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Viber"
+            android:text="@string/viber"
             android:textSize="18sp"/>
     </LinearLayout>
 
@@ -126,7 +126,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
-            android:text="Dil"
+            android:text="@string/dill"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@id/imageView"
             app:layout_constraintTop_toTopOf="parent" />
@@ -135,13 +135,13 @@
             android:id="@+id/az_lang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Azərbaycan Dili"
+            android:text="@string/_az_dili"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/txtLangDialog"
             app:layout_constraintTop_toBottomOf="@+id/txtLangDialog" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Eyni strukturu Telegram, Facebook, Viber, Dil üçün də təkrarlayacaqsan -->
+
 
 </LinearLayout>

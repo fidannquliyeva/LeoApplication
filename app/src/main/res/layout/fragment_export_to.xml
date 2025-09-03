@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    android:background="#F4F3FF">
+    android:background="#B5ABFB">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar_export"
@@ -34,7 +34,7 @@
                 android:id="@+id/edt_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="0 ₼"
+                android:hint="@string/mann"
                 android:textSize="30dp"
                 android:textStyle="bold"
                 android:inputType="numberSigned"
@@ -48,7 +48,7 @@
                 android:id="@+id/txt_kom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Komissiyasız"
+                android:text="@string/komissiyas_z"
                 android:textColor="@color/colorUnchecked"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -57,15 +57,14 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Button-u CoordinatorLayout-un içinə, ən altına gətirdim -->
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/nextButton"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_margin="15dp"
         android:backgroundTint="@color/black"
         android:drawableStart="@drawable/icgoogle24"
-        android:text="Pay"
+        android:text="@string/pay"
         android:textColor="#FFFFFF"
         app:layout_anchorGravity="bottom"
         android:layout_gravity="bottom"/>

@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:name=".MyApp"
         android:allowBackup="true"
@@ -11,7 +14,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/leo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.LeoApplication"
+        android:theme="@style/Base.Theme.LeoApplication"
         tools:targetApi="31">
         <activity
             android:name=".presentation.ui.fragments.MainActivity"

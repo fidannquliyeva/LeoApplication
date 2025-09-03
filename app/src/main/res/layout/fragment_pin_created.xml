@@ -23,7 +23,7 @@
             android:backgroundTint="#33E0DFDF"
             android:drawableLeft="@drawable/icons8message30"
             android:drawableTint="@color/white"
-            android:text="Dəstək"
+            android:text="@string/d_st_kk"
             android:textColor="@color/black" />
 
         <ImageView
@@ -60,7 +60,7 @@
                     android:id="@+id/phoneNumberText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Yeni PIN kodunuzu yaradın"
+                    android:text="@string/yeni_pin_kodunuzu_yarad_n"
                     android:textColor="#888888"
                     android:textSize="20sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -108,13 +108,20 @@
                         android:layout_margin="8dp"
                         android:src="@drawable/paw" />
 
+                    <ImageView android:id="@+id/eyeToggle"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="20dp"
+
+                        android:src="@drawable/ic_eye_closed"/>
+
                 </LinearLayout>
 
                 <TextView
                     android:id="@+id/confirmNumberText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="PIN kodunuzu təsdiq edin"
+                    android:text="@string/pin_kodunuzu_t_sdiq_edin"
                     android:textColor="#888888"
                     android:textSize="20sp"
                     android:layout_marginTop="15dp"
@@ -161,6 +168,15 @@
                         android:layout_height="24dp"
                         android:layout_margin="8dp"
                         android:src="@drawable/paw" />
+
+                    <ImageView
+                        android:id="@+id/eyeToggleConfirm"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="20dp"
+
+                        android:src="@drawable/ic_eye_closed"/>
+
                 </LinearLayout>
 
 

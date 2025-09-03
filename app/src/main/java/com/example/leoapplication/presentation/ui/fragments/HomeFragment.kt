@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.SearchView
 import android.widget.TextView
 import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
@@ -37,6 +38,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupSearchView()
         navigateToIncreaseBalance()
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView)
@@ -132,4 +134,48 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_nav_home_to_exportToFragment)
         }
     }
+    private fun setupSearchView() {
+        val searchView = binding.searchView
+        val imgSearch = binding.imgSearch
+        val closeButton = binding.btnCloseSearch
+
+        // Başlanğıcda SearchView və close button gizli olsun
+        searchView.visibility = View.GONE
+        closeButton.visibility = View.GONE
+
+        // ImageView kliklənəndə SearchView açılsın
+        imgSearch.setOnClickListener {
+            imgSearch.visibility = View.GONE
+            searchView.visibility = View.VISIBLE
+            closeButton.visibility = View.VISIBLE
+            searchView.isIconified = false
+            searchView.requestFocus()
+        }
+
+        // Close button kliklənəndə
+        closeButton.setOnClickListener {
+            if (searchView.query.isEmpty()) {
+                // Boşdursa SearchView bağlansın
+                searchView.visibility = View.GONE
+                closeButton.visibility = View.GONE
+                imgSearch.visibility = View.VISIBLE
+            } else {
+                // Yazı varsa silinsin
+                searchView.setQuery("", false)
+            }
+        }
+    // Query dəyişiklikləri
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                // Əgər yazı varsa heç bir şey etməyə ehtiyac yoxdur
+                return false
+            }
+        })
+    }
+
+
 }

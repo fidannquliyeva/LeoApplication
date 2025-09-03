@@ -71,7 +71,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
-                android:text="Leobank bu köçürmə üçün komissiya tutmur,lakin bəzi banklar öz tərəfindən komissiya tuta bilər "
+                android:text="@string/leobank_bu_k_rm_n_komissiya_tutmur_lakin_b_zi_banklar_z_t_r_find_n_komissiya_tuta_bil_r"
                 android:textColor="#888888"
                 android:textSize="16sp"
 
@@ -85,7 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:backgroundTint="@color/black"
-                android:text="Balansı artır"
+                android:text="@string/balans_art_r"
                 android:textColor="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/infoTextNext"

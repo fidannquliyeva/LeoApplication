@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="25sp"
-        android:text="Kart balansının başqa bankdan artırılması"
+        android:text="@string/kart_balans_n_n_ba_qa_bankdan_art_r_lmas"
         android:textColor="@color/black"/>
 
     <!-- Kart nömrəsi qutusu -->
@@ -61,7 +61,7 @@
                 android:src="@drawable/ic_copy24"
                 android:clickable="true"
                 android:focusable="true"
-                android:contentDescription="Kopyala"
+                android:contentDescription="@string/kopyala"
                 android:layout_marginStart="8dp"/>
 
         </LinearLayout>
@@ -92,7 +92,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Leobank kartınızın nömrəsini kopyalayın"
+                android:text="@string/leobank_kart_n_z_n_n_mr_sini_kopyalay_n"
                 android:layout_marginStart="12dp"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
@@ -114,7 +114,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kartın nömrəsini digər bankın tətbiqində daxil edin"
+                android:text="@string/kart_n_n_mr_sini_dig_r_bank_n_t_tbiqind_daxil_edin"
                 android:layout_marginStart="12dp"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />
@@ -135,7 +135,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Köçürmə məbləğini göstərin və əməliyyatı təsdiqləyin"
+                android:text="@string/k_rm_m_bl_ini_g_st_rin_v_m_liyyat_t_sdiql_yin"
                 android:layout_marginStart="12dp"
                 android:textSize="16sp"
                 android:textColor="@android:color/black" />

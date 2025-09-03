@@ -48,6 +48,7 @@ class SmsLoginFragment : Fragment() {
         binding.btnHelp.setOnClickListener { showSupportDialog() }
 
 
+
         setupObservers()
 
         // Test nömrəsi üçün Toast göstəririk, əks halda Firebase SMS göndərir

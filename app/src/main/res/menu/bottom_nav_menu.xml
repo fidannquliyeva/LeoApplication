@@ -4,7 +4,7 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/home50"
-        android:title="Əsas Səhifə" />
+        android:title="Əsas səhifə" />
 
     <item
         android:id="@+id/nav_collect"
@@ -19,7 +19,7 @@
     <item
         android:id="@+id/nav_edv"
         android:icon="@drawable/receipt50"
-        android:title="ƏDV geri al" />
+        android:title="Ədv geri al" />
 
     <item
         android:id="@+id/nav_menu"

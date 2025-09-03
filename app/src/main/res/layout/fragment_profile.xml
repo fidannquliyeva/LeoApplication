@@ -27,7 +27,7 @@
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Profil və ayarlar"
+            android:text="@string/profil_v_ayarlarr"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@id/btnBack"
@@ -54,7 +54,7 @@
             android:id="@+id/btnEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Düzəliş et"
+            android:text="@string/d_z_li_et"
             android:textColor="@color/black"
             android:backgroundTint="#D0D0D0"
 
@@ -103,7 +103,7 @@
             android:id="@+id/labelName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sizə necə müraciət edək?"
+            android:text="@string/siz_nec_m_raci_t_ed_k"
             app:layout_constraintTop_toTopOf="@id/iconName"
 
             app:layout_constraintStart_toEndOf="@id/iconName"
@@ -144,7 +144,7 @@
             android:id="@+id/labelPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Telefon"
+            android:text="@string/telefon"
             app:layout_constraintTop_toTopOf="@id/iconPhone"
 
             app:layout_constraintStart_toEndOf="@id/iconPhone"
@@ -187,7 +187,7 @@
             android:id="@+id/labelEmail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="E-poçt"
+            android:text="@string/e_po_t"
             app:layout_constraintTop_toTopOf="@id/iconEmail"
             app:layout_constraintStart_toEndOf="@id/iconEmail"
             android:layout_marginStart="12dp"/>
@@ -213,7 +213,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/valueEmail"
             app:layout_constraintVertical_bias="0.06"/>
-        <!-- Biometrik giriş -->
+
         <ImageView
             android:id="@+id/iconBio"
             android:layout_width="40dp"
@@ -240,7 +240,7 @@
             android:id="@+id/labelBio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Biometrik məlumatlarla giriş"
+            android:text="@string/biometrik_m_lumatlarla_giri"
             app:layout_constraintBottom_toBottomOf="@+id/iconBio"
             app:layout_constraintStart_toStartOf="@+id/valueEmail"
             app:layout_constraintTop_toTopOf="@+id/iconBio" />
@@ -279,7 +279,7 @@
             android:id="@+id/labelOtherUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Digər istifadəçilərin əlaqələr kitabçasında göstər"
+            android:text="@string/dig_r_istifad_il_rin_laq_l_r_kitab_as_nda_g_st_r"
             app:layout_constraintBottom_toBottomOf="@+id/iconOtherUser"
             app:layout_constraintEnd_toStartOf="@+id/switchOtherUser"
             app:layout_constraintStart_toStartOf="@+id/labelBio"
@@ -320,7 +320,7 @@
             android:id="@+id/labelLang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dil"
+            android:text="@string/dil"
             app:layout_constraintTop_toTopOf="@id/iconLang"
             app:layout_constraintStart_toEndOf="@id/iconLang"
             android:layout_marginStart="12dp"/>
@@ -329,9 +329,8 @@
             android:id="@+id/valueLang"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Azərbaycan dili"
+            android:text="@string/az_rbaycan_dili"
             android:textStyle="bold"
-
             app:layout_constraintStart_toStartOf="@+id/labelLang"
             app:layout_constraintTop_toBottomOf="@+id/labelLang" />
 
@@ -350,7 +349,7 @@
             android:id="@+id/labelTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tətniqin rejimi"
+            android:text="@string/t_tniqin_rejimi"
             app:layout_constraintStart_toStartOf="@+id/valueLang"
             app:layout_constraintTop_toTopOf="@+id/iconTheme" />
 
@@ -369,7 +368,7 @@
             android:id="@+id/valueTheme"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Defolt"
+            android:text="@string/defolt"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/valueLang"
             app:layout_constraintTop_toBottomOf="@+id/labelTheme" />
@@ -412,7 +411,7 @@
             android:id="@+id/btnLogout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Çıxış"
+            android:text="@string/x"
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/iconSignOut"

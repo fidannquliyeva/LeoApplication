@@ -449,6 +449,7 @@
             android:textSize="18sp"
             android:clickable="true"
             android:focusable="true"
+            android:background="?attr/selectableItemBackground"
             card_view:layout_constraintBottom_toBottomOf="@+id/imgCurrencyMenu"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintStart_toEndOf="@+id/imgCurrencyMenu"

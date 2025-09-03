@@ -3,12 +3,15 @@ package com.example.leoapplication.di
 import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.example.leoapplication.data.remote.CurrencyApi
 import com.example.leoapplication.data.repository.AuthRepositoryImpl
 import com.example.leoapplication.data.repository.BankCardRepositoryImpl
+import com.example.leoapplication.data.repository.CurrencyRepositoryImpl
 import com.example.leoapplication.data.repository.PinRepositoryImpl
 import com.example.leoapplication.data.repository.UserRepositoryImpl
 import com.example.leoapplication.domain.repository.AuthRepository
 import com.example.leoapplication.domain.repository.BankCardRepository
+import com.example.leoapplication.domain.repository.CurrencyRepository
 import com.example.leoapplication.domain.repository.PinRepository
 import com.example.leoapplication.domain.repository.UserRepository
 import com.example.leoapplication.domain.usecase.*
@@ -19,6 +22,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -55,6 +60,32 @@ object AppModule {
  @Singleton
  fun provideBankCardRepository(firestore: FirebaseFirestore): BankCardRepository =
   BankCardRepositoryImpl(firestore)
+
+
+
+
+ @Provides
+ @Singleton
+ fun provideRetrofit(): Retrofit = Retrofit.Builder()
+  .baseUrl("https://v6.exchangerate-api.com/v6/") // base url
+  .addConverterFactory(GsonConverterFactory.create())
+  .build()
+
+ @Provides
+ @Singleton
+ fun provideCurrencyApi(retrofit: Retrofit): CurrencyApi =
+  retrofit.create(CurrencyApi::class.java)
+
+ @Provides
+ @Singleton
+ fun provideCurrencyRepository(api: CurrencyApi): CurrencyRepository =
+  CurrencyRepositoryImpl(api)
+
+ @Provides
+ @Singleton
+ fun provideGetCurrencyRatesUseCase(repository: CurrencyRepository) =
+  GetCurrencyRatesUseCase(repository)
+
 
  // UseCase-lər
  @Provides

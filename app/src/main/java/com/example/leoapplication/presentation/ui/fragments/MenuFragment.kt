@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,19 +26,28 @@ class MenuFragment : Fragment() {
 
     lateinit var binding: FragmentMenuBinding
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        goProfile()
-      binding.txtHelpMenu.setOnClickListener { showSupportDialog() }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentMenuBinding.inflate(inflater, container, false)
         return binding.root
+
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        goProfile()
+        binding.txtHelpMenu.setOnClickListener { showSupportDialog() }
+        goIg()
+
+        binding.txtCurrencyMenu.setOnClickListener {
+            CurrencyDialogFragment().show(parentFragmentManager, "currencyDialog")
+        }
+
+
+
     }
 
     private fun goProfile() {
@@ -139,11 +149,20 @@ class MenuFragment : Fragment() {
                 Toast.makeText(requireContext(), "Tətbiq açılmadı", Toast.LENGTH_SHORT).show()
             }
         }
-//
-//    private fun goATM() {
-//        binding.txtNavigationMenu.setOnClickListener {
-//            findNavController().navigate(R.id.action_nav_menu_to_nav_atm))
-//        }
+
+
+    private fun goIg(){
+        binding.txtGMenu.setOnClickListener {
+            val url = "https://www.instagram.com/leobank.az/"
+            try {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Instagram aça bilmədik", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 
     }
 
