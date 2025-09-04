@@ -133,6 +133,13 @@
     <string name="sms_g_lmir">SMS gəlmir?</string>
     <string name="z_ng_sifari_etm_k">Zəng sifariş etmək</string>
     <string name="tarix">Tarix</string>
+    <string name="yeni_karta_k_rm">Yeni karta köçürmə</string>
+    <string name="al_c_n_n_kart_n_mr_si">Alıcının kart nömrəsi</string>
+    <string name="g_nd_r">Göndər</string>
+    <string name="balans_0_0">Balans 0.0</string>
+    <string name="mobil_balans_n_art_r_lmas">Mobil balansın artırılması</string>
+    <string name="kommunal_v_internet">Kommunal və internet</string>
+    <string name="mobil_balans_art_r">Mobil balansı artır</string>
 
 
 </resources>

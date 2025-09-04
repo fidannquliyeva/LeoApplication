@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
-    android:background="#AFA8FD"
+    android:background="#C0BDFD"
     >
 
 
@@ -15,13 +15,13 @@
         android:layout_width="match_parent"
         android:layout_height="150dp">
 
-        <include android:id="@+id/includeAppBar"
-        layout="@layout/coordinator_increase"/>
+        <include
+            android:id="@+id/includeAppBar"
+            layout="@layout/coordinator_increase" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-   <include android:id="@+id/scrollableIncrease"
+    <include android:id="@+id/scrollableIncrease"
        layout="@layout/content_scrolling_balance" />
 
 

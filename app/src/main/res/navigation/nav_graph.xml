@@ -93,6 +93,12 @@
         <action
             android:id="@+id/action_nav_home_to_nav_menu"
             app:destination="@id/nav_menu" />
+        <action
+            android:id="@+id/action_nav_home_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_otherPaysFragment"
+            app:destination="@id/otherPaysFragment" />
     </fragment>
     <fragment
         android:id="@+id/nav_collect"
@@ -198,7 +204,11 @@
         android:id="@+id/exportToFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.ExportToFragment"
         android:label="fragment_export_to"
-        tools:layout="@layout/fragment_export_to" />
+        tools:layout="@layout/fragment_export_to" >
+        <action
+            android:id="@+id/action_exportToFragment_to_exportToNewCardFragment"
+            app:destination="@id/exportToNewCardFragment" />
+    </fragment>
     <fragment
         android:id="@+id/pinCreatedFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.PinCreatedFragment"
@@ -220,5 +230,87 @@
             android:id="@+id/action_newUserInfoFragment_to_smsLoginFragment"
             app:destination="@id/smsLoginFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/transactionDetailFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.TransactionDetailFragment"
+        android:label="fragment_transaction_detail"
+        tools:layout="@layout/fragment_transaction_detail" />
+    <fragment
+        android:id="@+id/exportToNewCardFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.ExportToNewCardFragment"
+        android:label="fragment_export_to_new_card"
+        tools:layout="@layout/fragment_export_to_new_card" >
+        <action
+            android:id="@+id/action_exportToNewCardFragment_to_exportToMoneyFragment"
+            app:destination="@id/exportToMoneyFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exportToMoneyFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.ExportToMoneyFragment"
+        android:label="fragment_export_to_money"
+        tools:layout="@layout/fragment_export_to_money" >
+        <action
+            android:id="@+id/action_exportToMoneyFragment_to_paymentSuccessFragment"
+            app:destination="@id/paymentSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/paymentSuccessFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.PaymentSuccessFragment"
+        android:label="fragment_payment_success"
+        tools:layout="@layout/fragment_payment_success" >
+        <action
+            android:id="@+id/action_paymentSuccessFragment_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+    <fragment
+        android:id="@+id/otherPaysFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.OtherPaysFragment"
+        android:label="fragment_other_pays"
+        tools:layout="@layout/fragment_other_pays" >
+        <action
+            android:id="@+id/action_otherPaysFragment_to_exportToFragment"
+            app:destination="@id/exportToFragment" />
+        <action
+            android:id="@+id/action_otherPaysFragment_to_mobileBalanceFragment"
+            app:destination="@id/mobileBalanceFragment" />
+        <action
+            android:id="@+id/action_otherPaysFragment_to_wifiFragment"
+            app:destination="@id/wifiFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mobileBalanceFragment"
+        android:name="com.example.leoapplication.MobileBalanceFragment"
+        android:label="fragment_mobile_balance"
+        tools:layout="@layout/fragment_mobile_balance" >
+        <action
+            android:id="@+id/action_mobileBalanceFragment_to_exportToMobileFragment"
+            app:destination="@id/exportToMobileFragment" />
+        <action
+            android:id="@+id/action_mobileBalanceFragment_to_monileNumberFragment"
+            app:destination="@id/monileNumberFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exportToMobileFragment"
+        android:name="com.example.leoapplication.ExportToMobileFragment"
+        android:label="fragment_export_to_mobile"
+        tools:layout="@layout/fragment_export_to_mobile" >
+        <action
+            android:id="@+id/action_exportToMobileFragment_to_paymentSuccessFragment"
+            app:destination="@id/paymentSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/monileNumberFragment"
+        android:name="com.example.leoapplication.MobileNumberFragment"
+        android:label="fragment_monile_number"
+        tools:layout="@layout/fragment_mobile_number" >
+        <action
+            android:id="@+id/action_monileNumberFragment_to_exportToMobileFragment"
+            app:destination="@id/exportToMobileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/wifiFragment"
+        android:name="com.example.leoapplication.WifiFragment"
+        android:label="fragment_wifi"
+        tools:layout="@layout/fragment_wifi" />
 
 </navigation>
