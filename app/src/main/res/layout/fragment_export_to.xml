@@ -33,6 +33,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/toolbar2"
             android:background="@drawable/bg_searchview2"
+            android:queryHint="Axtarış"
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             />

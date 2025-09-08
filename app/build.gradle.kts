@@ -78,4 +78,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+
+    //room
+    val roomVersion = "2.6.1" // ən son stabil versiya
+
+    // Room əsas dependency
+    implementation("androidx.room:room-runtime:$roomVersion")
+
+    // Kapt ilə compiler
+    kapt("androidx.room:room-compiler:$roomVersion")
+
+    // Kotlin Extensions və Coroutines dəstəyi
+    implementation("androidx.room:room-ktx:$roomVersion")
 }

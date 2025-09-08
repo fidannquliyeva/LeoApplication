@@ -1,7 +1,7 @@
 package com.example.leoapplication.domain.model
 
+import com.google.firebase.Timestamp
 import java.io.Serializable
-import java.time.LocalDateTime
 
 data class Transaction(
     val id: Int,
@@ -10,11 +10,11 @@ data class Transaction(
     val subtitle: String,
     val amount: Double,
     val iconRes: Int,
-    val receiverCardId: Int,
-    val senderCardId: Int,
-    val transactionDate: LocalDateTime,
+    val receiverCardId: String?, // 🔹 String?
+    val senderCardId: String,    // 🔹 String
+    val transactionDate: com.google.firebase.Timestamp = Timestamp.now(),
     val transactionStatus: String,
     val paymentId: Int,
-    val transactionIcon: String
-
+    val transactionIcon: String,
+    val userId: String
 ) : Serializable

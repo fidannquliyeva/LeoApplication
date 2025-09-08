@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     android:background="@color/white"
-    tools:context=".presentation.ui.fragments.AboutLeoFragment">
+    tools:context=".presentation.ui.fragments.loginAuth.AboutLeoFragment">
 
     <ImageView
         android:id="@+id/btnGoBack"

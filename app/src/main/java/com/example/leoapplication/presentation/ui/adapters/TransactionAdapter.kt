@@ -1,48 +1,40 @@
-//package com.example.leoapplication.presentation.ui.adapters
-//
-//import android.graphics.Color
-//import android.view.LayoutInflater
-//import android.view.ViewGroup
-//import androidx.recyclerview.widget.RecyclerView
-//import com.example.leoapplication.databinding.ItemTransactionBinding
-//import com.example.leoapplication.domain.model.Transaction
-//
-//class TransactionAdapter(
-//    private val items: List<Transaction>,
-//    private val onItemClick: (Transaction) -> Unit
-//) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
-//
-//    inner class TransactionViewHolder(private val binding: ItemTransactionBinding) :
-//        RecyclerView.ViewHolder(binding.root) {
-//
-//        fun bind(item: Transaction) {
-//            binding.tvTitle.text = item.title
-//            binding.tvSubtitle.text = item.subtitle
-//            binding.tvAmount.text = String.format("%.2f", item.amount)
-//
-//            binding.tvAmount.setTextColor(
-//                if (item.isIncome) Color.parseColor("#4CAF50") else Color.BLACK
-//            )
-//
-//            binding.imgIcon.setImageResource(item.iconRes)
-//
-//            // Click Listener
-//            binding.root.setOnClickListener {
-//                onItemClick(item)
-//            }
-//        }
-//    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-//        val binding = ItemTransactionBinding.inflate(
-//            LayoutInflater.from(parent.context), parent, false
-//        )
-//        return TransactionViewHolder(binding)
-//    }
-//
-//    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-//        holder.bind(items[position])
-//    }
-//
-//    override fun getItemCount(): Int = items.size
-//}
+package com.example.leoapplication.presentation.ui.adapters
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.example.leoapplication.R
+import com.example.leoapplication.domain.model.Transaction
+class TransactionAdapter(private val transactions: MutableList<Transaction>) :
+    RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+
+    inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val icon: ImageView = itemView.findViewById(R.id.imgIcon)
+        val title: TextView = itemView.findViewById(R.id.tvTitle)
+        val subtitle: TextView = itemView.findViewById(R.id.tvSubtitle)
+        val amount: TextView = itemView.findViewById(R.id.tvAmount)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_transaction, parent, false)
+        return TransactionViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+        val transaction = transactions[position]
+        holder.title.text = transaction.title
+        holder.subtitle.text = transaction.subtitle
+        holder.amount.text = "${transaction.amount} ₼"
+    }
+
+    override fun getItemCount(): Int = transactions.size
+
+    fun addTransaction(transaction: Transaction) {
+        transactions.add(0, transaction)
+        notifyItemInserted(0)
+    }
+}

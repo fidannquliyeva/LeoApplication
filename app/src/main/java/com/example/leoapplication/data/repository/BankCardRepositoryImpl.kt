@@ -19,46 +19,30 @@ class BankCardRepositoryImpl(private val firestore: FirebaseFirestore) : BankCar
         collection.document(card.cardNumber).set(card).await()
     }
 
-    suspend fun updateCardByNumber(amount: Double,senderCardId: String, receiverCardId: String,
-                                    onResult: (Boolean) -> Unit) {
 
+    suspend fun updateCardByNumber(
+        amount: Double,
+        senderCardId: String,
+        receiverCardId: String?
+    ): Boolean {
+        return try {
+            val senderDoc = collection.document(senderCardId).get().await()
+            val senderBalance = senderDoc.getDouble("balance") ?: 0.0
+            collection.document(senderCardId).update("balance", senderBalance - amount).await()
 
-        collection.document(senderCardId)
-            .get()
-            .addOnSuccessListener {
-                document-> if (document.exists()){
-
-
-                        val balance = document.getDouble("balance")
-                        document.reference.update("balance", balance?.minus(amount))
-                            .addOnSuccessListener {
-                                onResult(true)
-                            }
-                            .addOnFailureListener {
-                                onResult(false)
-
-                    }
-                }
-
+            if (receiverCardId != null) {
+                val receiverDoc = collection.document(receiverCardId).get().await()
+                val receiverBalance = receiverDoc.getDouble("balance") ?: 0.0
+                collection.document(receiverCardId).update("balance", receiverBalance + amount).await()
             }
 
-        collection.document(receiverCardId)
-            .get()
-            .addOnSuccessListener { document ->
-                if (!document.exists()) {
+            true
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
+    }
 
-
-                    val balance = document.getDouble("balance")
-                    document.reference.update("balance", balance?.plus(amount))
-                        .addOnSuccessListener {
-                            onResult(true)
-                        }
-                        .addOnFailureListener {
-                            onResult(false)
-
-                        }
-                }
-
-
-            }}
 }
+
+

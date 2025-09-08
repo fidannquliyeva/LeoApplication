@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_2"
     android:orientation="vertical"
-    tools:context=".presentation.ui.fragments.SmsLoginFragment">
+    tools:context=".presentation.ui.fragments.loginAuth.SmsLoginFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
