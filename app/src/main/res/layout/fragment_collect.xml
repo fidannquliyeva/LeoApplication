@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/contentCollect"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,7 +19,154 @@
         <include layout="@layout/coordinator_collect"/>
 
     </com.google.android.material.appbar.AppBarLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <include layout="@layout/content_scrolling_collect" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/scroll_recyc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/content_scrolling_back"
+        android:padding="20dp"
+>
+
+
+
+
+        <TextView
+            android:id="@+id/txtTreasure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Xəzinələr"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/imgTreasures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ictreasure"
+            app:layout_constraintStart_toStartOf="@+id/txtTreasure"
+            app:layout_constraintTop_toBottomOf="@+id/txtTreasure"
+            app:layout_constraintBottom_toTopOf="@id/viewLine"
+            />
+
+        <TextView
+            android:id="@+id/txt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="neyese"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintStart_toStartOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/txt2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00"
+            android:textSize="18dp"
+            app:layout_constraintBottom_toTopOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="wrap_content"
+            android:layout_height="10dp"
+            android:layout_margin="15dp"
+            android:background="#A6D81B60"
+            app:layout_constraintBottom_toBottomOf="@+id/imgTreasures"
+            app:layout_constraintStart_toEndOf="@+id/imgTreasures"
+            app:layout_constraintTop_toTopOf="@id/imgTreasures" />
+
+
+        <TextView
+            android:id="@+id/txt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hədəf"
+            android:textColor="@color/colorUnchecked"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="@+id/view"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+
+        <TextView
+            android:id="@+id/txt4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1000"
+            android:textColor="@color/colorUnchecked"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <View
+            android:id="@+id/viewLine"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="24sp"
+            android:background="@color/colorUnchecked"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txt3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewLine"
+            app:layout_constraintVertical_bias="0.0"
+            tools:layout_editor_absoluteX="-45dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="12dp"
+                android:text="Depozitlar və Xəzinələr"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="💰 İstədiyiniz məbləğə Xəzinə aça, istədiyiniz zaman balansını artıra və bağlaya bilərsiniz"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="🌻 Depozit müəyyən müddətə, balansartırma imkanı olmadan açılır; lakin faiz dərəcəsi yüksəkdir"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:text="🤲 Depozitlə siz illik 12%-ə qədər qazanc əldə edəcəksiniz! Xəzinə ilə isə Leo Black kartınız varsa, 6% və ya Leo Prime kartınız varsa, 7% qazanc əldə edəcəksiniz"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🛡️ Pulunuz Azərbaycan Respublikasının Əmanətlərin Sığortalanması Fondunun etibarlı mühafizəsi altındadır"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
