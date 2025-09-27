@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/motionLayoutInvestment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="300dp"
     app:layoutDescription="@xml/scene_scroll_collect"
     android:minHeight="50dp"
     android:fitsSystemWindows="false"

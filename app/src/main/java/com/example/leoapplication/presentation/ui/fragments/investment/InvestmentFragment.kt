@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.viewpager2.widget.ViewPager2
 import com.example.leoapplication.R
+import com.example.leoapplication.presentation.ui.adapters.EdvPagersAdapter
 import com.example.leoapplication.presentation.ui.adapters.InvestmentsPagerAdapter
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.tabs.TabLayout
@@ -27,8 +28,8 @@ class InvestmentFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tabLayout = view.findViewById<TabLayout>(R.id.tabLayout)
-        val viewPager = view.findViewById<ViewPager2>(R.id.viewPager)
+        val tabLayout = view.findViewById<TabLayout>(R.id.tabLayoutInvestment)
+        val viewPager = view.findViewById<ViewPager2>(R.id.viewPagerInvestment)
         val motionLayout = view.findViewById<MotionLayout>(R.id.motionLayoutInvestment)
         val appBarLayout = view.findViewById<AppBarLayout>(R.id.app_bar_investment)
 
@@ -46,5 +47,19 @@ class InvestmentFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = titles[position]
         }.attach()
-    }
-}
+
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val tabView = tab.view
+                tabView.animate().scaleX(1.1f).scaleY(1.1f).setDuration(150).start()
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                val tabView = tab.view
+                tabView.animate().scaleX(1f).scaleY(1f).setDuration(150).start()
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
+
+    }}
