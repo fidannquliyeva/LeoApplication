@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/qeydiyyat"
-            android:textColor="#353434"
+            android:textColor="@color/textColor"
             android:textSize="26sp"
             android:textStyle="bold"
             android:layout_centerInParent="true"/>
@@ -28,7 +28,7 @@
         android:id="@+id/phoneCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@android:color/white"
+        app:cardBackgroundColor="@color/background"
         app:cardCornerRadius="32dp"
         app:cardElevation="8dp"
         android:layout_marginTop="-32dp">
@@ -62,7 +62,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:textColor="@android:color/black"
-                        android:textColorHint="@color/brown"/>
+                        android:textColorHint="@color/textColor"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -82,7 +82,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/textColor"
                         android:textColorHint="@color/brown"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -103,7 +103,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
-                        android:textColor="@android:color/black"
+                        android:textColor="@color/textColor"
                         android:textColorHint="@color/brown"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -116,7 +116,7 @@
                     android:text="@string/ir_li"
                     app:cornerRadius="16dp"
                     android:backgroundTint="@color/black"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/background"
                     android:layout_marginTop="32dp"/>
             </LinearLayout>
         </ScrollView>

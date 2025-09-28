@@ -40,8 +40,8 @@ class FundsFragment : Fragment() {
 
 
 // Məlumatları çəkmək və observer-lə RecyclerView-a ötürmək
-//        observeViewModel()
-//        viewModel.loadFunds()
+        observeViewModel()
+       viewModel.loadFunds()
 
         // Firestore-a bir dəfəlik məlumat əlavə et
         viewModel.uploadSampleFunds() // Bir dəfə işlədikdən sonra comment et

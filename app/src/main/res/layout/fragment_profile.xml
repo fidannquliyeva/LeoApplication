@@ -9,6 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/background"
         android:padding="16dp">
 
         <!-- Back button -->
@@ -29,6 +30,7 @@
             android:text="@string/profil_v_ayarlarr"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:textColor="@color/textColor"
             app:layout_constraintBottom_toBottomOf="@id/btnBack"
             app:layout_constraintEnd_toEndOf="parent"
 
@@ -54,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/d_z_li_et"
-            android:textColor="@color/black"
+            android:textColor="@color/textColor"
             android:backgroundTint="#D0D0D0"
 
             app:layout_constraintTop_toBottomOf="@id/imgAvatar"
@@ -104,7 +106,7 @@
             android:layout_height="wrap_content"
             android:text="@string/siz_nec_m_raci_t_ed_k"
             app:layout_constraintTop_toTopOf="@id/iconName"
-
+            android:textColor="@color/textColor"
             app:layout_constraintStart_toEndOf="@id/iconName"
             android:layout_marginStart="12dp"/>
 
@@ -113,6 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Fidan"
+            android:textColor="@color/textColor"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/labelName"
             app:layout_constraintTop_toBottomOf="@+id/labelName" />
@@ -145,7 +148,7 @@
             android:layout_height="wrap_content"
             android:text="@string/telefon"
             app:layout_constraintTop_toTopOf="@id/iconPhone"
-
+            android:textColor="@color/textColor"
             app:layout_constraintStart_toEndOf="@id/iconPhone"
             android:layout_marginStart="12dp"/>
 
@@ -154,6 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="+994 70 851 21 91"
+            android:textColor="@color/textColor"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/labelPhone"
             app:layout_constraintTop_toBottomOf="@+id/labelPhone"
@@ -187,6 +191,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/e_po_t"
+            android:textColor="@color/textColor"
+
             app:layout_constraintTop_toTopOf="@id/iconEmail"
             app:layout_constraintStart_toEndOf="@id/iconEmail"
             android:layout_marginStart="12dp"/>
@@ -197,6 +203,7 @@
             android:layout_height="wrap_content"
             android:text="quliyevafidan70@gmail.com"
             android:textStyle="bold"
+            android:textColor="@color/textColor"
 
             app:layout_constraintStart_toStartOf="@+id/labelEmail"
             app:layout_constraintTop_toBottomOf="@+id/labelEmail" />
@@ -240,6 +247,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/biometrik_m_lumatlarla_giri"
+            android:textColor="@color/textColor"
+
             app:layout_constraintBottom_toBottomOf="@+id/iconBio"
             app:layout_constraintStart_toStartOf="@+id/valueEmail"
             app:layout_constraintTop_toTopOf="@+id/iconBio" />
@@ -279,6 +288,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/dig_r_istifad_il_rin_laq_l_r_kitab_as_nda_g_st_r"
+            android:textColor="@color/textColor"
             app:layout_constraintBottom_toBottomOf="@+id/iconOtherUser"
             app:layout_constraintEnd_toStartOf="@+id/switchOtherUser"
             app:layout_constraintStart_toStartOf="@+id/labelBio"
@@ -320,6 +330,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dil"
+            android:textColor="@color/textColor"
+
             app:layout_constraintTop_toTopOf="@id/iconLang"
             app:layout_constraintStart_toEndOf="@id/iconLang"
             android:layout_marginStart="12dp"/>
@@ -329,6 +341,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/az_rbaycan_dili"
+            android:textColor="@color/textColor"
+            android:background="?attr/selectableItemBackground"
+
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/labelLang"
             app:layout_constraintTop_toBottomOf="@+id/labelLang" />
@@ -349,6 +364,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/t_tniqin_rejimi"
+            android:textColor="@color/textColor"
             app:layout_constraintStart_toStartOf="@+id/valueLang"
             app:layout_constraintTop_toTopOf="@+id/iconTheme" />
 
@@ -368,6 +384,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/defolt"
+            android:textColor="@color/textColor"
+            android:background="?attr/selectableItemBackground"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@+id/valueLang"
             app:layout_constraintTop_toBottomOf="@+id/labelTheme" />
@@ -411,6 +429,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/x"
+            android:background="?attr/selectableItemBackground"
             android:textColor="@android:color/holo_red_dark"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/iconSignOut"

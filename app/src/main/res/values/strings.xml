@@ -140,6 +140,12 @@
     <string name="mobil_balans_n_art_r_lmas">Mobil balansın artırılması</string>
     <string name="kommunal_v_internet">Kommunal və internet</string>
     <string name="mobil_balans_art_r">Mobil balansı artır</string>
+    <string name="ba_qa_kartdan_google_pay">Başqa kartdan (Google Pay)</string>
+    <string name="n_s_r_tli_se_im">Ən sürətli seçim</string>
+    <string name="dig_r_bankdan_k_rm">Digər bankdan köçürmə</string>
+    <string name="ba_qa_kartdan">Başqa kartdan</string>
+    <string name="swift_v_ya_lk_daxili">SWIFT və ya ölkədaxili</string>
+    <string name="hesab_rekvizitl_ri_il">Hesab rekvizitləri ilə</string>
 
 
 </resources>
