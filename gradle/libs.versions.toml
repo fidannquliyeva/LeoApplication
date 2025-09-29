@@ -15,6 +15,7 @@ glide = "4.16.0"
 logging-interceptor = "4.12.0"
 firebaseAuthKtx = "23.2.1"
 dagger = "2.56.2"
+firebaseMessagingKtx = "25.0.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -33,6 +34,7 @@ glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "gl
 retrofit-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
+firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

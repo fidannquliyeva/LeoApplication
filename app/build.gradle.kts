@@ -67,6 +67,7 @@ dependencies {
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.56.2")
+    implementation(libs.firebase.messaging.ktx)
     kapt("com.google.dagger:hilt-compiler:2.56.2") // təkcə KAPT istifadə olunur
 
     // Digər

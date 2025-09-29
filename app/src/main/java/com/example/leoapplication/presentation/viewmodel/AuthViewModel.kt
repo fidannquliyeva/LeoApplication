@@ -3,45 +3,104 @@ package com.example.leoapplication.presentation.viewmodel
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.FirebaseFirestore
+
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 @HiltViewModel
-class AuthViewModel @Inject constructor(
-    application: Application
-) : AndroidViewModel(application) {
+class AuthViewModel(
+    private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
+    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+) : ViewModel() {
 
-    val smsSent = MutableLiveData<Boolean?>()
-    val verificationSuccess = MutableLiveData<Boolean>()
-    val error = MutableLiveData<String?>()
+    val firstNameInput = MutableLiveData<String>()
 
-    var code: String = "000000"
+    val emailInput = MutableLiveData<String>()
+    val phoneInput = MutableLiveData<String>()
+    val passwordInput = MutableLiveData<String>()
+    val confirmPasswordInput = MutableLiveData<String>()
 
-    // Firebase test nömrələri üçün xəritə
-    val testNumbers = mapOf(
-        "+994708512191" to "121318",
-        "+994708512121" to "121304",
-        "+994554261071" to "000000",
-        "+994705116333" to "111111",
-        "+994705113333" to "333333"
+    private val _signUpResult = MutableLiveData<Boolean>()
+    val signUpResult: LiveData<Boolean> get() = _signUpResult
 
-    )
+    private val _errorMessage = MutableLiveData<String>()
+    val errorMessage: LiveData<String> get() = _errorMessage
 
-    fun sendSms(phone: String) {
-        // Əgər Firebase test nömrəsidirsə
-        testNumbers[phone]?.let { testCode ->
-            smsSent.value = true
-            code = testCode
-            Toast.makeText(getApplication(), "Test kod: $testCode", Toast.LENGTH_LONG).show()
+    fun signUp() {
+        val firstName = firstNameInput.value?.trim()
+        val email = emailInput.value?.trim()
+        val phone = phoneInput.value?.trim()
+        val password = passwordInput.value
+        val confirmPassword = confirmPasswordInput.value
+
+        // Validation
+        if (firstName.isNullOrEmpty() || email.isNullOrEmpty() || phone.isNullOrEmpty() ||
+            password.isNullOrEmpty() || confirmPassword.isNullOrEmpty()
+        ) {
+            _errorMessage.value = "Bütün sahələri doldurun"
             return
         }
 
-        // Əks halda real SMS prosesi
-        smsSent.value = false
-        error.value = "Bu nömrə test nömrəsi deyil."
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            _errorMessage.value = "Düzgün email daxil edin"
+            return
+        }
+
+        if (password != confirmPassword) {
+            _errorMessage.value = "Şifrə və təsdiq uyğun deyil"
+            return
+        }
+
+        if (password.length < 8) {
+            _errorMessage.value = "Şifrə ən azı 8 simvol olmalıdır"
+            return
+        }
+
+        // Firebase signup
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val uid = auth.currentUser?.uid ?: return@addOnCompleteListener
+                    val userData = hashMapOf(
+                        "uid" to uid,
+                        "firstName" to firstName,
+                        "email" to email,
+                        "phone" to phone,
+                        "createdAt" to FieldValue.serverTimestamp()
+                    )
+
+                    firestore.collection("users").document(uid)
+                        .set(userData)
+                        .addOnSuccessListener {
+                            _signUpResult.value = true
+                            fetchFcmToken(uid)
+                        }
+                        .addOnFailureListener { e ->
+                            _signUpResult.value = false
+                            _errorMessage.value = e.message
+                        }
+
+                } else {
+                    _signUpResult.value = false
+                    _errorMessage.value = task.exception?.message
+                }
+            }
     }
 
-    fun verifyCode(inputCode: String) {
-        verificationSuccess.value = (inputCode == code)
+    private fun fetchFcmToken(uid: String) {
+        // FCM token alma və Firestore-da qeyd etmək
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val token = task.result
+                firestore.collection("users").document(uid)
+                    .update("fcmToken", token)
+            }
+        }
     }
 }
