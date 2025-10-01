@@ -1,6 +1,5 @@
 package com.example.leoapplication.presentation.ui.fragments.transferToCard
 
-import PaymentRepository
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,11 +12,9 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.leoapplication.R
-import com.example.leoapplication.data.repository.BankCardRepositoryImpl
 import com.example.leoapplication.databinding.FragmentExportToMoneyBinding
 import com.example.leoapplication.domain.model.Payment
 import com.example.leoapplication.domain.model.PaymentType
-import com.example.leoapplication.domain.repository.TransactionRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch

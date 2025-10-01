@@ -4,16 +4,7 @@ import android.content.Context
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.example.leoapplication.data.remote.CurrencyApi
-import com.example.leoapplication.data.repository.AuthRepositoryImpl
-import com.example.leoapplication.data.repository.BankCardRepositoryImpl
 import com.example.leoapplication.data.repository.CurrencyRepositoryImpl
-import com.example.leoapplication.data.repository.PinRepositoryImpl
-import com.example.leoapplication.data.repository.UserRepositoryImpl
-import com.example.leoapplication.domain.repository.AuthRepository
-import com.example.leoapplication.domain.repository.BankCardRepository
-import com.example.leoapplication.domain.repository.CurrencyRepository
-import com.example.leoapplication.domain.repository.PinRepository
-import com.example.leoapplication.domain.repository.UserRepository
 import com.example.leoapplication.domain.usecase.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

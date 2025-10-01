@@ -2,7 +2,6 @@ package com.example.leoapplication.data.repository
 
 import com.example.leoapplication.data.remote.CurrencyApi
 import com.example.leoapplication.data.remote.CurrencyResponse
-import com.example.leoapplication.domain.repository.CurrencyRepository
 import javax.inject.Inject
 
 class CurrencyRepositoryImpl @Inject constructor(

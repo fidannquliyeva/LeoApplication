@@ -3,8 +3,6 @@ package com.example.leoapplication.presentation.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.leoapplication.domain.usecase.GetPinUseCase
-import com.example.leoapplication.domain.usecase.SavePinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

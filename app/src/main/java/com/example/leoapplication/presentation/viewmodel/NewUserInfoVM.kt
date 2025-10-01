@@ -3,9 +3,8 @@ package com.example.leoapplication.presentation.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.leoapplication.domain.model.BankCard
+import com.example.leoapplication.domain.model.Card
 import com.example.leoapplication.domain.model.User
-import com.example.leoapplication.domain.repository.UserRepository
 import com.example.leoapplication.domain.usecase.AddCardToUserUseCase
 import com.example.leoapplication.domain.usecase.CreateCardUseCase
 import com.example.leoapplication.domain.usecase.CreateUserUseCase
@@ -23,7 +22,7 @@ class NewUserInfoVM @Inject constructor(
 
     val registrationSuccess = MutableLiveData<Boolean>()
     val error = MutableLiveData<String?>()
-    val bankCard = MutableLiveData<BankCard?>() // ← əlavə edildi
+    val bankCard = MutableLiveData<Card?>() // ← əlavə edildi
 
     fun registerUser(fullName: String, email: String, phone: String, password: String) {
         val auth = FirebaseAuth.getInstance()
@@ -45,7 +44,7 @@ class NewUserInfoVM @Inject constructor(
                             )
                             createUserUseCase(newUser)
 
-                            val newCard = BankCard(
+                            val newCard = Card(
                                 cardNumber = (1..16).map { (0..9).random() }.joinToString(""),
                                 cvv = (100..999).random().toString(),
                                 mm = (1..12).random().toString().padStart(2, '0'),

@@ -3,8 +3,7 @@ package com.example.leoapplication.presentation.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.leoapplication.domain.model.BankCard
-import com.example.leoapplication.domain.model.User
+import com.example.leoapplication.domain.model.Card
 import com.example.leoapplication.domain.usecase.CreateCardUseCase
 import com.example.leoapplication.domain.usecase.GetUserUseCase
 import com.example.leoapplication.domain.usecase.GetCardUseCase
@@ -23,7 +22,7 @@ class LoginWithNumberVM @Inject constructor(
     val navigateToNewUser = MutableLiveData<Boolean>()
     val navigateToSmsLogin = MutableLiveData<Boolean>()
     val error = MutableLiveData<String?>()
-    val bankCard = MutableLiveData<BankCard?>()
+    val bankCard = MutableLiveData<Card?>()
 
     fun fetchUserOrRedirect() {
         viewModelScope.launch {

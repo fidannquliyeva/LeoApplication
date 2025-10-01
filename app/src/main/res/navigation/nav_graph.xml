@@ -219,9 +219,9 @@
     </fragment>
     <fragment
         android:id="@+id/newUserInfoFragment"
-        android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.NewUserInfoFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.SignUpFragment"
         android:label="fragment_new_user_info"
-        tools:layout="@layout/fragment_new_user_info" >
+        tools:layout="@layout/fragment_sign_up" >
         <argument
             android:name="phone"
             app:argType="string"/>

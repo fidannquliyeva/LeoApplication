@@ -60,36 +60,21 @@ dependencies {
     implementation(libs.glide)
 
     // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
+    implementation("com.google.firebase:firebase-messaging-ktx:25.0.1")
     implementation("com.google.firebase:firebase-auth-ktx:23.2.1")
-    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.6.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
+
 
     // Hilt
     implementation("com.google.dagger:hilt-android:2.56.2")
-    implementation(libs.firebase.messaging.ktx)
     kapt("com.google.dagger:hilt-compiler:2.56.2") // təkcə KAPT istifadə olunur
 
     // Digər
     implementation("androidx.security:security-crypto:1.1.0-alpha04")
-    implementation ("pl.droidsonroids.gif:android-gif-drawable:1.2.27")
-
 
     // Test
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-
-    //room
-    val roomVersion = "2.6.1" // ən son stabil versiya
-
-    // Room əsas dependency
-    implementation("androidx.room:room-runtime:$roomVersion")
-
-    // Kapt ilə compiler
-    kapt("androidx.room:room-compiler:$roomVersion")
-
-    // Kotlin Extensions və Coroutines dəstəyi
-    implementation("androidx.room:room-ktx:$roomVersion")
 }
