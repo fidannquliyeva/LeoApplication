@@ -102,7 +102,7 @@
                     android:id="@+id/msg_number"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0 0 0 0"
+                    android:text="0 0 0 0 0 0"
                     android:textColor="#999999"
                     android:textSize="40sp"
                     android:textStyle="bold"

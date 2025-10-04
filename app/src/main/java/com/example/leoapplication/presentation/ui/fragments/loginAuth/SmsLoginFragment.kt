@@ -20,122 +20,98 @@ import androidx.navigation.fragment.navArgs
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentSmsLoginBinding
 import com.example.leoapplication.presentation.viewmodel.AuthViewModel
+import com.example.leoapplication.presentation.viewmodel.PhoneAuthViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
-
 @AndroidEntryPoint
 class SmsLoginFragment : Fragment() {
 
-    private lateinit var binding: FragmentSmsLoginBinding
-    private val viewModel: AuthViewModel by viewModels()
-    private val args: SmsLoginFragmentArgs by navArgs()
+    private var _binding: FragmentSmsLoginBinding? = null
+    private val binding get() = _binding!!
+
+    private val phoneAuthViewModel: PhoneAuthViewModel by viewModels()
+
+    private var verificationId: String = ""
+    private var otpInput: String = ""
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSmsLoginBinding.inflate(inflater, container, false)
+        _binding = FragmentSmsLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        phoneNumber()
-        gridLayout()
-        msgNotComing()
-        binding.btnHelp.setOnClickListener { showSupportDialog() }
+        binding.btnHelp.setOnClickListener{
+            showSupportDialog()
+        }
+        verificationId = arguments?.getString("verificationId") ?: ""
 
-
-
+        setupNumberPad()
         setupObservers()
-
-        // Test nömrəsi üçün Toast göstəririk, əks halda Firebase SMS göndərir
-        if (args.phoneNumber in viewModel.testNumbers) {
-            val testCode = viewModel.testNumbers[args.phoneNumber]
-            Toast.makeText(requireContext(), "Test kod: $testCode", Toast.LENGTH_LONG).show()
-        } else {
-            viewModel.sendSms(args.phoneNumber)
-        }
     }
 
-        private fun setupObservers() {
-        viewModel.smsSent.observe(viewLifecycleOwner) { sent ->
-            if (sent == true) Toast.makeText(requireContext(), "SMS göndərildi", Toast.LENGTH_SHORT).show()
+    private fun setupObservers() {
+        // OTP avtomatik gələndə TextView-a doldur
+        phoneAuthViewModel.otpAutoFilled.observe(viewLifecycleOwner) { code ->
+            otpInput = code
+            binding.msgNumber.text = otpInput.chunked(1).joinToString(" ")
+            phoneAuthViewModel.verifyOtp(verificationId, code)
         }
 
-        viewModel.verificationSuccess.observe(viewLifecycleOwner) { success ->
-            if (success) findNavController().navigate(R.id.action_smsLoginFragment_to_createPinFragment)
-            else Toast.makeText(requireContext(), "Kod düzgün deyil", Toast.LENGTH_SHORT).show()
-        }
-
-        viewModel.error.observe(viewLifecycleOwner) { message ->
-            message?.let { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() }
-        }
-    }
-
-    private fun gridLayout() {
-        val maxDigits = 6
-        var currentIndex = 0
-        viewModel.code = ""
-        binding.msgNumber.text = "000000"  // başlanğıcda 6 sıfır
-
-        binding.btnDelete.setOnClickListener {
-            if (currentIndex > 0) {
-                currentIndex--
-                viewModel.code = viewModel.code.dropLast(1)
-                val display = viewModel.code.padEnd(maxDigits, '0')  // boş yerləri sıfırla doldur
-                binding.msgNumber.text = display
+        phoneAuthViewModel.otpVerified.observe(viewLifecycleOwner) { success ->
+            if (success) {
+                Toast.makeText(requireContext(), "OTP təsdiqləndi!", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_smsLoginFragment_to_createPinFragment)
             }
         }
 
-        val numberButtons = listOf(
-            binding.btn0, binding.btn1, binding.btn2, binding.btn3, binding.btn4,
-            binding.btn5, binding.btn6, binding.btn7, binding.btn8, binding.btn9
+        phoneAuthViewModel.errorMessage.observe(viewLifecycleOwner) { msg ->
+            msg?.let { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() }
+        }
+    }
+
+    private fun setupNumberPad() {
+        val buttons = mapOf(
+            binding.btn0 to "0",
+            binding.btn1 to "1",
+            binding.btn2 to "2",
+            binding.btn3 to "3",
+            binding.btn4 to "4",
+            binding.btn5 to "5",
+            binding.btn6 to "6",
+            binding.btn7 to "7",
+            binding.btn8 to "8",
+            binding.btn9 to "9"
         )
 
-        val numberClickListener = View.OnClickListener { button ->
-            val digit = (button as Button).text[0]
-            if (currentIndex < maxDigits) {
-                viewModel.code += digit
-                currentIndex++
-                val display = viewModel.code.padEnd(maxDigits, '0')  // boş yerləri sıfırla doldur
-                binding.msgNumber.text = display
-            }
-
-            if (viewModel.code.length == maxDigits) {
-                // test nömrəsi üçün yoxlama
-                if (args.phoneNumber in viewModel.testNumbers) {
-                    val testCode = viewModel.testNumbers[args.phoneNumber]
-                    viewModel.verificationSuccess.value = viewModel.code == testCode
-                } else {
-                    // Firebase yoxlaması
-                    viewModel.verifyCode(viewModel.code)
+        buttons.forEach { (button, digit) ->
+            button.setOnClickListener {
+                if (otpInput.length < 6) {
+                    otpInput += digit
+                    binding.msgNumber.text = otpInput.chunked(1).joinToString(" ")
                 }
             }
         }
 
-
-
-
-
-
-        numberButtons.forEach { it.setOnClickListener(numberClickListener) }
-    }
-
-
-    private fun phoneNumber() {
-        val phoneNumber = args.phoneNumber
-        binding.txtMsg.text = phoneNumber
-    }
-
-    private fun msgNotComing() {
-        binding.noMsgComing.setOnClickListener {
-            Toast.makeText(requireContext(), "Yanlis nomre geri qayit", Toast.LENGTH_SHORT).show()
-            findNavController().navigate(R.id.action_smsLoginFragment_to_loginWithNumberFragment)
+        binding.btnDelete.setOnClickListener {
+            if (otpInput.isNotEmpty()) {
+                otpInput = otpInput.dropLast(1)
+                binding.msgNumber.text = otpInput.chunked(1).joinToString(" ")
+            }
         }
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
 
     private fun saveLanguage(context: Context, language: String) {
         val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)

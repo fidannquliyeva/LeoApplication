@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_newUserInfoFragment"
             app:destination="@id/newUserInfoFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_pinLoginFragment"
+            app:destination="@id/pinLoginFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginWithNumberFragment"

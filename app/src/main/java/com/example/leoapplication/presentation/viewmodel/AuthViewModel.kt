@@ -20,7 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val firestore: FirebaseFirestore
 ) : ViewModel() {
 
     val firstNameInput = MutableLiveData<String>()
@@ -31,6 +31,8 @@ class AuthViewModel @Inject constructor(
     val signUpResult: LiveData<Boolean> get() = _signUpResult
 
     private val _errorMessage = MutableLiveData<String>()
+    private var currentUserUid: String? = null
+
     val errorMessage: LiveData<String> get() = _errorMessage
 
     fun signUp() {
@@ -62,9 +64,6 @@ class AuthViewModel @Inject constructor(
 
                 firestore.collection("users").document(uid).set(userMap).await()
 
-                // Kart yaradılır
-                createUniqueCardForUser(uid)
-
                 // FCM token
                 fetchFcmToken(uid)
 
@@ -77,43 +76,12 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    private suspend fun createUniqueCardForUser(uid: String) {
-        val cardsCollection = firestore.collection("users").document(uid).collection("cards")
-        var uniqueCardNumber: String
-
-        do {
-            uniqueCardNumber = generateCardNumber()
-            val querySnapshot = cardsCollection.whereEqualTo("cardNumber", uniqueCardNumber).get().await()
-        } while (!querySnapshot.isEmpty)
-
-        val cvv = (100..999).random().toString()
-        val currentYear = java.util.Calendar.getInstance().get(java.util.Calendar.YEAR) % 100
-        val expiryYear = (currentYear + (3..5).random()).toString().padStart(2, '0')
-        val expiryMonth = (1..12).random().toString().padStart(2, '0')
-        val expiryDate = "$expiryMonth/$expiryYear"
-
-        val cardId = cardsCollection.document().id
-
-        val cardMap = hashMapOf(
-            "cardId" to cardId,
-            "cardNumber" to uniqueCardNumber,
-            "cvv" to cvv,
-            "expiryDate" to expiryDate,
-            "balance" to 0.0,
-            "currency" to "AZN",
-            "createdAt" to FieldValue.serverTimestamp()
-        )
-
-        cardsCollection.document(cardId).set(cardMap).await()
-    }
-
-    private fun generateCardNumber(): String {
-        val prefix = "4169"
-        return "$prefix ${(1000..9999).random()} ${(1000..9999).random()} ${(1000..9999).random()}"
+    fun getCurrentUserUid(): String {
+        return currentUserUid ?: throw IllegalStateException("User UID is null")
     }
 
     private fun fetchFcmToken(uid: String) {
-        FierbaseMessaging.getInstance().token.addOnCompleteListener { task ->
+        FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val token = task.result
                 firestore.collection("users").document(uid)
@@ -122,5 +90,3 @@ class AuthViewModel @Inject constructor(
         }
     }
 }
-
-

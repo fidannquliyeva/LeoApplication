@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.navigation.safe.args)
-    alias(libs.plugins.gms.google.services)
+    id("com.google.gms.google-services")
     alias(libs.plugins.kapt) // Hilt üçün kapt
     alias(libs.plugins.hilt)
 }
@@ -59,11 +59,13 @@ dependencies {
     implementation(libs.retrofit.logging.interceptor)
     implementation(libs.glide)
 
-    // Firebase
-    implementation("com.google.firebase:firebase-messaging-ktx:25.0.1")
-    implementation("com.google.firebase:firebase-auth-ktx:23.2.1")
-    implementation("com.google.firebase:firebase-firestore-ktx:24.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
+    implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.google.firebase:firebase-storage")
+    implementation("com.google.firebase:firebase-database")
+    implementation("com.google.firebase:firebase-analytics")
 
 
     // Hilt
@@ -72,6 +74,8 @@ dependencies {
 
     // Digər
     implementation("androidx.security:security-crypto:1.1.0-alpha04")
+    implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.28")
+
 
     // Test
     testImplementation(libs.junit)

@@ -13,9 +13,8 @@ nav_version = "2.8.8"
 retrofit = "2.11.0"
 glide = "4.16.0"
 logging-interceptor = "4.12.0"
-firebaseAuthKtx = "23.2.1"
 dagger = "2.56.2"
-firebaseMessagingKtx = "25.0.1"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -32,9 +31,19 @@ retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = 
 retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
 retrofit-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "logging-interceptor" }
-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 dagger = { group = "com.google.dagger", name = "dagger", version.ref = "dagger" }
-firebase-messaging-ktx = { group = "com.google.firebase", name = "firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
+#firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx", version = "22.1.0" }
+#firebase-firestore-ktx = { module = "com.google.firebase:firebase-firestore-ktx", version = "24.5.0" }
+#firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version = "23.2.0" }
+#firebase-storage-ktx = { module = "com.google.firebase:firebase-storage-ktx", version = "21.2.0" }
+#firebase-database-ktx = { module = "com.google.firebase:firebase-database-ktx", version = "21.3.0" }
+#firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version = "21.3.0" }
+#firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version = "18.4.0" }
+#firebase-auth = { module = "com.google.firebase:firebase-auth", version = "22.1.0" }
+
+# lazım olan digər firebase modul kitabxanalarını da əlavə edə bilərsən
+
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
