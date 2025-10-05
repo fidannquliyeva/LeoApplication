@@ -67,7 +67,7 @@ class SmsLoginFragment : Fragment() {
         phoneAuthViewModel.otpVerified.observe(viewLifecycleOwner) { success ->
             if (success) {
                 Toast.makeText(requireContext(), "OTP təsdiqləndi!", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_smsLoginFragment_to_createPinFragment)
+//                findNavController().navigate(R.id.action_smsLoginFragment_to_createPinFragment)
             }
         }
 

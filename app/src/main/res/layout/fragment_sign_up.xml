@@ -44,31 +44,11 @@
                 android:orientation="vertical"
                 android:padding="24dp"
                 android:gravity="center">
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/ad_soyad"
-                    app:startIconDrawable="@drawable/icons8_customer_30"
-                    app:boxBackgroundMode="outline"
-                    app:boxCornerRadiusTopStart="16dp"
-                    app:boxCornerRadiusTopEnd="16dp"
-                    app:boxCornerRadiusBottomStart="16dp"
-                    app:boxCornerRadiusBottomEnd="16dp"
-                    android:layout_marginTop="16dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/fullNameEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPersonName"
-                        android:textColor="@android:color/black"
-                        android:textColorHint="@color/textColor"/>
-                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
+                    android:hint="@string/email"
                     app:startIconDrawable="@drawable/icons8email20"
                     app:boxBackgroundMode="outline"
                     app:boxCornerRadiusTopStart="16dp"
@@ -89,8 +69,8 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/telefon_n_mr_si"
-                    app:startIconDrawable="@drawable/icons8smartphone20"
+                    android:hint="@string/do_um_tarixi"
+                    app:startIconDrawable="@drawable/iccalendar30"
                     app:boxBackgroundMode="outline"
                     app:boxCornerRadiusTopStart="16dp"
                     app:boxCornerRadiusTopEnd="16dp"
@@ -99,14 +79,37 @@
                     android:layout_marginTop="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/phoneNumberEditText"
+                        android:id="@+id/birthDateEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textPassword"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:inputType="none"
                         android:textColor="@color/textColor"
                         android:textColorHint="@color/brown"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/fin"
+                    app:startIconDrawable="@drawable/baseline_person_remove_alt_1_24"
+                    app:boxBackgroundMode="outline"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/finEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:textColor="@color/textColor"
+                        android:textColorHint="@color/brown"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
 
 

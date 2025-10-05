@@ -3,7 +3,7 @@
              xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/splashScreenFragment">
+    app:startDestination="@id/loadingFragment">
 
     <fragment
         android:id="@+id/splashScreenFragment"
@@ -11,11 +11,8 @@
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen" >
         <action
-            android:id="@+id/action_splashScreenFragment_to_newUserInfoFragment"
-            app:destination="@id/newUserInfoFragment" />
-        <action
-            android:id="@+id/action_splashScreenFragment_to_pinLoginFragment"
-            app:destination="@id/pinLoginFragment" />
+            android:id="@+id/action_splashScreenFragment_to_loginWithNumberFragment"
+            app:destination="@id/loginWithNumberFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginWithNumberFragment"
@@ -43,11 +40,8 @@
             android:name="phoneNumber"
             app:argType="string" />
         <action
-            android:id="@+id/action_smsLoginFragment_to_loginWithNumberFragment"
-            app:destination="@id/loginWithNumberFragment" />
-        <action
-            android:id="@+id/action_smsLoginFragment_to_createPinFragment"
-            app:destination="@id/pinCreatedFragment" />
+            android:id="@+id/action_smsLoginFragment_to_newUserInfoFragment"
+            app:destination="@id/newUserInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/pinLoginFragment"
@@ -229,8 +223,8 @@
             android:name="phone"
             app:argType="string"/>
         <action
-            android:id="@+id/action_newUserInfoFragment_to_loginWithNumberFragment"
-            app:destination="@id/loginWithNumberFragment" />
+            android:id="@+id/action_newUserInfoFragment_to_loadingFragment"
+            app:destination="@id/loadingFragment" />
     </fragment>
     <fragment
         android:id="@+id/transactionDetailFragment"
@@ -319,5 +313,10 @@
         android:name="com.example.leoapplication.presentation.ui.fragments.otherPays.AbonentCodeFragment"
         android:label="fragment_abonent_code"
         tools:layout="@layout/fragment_abonent_code" />
+    <fragment
+        android:id="@+id/loadingFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.LoadingFragment"
+        android:label="fragment_loading"
+        tools:layout="@layout/fragment_loading" />
 
 </navigation>

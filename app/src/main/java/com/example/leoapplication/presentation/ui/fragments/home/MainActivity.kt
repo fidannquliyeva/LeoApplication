@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.increaseWithSwiftFragment, R.id.pinCreatedFragment, R.id.pinLoginFragment , R.id.newUserInfoFragment ,
                         R.id.exportToMoneyFragment,R.id.exportToNewCardFragment,R.id.paymentSuccessFragment,
                             R.id.transactionDetailFragment,R.id.otherPaysFragment,R.id.exportToMobileFragment,R.id.monileNumberFragment,
-                                    R.id.mobileBalanceFragment
+                                    R.id.mobileBalanceFragment,R.id.loadingFragment
                                 -> {
                     binding.bottomNav.visibility = View.GONE
                 }
