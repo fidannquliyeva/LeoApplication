@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/splashScreenFragment">
@@ -13,7 +13,13 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_loginWithNumberFragment"
             app:destination="@id/loginWithNumberFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_pinLoginFragment"
+            app:destination="@id/pinLoginFragment"
+            app:popUpTo="@id/splashScreenFragment"
+            app:popUpToInclusive="true" />
     </fragment>
+
     <fragment
         android:id="@+id/loginWithNumberFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.LoginWithNumberFragment"
@@ -30,11 +36,13 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/aboutLeoFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.AboutLeoFragment"
         android:label="fragment_about_leo"
         tools:layout="@layout/fragment_about_leo" />
+
     <fragment
         android:id="@+id/smsLoginFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.SmsLoginFragment"
@@ -51,10 +59,19 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
+        <!-- YENİ: SMS-dən SetPin-ə -->
         <action
-            android:id="@+id/action_smsLogin_to_home"
-            app:destination="@id/nav_home"
-            app:popUpTo="@id/loginWithNumberFragment"
+            android:id="@+id/action_smsLogin_to_setPin"
+            app:destination="@id/setPinFragment"
+            app:popUpTo="@id/smsLoginFragment"
+            app:popUpToInclusive="true" />
+
+        <!-- YENİ: SMS-dən PinLogin-ə -->
+        <action
+            android:id="@+id/action_smsLogin_to_pinLogin"
+            app:destination="@id/pinLoginFragment"
+            app:popUpTo="@id/smsLoginFragment"
             app:popUpToInclusive="true" />
     </fragment>
 
@@ -82,16 +99,15 @@
         android:id="@+id/loadingFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.LoadingFragment"
         android:label="Loading">
-
         <action
-            android:id="@+id/action_loading_to_home"
-            app:destination="@id/nav_home"
-            app:popUpTo="@id/loginWithNumberFragment"
-            app:popUpToInclusive="true"
-            app:enterAnim="@anim/fade_in"
-            app:exitAnim="@anim/fade_out" />
+            android:id="@+id/action_loadingFragment_to_pinCreatedFragment"
+            app:destination="@id/setPinFragment" />
+        <action
+            android:id="@+id/action_loadingFragment_to_setPinFragment"
+            app:destination="@id/setPinFragment" />
     </fragment>
 
+    <!-- PIN Login Fragment -->
     <fragment
         android:id="@+id/pinLoginFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.PinLoginFragment"
@@ -102,7 +118,30 @@
             app:destination="@id/nav_home"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+
+        <!-- YENİ: PIN unutduqda Login-ə qayıt -->
+        <action
+            android:id="@+id/action_pinLogin_to_login"
+            app:destination="@id/loginWithNumberFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
+
+    <!-- Set PIN Fragment -->
+    <fragment
+        android:id="@+id/setPinFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.SetPinFragment"
+        android:label="fragment_create_pin"
+        tools:layout="@layout/fragment_set_pin" >
+        <!-- YENİ: SetPin-dən PinLogin-ə -->
+        <action
+            android:id="@+id/action_pinCreatedFragment_to_pinLoginFragment"
+            app:destination="@id/pinLoginFragment"
+            app:popUpTo="@id/setPinFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <!-- Home Fragment -->
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.leoapplication.presentation.ui.fragments.home.HomeFragment"
@@ -134,13 +173,14 @@
         <action
             android:id="@+id/action_nav_home_to_nav_menu"
             app:destination="@id/nav_menu" />
-        <action
-            android:id="@+id/action_nav_home_to_transactionDetailFragment"
-            app:destination="@id/transactionDetailFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_nav_home_to_transactionDetailFragment"-->
+<!--            app:destination="@id/transactionDetailFragment" />-->
         <action
             android:id="@+id/action_nav_home_to_otherPaysFragment"
             app:destination="@id/otherPaysFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/nav_collect"
         android:name="com.example.leoapplication.presentation.ui.fragments.collect.CollectFragment"
@@ -175,17 +215,19 @@
         tools:layout="@layout/fragment_profile" >
         <action
             android:id="@+id/action_profileFragment_to_loginWithNumberFragment"
-            app:destination="@id/loginWithNumberFragment" />
+            app:destination="@id/loginWithNumberFragment"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/cardFragment"
-        android:name="com.example.leoapplication.presentation.ui.fragments.home.CardFragment"
-        android:label="fragment_card"
-        tools:layout="@layout/fragment_card" >
-        <argument
-            android:name="phoneNumber"
-            app:argType="string" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/cardFragment"-->
+<!--        android:name="com.example.leoapplication.presentation.ui.fragments.home.CardFragment"-->
+<!--        android:label="fragment_card"-->
+<!--        tools:layout="@layout/fragment_card" >-->
+<!--        <argument-->
+<!--            android:name="phoneNumber"-->
+<!--            app:argType="string" />-->
+<!--    </fragment>-->
     <fragment
         android:id="@+id/increaseBalanceFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.increaseBalance.IncreaseBalanceFragment"
@@ -200,9 +242,9 @@
         <action
             android:id="@+id/action_increaseBalanceFragment_to_increaseOtherCardFragment"
             app:destination="@id/increaseOtherCardFragment" />
-        <action
-            android:id="@+id/action_increaseBalanceFragment_to_increaseWithMoneyFragment"
-            app:destination="@id/increaseWithMoneyFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_increaseBalanceFragment_to_increaseWithMoneyFragment"-->
+<!--            app:destination="@id/increaseWithMoneyFragment" />-->
         <action
             android:id="@+id/action_increaseBalanceFragment_to_increaseWithSwiftFragment"
             app:destination="@id/increaseWithSwiftFragment" />
@@ -226,11 +268,11 @@
             android:id="@+id/action_increaseOtherCardFragment_to_increaseBalanceOtherCardsFragment"
             app:destination="@id/increaseBalanceOtherCardsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/increaseWithMoneyFragment"
-        android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseWithMoneyFragment"
-        android:label="fragment_increase_with_money"
-        tools:layout="@layout/fragment_increase_with_money" />
+<!--    <fragment-->
+<!--        android:id="@+id/increaseWithMoneyFragment"-->
+<!--        android:name="com.example.leoapplication.presentation.ui.fragments.IncreaseWithMoneyFragment"-->
+<!--        android:label="fragment_increase_with_money"-->
+<!--        tools:layout="@layout/fragment_increase_with_money" />-->
     <fragment
         android:id="@+id/increaseWithSwiftFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.increaseBalance.IncreaseWithSwiftFragment"
@@ -250,43 +292,34 @@
         android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.ExportToFragment"
         android:label="fragment_export_to"
         tools:layout="@layout/fragment_export_to" >
-        <action
-            android:id="@+id/action_exportToFragment_to_exportToNewCardFragment"
-            app:destination="@id/exportToNewCardFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/pinCreatedFragment"
-        android:name="com.example.leoapplication.presentation.ui.fragments.loginAuth.PinCreatedFragment"
-        android:label="fragment_create_pin"
-        tools:layout="@layout/fragment_pin_created" >
-        <action
-            android:id="@+id/action_pinCreatedFragment_to_pinLoginFragment"
-            app:destination="@id/pinLoginFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_exportToFragment_to_exportToNewCardFragment"-->
+<!--            app:destination="@id/exportToNewCardFragment" />-->
     </fragment>
 
-    <fragment
-        android:id="@+id/transactionDetailFragment"
-        android:name="com.example.leoapplication.presentation.ui.fragments.home.TransactionDetailFragment"
-        android:label="fragment_transaction_detail"
-        tools:layout="@layout/fragment_transaction_detail" />
-    <fragment
-        android:id="@+id/exportToNewCardFragment"
-        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.ExportToNewCardFragment"
-        android:label="fragment_export_to_new_card"
-        tools:layout="@layout/fragment_export_to_new_card" >
-        <action
-            android:id="@+id/action_exportToNewCardFragment_to_exportToMoneyFragment"
-            app:destination="@id/exportToMoneyFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/exportToMoneyFragment"
-        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.ExportToMoneyFragment"
-        android:label="fragment_export_to_money"
-        tools:layout="@layout/fragment_export_to_money" >
-        <action
-            android:id="@+id/action_exportToMoneyFragment_to_paymentSuccessFragment"
-            app:destination="@id/paymentSuccessFragment" />
-    </fragment>
+<!--    <fragment-->
+<!--        android:id="@+id/transactionDetailFragment"-->
+<!--        android:name="com.example.leoapplication.presentation.ui.fragments.home.TransactionDetailFragment"-->
+<!--        android:label="fragment_transaction_detail"-->
+<!--        tools:layout="@layout/fragment_transaction_detail" />-->
+<!--    <fragment-->
+<!--        android:id="@+id/exportToNewCardFragment"-->
+<!--        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.ExportToNewCardFragment"-->
+<!--        android:label="fragment_export_to_new_card"-->
+<!--        tools:layout="@layout/fragment_export_to_new_card" >-->
+<!--        <action-->
+<!--            android:id="@+id/action_exportToNewCardFragment_to_exportToMoneyFragment"-->
+<!--            app:destination="@id/exportToMoneyFragment" />-->
+<!--    </fragment>-->
+<!--    <fragment-->
+<!--        android:id="@+id/exportToMoneyFragment"-->
+<!--        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.ExportToMoneyFragment"-->
+<!--        android:label="fragment_export_to_money"-->
+<!--        tools:layout="@layout/fragment_export_to_money" >-->
+<!--        <action-->
+<!--            android:id="@+id/action_exportToMoneyFragment_to_paymentSuccessFragment"-->
+<!--            app:destination="@id/paymentSuccessFragment" />-->
+<!--    </fragment>-->
     <fragment
         android:id="@+id/paymentSuccessFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.home.PaymentSuccessFragment"
@@ -351,6 +384,5 @@
         android:name="com.example.leoapplication.presentation.ui.fragments.otherPays.AbonentCodeFragment"
         android:label="fragment_abonent_code"
         tools:layout="@layout/fragment_abonent_code" />
-
 
 </navigation>

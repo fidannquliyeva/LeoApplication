@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.splashScreenFragment, R.id.smsLoginFragment, R.id.loginWithNumberFragment, R.id.pinLoginFragment, R.id.aboutLeoFragment, R.id.increaseBalanceFragment, R.id.increaseWithGoogleFragment, R.id.increaseOtherBankFragment, R.id.increaseOtherCardFragment, R.id.increaseWithMoneyFragment,
-                R.id.increaseWithSwiftFragment, R.id.pinCreatedFragment, R.id.pinLoginFragment , R.id.signUpFragment ,
-                        R.id.exportToMoneyFragment,R.id.exportToNewCardFragment,R.id.paymentSuccessFragment,
-                            R.id.transactionDetailFragment,R.id.otherPaysFragment,R.id.exportToMobileFragment,R.id.monileNumberFragment,
+                R.id.splashScreenFragment, R.id.smsLoginFragment, R.id.loginWithNumberFragment, R.id.pinLoginFragment, R.id.aboutLeoFragment, R.id.increaseBalanceFragment, R.id.increaseWithGoogleFragment, R.id.increaseOtherBankFragment, R.id.increaseOtherCardFragment,
+                R.id.increaseWithSwiftFragment,  R.id.pinLoginFragment , R.id.signUpFragment ,
+                       R.id.paymentSuccessFragment,
+                         R.id.otherPaysFragment,R.id.exportToMobileFragment,R.id.monileNumberFragment,
                                     R.id.mobileBalanceFragment,R.id.loadingFragment
                                 -> {
                     binding.bottomNav.visibility = View.GONE

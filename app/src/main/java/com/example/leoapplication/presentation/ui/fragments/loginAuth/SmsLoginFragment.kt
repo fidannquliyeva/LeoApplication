@@ -14,11 +14,11 @@ import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentSmsLoginBinding
 import com.example.leoapplication.presentation.viewmodel.PhoneAuthViewModel
 import com.example.leoapplication.util.Constants
+import com.example.leoapplication.util.PinManager
 import com.example.leoapplication.util.Resource
 import com.example.leoapplication.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-
 
 @AndroidEntryPoint
 class SmsLoginFragment : Fragment() {
@@ -155,15 +155,29 @@ class SmsLoginFragment : Fragment() {
             val userExists = viewModel.checkIfUserExists(userId)
 
             if (userExists) {
-                // ✅ User var → Home-a get
-                showToast("Xoş gəldiniz!")
-                findNavController().navigate(R.id.action_smsLogin_to_home)
+                // ✅ User var → PIN yoxla
+                checkPinAndNavigate()
             } else {
                 // ❌ Yeni user → SignUp-a get
                 val action = SmsLoginFragmentDirections
                     .actionSmsLoginToSignUp(userId, args.phoneNumber)
                 findNavController().navigate(action)
             }
+        }
+    }
+
+    /**
+     * PIN təyin olunub ya yox yoxlayır və müvafiq ekrana yönləndirir
+     */
+    private fun checkPinAndNavigate() {
+        if (PinManager.isPinSet(requireContext())) {
+            // PIN artıq təyin olunub - PinLogin-ə göndər
+            showToast("PIN ilə daxil olun")
+            findNavController().navigate(R.id.action_smsLogin_to_pinLogin)
+        } else {
+            // PIN təyin olunmayıb - SetPin-ə göndər
+            showToast("Təhlükəsizlik üçün PIN təyin edin")
+            findNavController().navigate(R.id.action_smsLogin_to_setPin)
         }
     }
 

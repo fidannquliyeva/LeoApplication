@@ -1,178 +1,200 @@
 package com.example.leoapplication.presentation.ui.fragments.loginAuth
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentPinLoginBinding
-
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.example.leoapplication.util.PinManager
+import com.example.leoapplication.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
+
 @AndroidEntryPoint
 class PinLoginFragment : Fragment() {
 
-//    private lateinit var binding: FragmentPinLoginBinding
-//    private val viewModel: PinCreatedVM by viewModels()
-//    private val enteredPin = StringBuilder()
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        binding = FragmentPinLoginBinding.inflate(inflater, container, false)
-//        return binding.root
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        setupNumberPad()
-//
-//        binding.helpPin.setOnClickListener { showSupportDialog() }
-//    }
-//
-//    private fun setupNumberPad() {
-//        val buttons = listOf(
-//            binding.btn0, binding.btn1, binding.btn2, binding.btn3,
-//            binding.btn4, binding.btn5, binding.btn6, binding.btn7,
-//            binding.btn8, binding.btn9
-//        )
-//
-//        buttons.forEach { btn ->
-//            btn.setOnClickListener {
-//                if (enteredPin.length < 4) enteredPin.append(btn.text)
-//                updateIndicators(binding.pin1, binding.pin2, binding.pin3, binding.pin4, enteredPin.length)
-//                if (enteredPin.length == 4) checkPin()
-//            }
-//        }
-//
-//        binding.btnDelete.setOnClickListener {
-//            if (enteredPin.isNotEmpty()) enteredPin.deleteCharAt(enteredPin.lastIndex)
-//            updateIndicators(binding.pin1, binding.pin2, binding.pin3, binding.pin4, enteredPin.length)
-//        }
-//    }
-//
-//
-//    private fun updateIndicators(p1: ImageView, p2: ImageView, p3: ImageView, p4: ImageView, filled: Int) {
-//        val pins = listOf(p1, p2, p3, p4)
-//        pins.forEachIndexed { index, imageView ->
-//            if (index < filled) {
-//                // Rəngi dəyiş və animasiya ver
-//                imageView.setColorFilter(resources.getColor(R.color.black))
-//                imageView.animate().scaleX(1.5f).scaleY(1.5f).setDuration(150).withEndAction {
-//                    imageView.animate().scaleX(1f).scaleY(1f).setDuration(150).start()
-//                }.start()
-//            } else {
-//                imageView.setColorFilter(resources.getColor(R.color.colorUnchecked))
-//            }
-//        }
-//    }
-//
-//    private fun checkPin() {
-//        val savedPin = viewModel.getSavedPin()
-//        if (enteredPin.toString() == savedPin) {
-//            findNavController().navigate(R.id.action_pinLoginFragment_to_homeFragment)
-//        } else {
-//            Toast.makeText(requireContext(), "PIN yalnışdır", Toast.LENGTH_SHORT).show()
-//            enteredPin.clear()
-//            updateIndicators(binding.pin1, binding.pin2, binding.pin3, binding.pin4, 0)
-//        }
-//    }
-//
-//
-//    private fun saveLanguage(context: Context, language: String) {
-//        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-//        prefs.edit().putString("selected_language", language).apply()
-//    }
-//
-//    private fun getSavedLanguage(context: Context): String {
-//        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-//        return prefs.getString("selected_language", "az") ?: "az"
-//    }
-//
-//    private fun updateLocale(context: Context, language: String) {
-//        val locale = Locale(language)
-//        Locale.setDefault(locale)
-//        val config = context.resources.configuration
-//        config.setLocale(locale)
-//        context.resources.updateConfiguration(config, context.resources.displayMetrics)
-//
-//    }
-//
-//    private fun applyLanguage(language: String) {
-//        saveLanguage(requireContext(), language)
-//        updateLocale(requireContext(), language)
-//        requireActivity().recreate()
-//    }
-//
-//    private fun showSupportDialog() {
-//        val dialog = BottomSheetDialog(requireContext())
-//        val view = layoutInflater.inflate(R.layout.dialog_support, null)
-//        dialog.setContentView(view)
-//
-//        view.findViewById<LinearLayout>(R.id.layoutWhatsapp).setOnClickListener {
-//            openLink("https://wa.me/994123101488", "com.whatsapp"); dialog.dismiss()
-//        }
-//        view.findViewById<LinearLayout>(R.id.layoutTelegram).setOnClickListener {
-//            openLink("https://t.me/Leobank_bot"); dialog.dismiss()
-//        }
-//        view.findViewById<LinearLayout>(R.id.layoutFacebook).setOnClickListener {
-//            openLink("https://www.facebook.com/leobank.az/"); dialog.dismiss()
-//        }
-//        view.findViewById<LinearLayout>(R.id.layoutViber).setOnClickListener {
-//            openLink("https://www.viber.com/leobank.az/"); dialog.dismiss()
-//        }
-//
-//        view.findViewById<ConstraintLayout>(R.id.layoutLanguage).setOnClickListener {
-//            dialog.dismiss()
-//            val dialogLanguage = BottomSheetDialog(requireContext())
-//            val viewLanguage = layoutInflater.inflate(R.layout.dialog_language, null)
-//            dialogLanguage.setContentView(viewLanguage)
-//
-//            val radioGroup = viewLanguage.findViewById<RadioGroup>(R.id.radioGroupLanguage)
-//            val radioAzerbaijan = viewLanguage.findViewById<RadioButton>(R.id.radioAzerbaijan)
-//            val radioRussian = viewLanguage.findViewById<RadioButton>(R.id.radioRussian)
-//
-//            if (getSavedLanguage(requireContext()) == "az") radioGroup.check(R.id.radioAzerbaijan)
-//            else radioGroup.check(R.id.radioRussian)
-//
-//            radioAzerbaijan.setOnClickListener {
-//                radioGroup.check(R.id.radioAzerbaijan)
-//                applyLanguage("az")
-//                dialogLanguage.dismiss()
-//            }
-//
-//            radioRussian.setOnClickListener {
-//                radioGroup.check(R.id.radioRussian)
-//                applyLanguage("ru")
-//                dialogLanguage.dismiss()
-//            }
-//
-//            dialogLanguage.show()
-//        }
-//        dialog.show()
-//    }
-//
-//    private fun openLink(url: String, packageName: String? = null) {
-//        try {
-//            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-//            if (packageName != null) intent.setPackage(packageName)
-//            startActivity(intent)
-//        } catch (e: Exception) {
-//            Toast.makeText(requireContext(), "Tətbiq açılmadı", Toast.LENGTH_SHORT).show()
-//        }
-//    }
+    private var _binding: FragmentPinLoginBinding? = null
+    private val binding get() = _binding!!
+
+    private var enteredPin = ""
+    private val pinLength = 4
+    private var lockTimer: CountDownTimer? = null
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentPinLoginBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        checkLockStatus()
+        setupNumberPad()
+        setupForgetPin()
+    }
+
+    private fun checkLockStatus() {
+        if (PinManager.isUserLocked(requireContext())) {
+            disableInput()
+            startLockTimer()
+        } else {
+            enableInput()
+        }
+    }
+
+    private fun startLockTimer() {
+        val remainingTime = PinManager.getRemainingLockTime(requireContext())
+
+        lockTimer?.cancel()
+        lockTimer = object : CountDownTimer(remainingTime * 1000, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = millisUntilFinished / 1000
+                val minutes = seconds / 60
+                val secs = seconds % 60
+                binding.phoneNumberText.text = "Gözləyin: ${minutes}:${secs.toString().padStart(2, '0')}"
+            }
+
+            override fun onFinish() {
+                PinManager.resetFailedAttempts(requireContext())
+                enableInput()
+                showToast("Yenidən cəhd edə bilərsiniz")
+                binding.phoneNumberText.text = "PIN kod"
+            }
+        }.start()
+    }
+
+    private fun disableInput() {
+        binding.numberPad.alpha = 0.3f
+        binding.numberPad.isEnabled = false
+
+        // Bütün düymələri deaktiv et
+        listOf(
+            binding.btn0, binding.btn1, binding.btn2, binding.btn3,
+            binding.btn4, binding.btn5, binding.btn6, binding.btn7,
+            binding.btn8, binding.btn9, binding.btnDelete
+        ).forEach { it.isEnabled = false }
+    }
+
+    private fun enableInput() {
+        binding.numberPad.alpha = 1f
+        binding.numberPad.isEnabled = true
+
+        // Bütün düymələri aktiv et
+        listOf(
+            binding.btn0, binding.btn1, binding.btn2, binding.btn3,
+            binding.btn4, binding.btn5, binding.btn6, binding.btn7,
+            binding.btn8, binding.btn9, binding.btnDelete
+        ).forEach { it.isEnabled = true }
+
+        binding.phoneNumberText.text = "PIN kod"
+    }
+
+    private fun setupNumberPad() {
+        val numberButtons = listOf(
+            binding.btn0, binding.btn1, binding.btn2, binding.btn3,
+            binding.btn4, binding.btn5, binding.btn6, binding.btn7,
+            binding.btn8, binding.btn9
+        )
+
+        numberButtons.forEachIndexed { index, button ->
+            button.setOnClickListener {
+                addDigit(if (index == 0) "0" else index.toString())
+            }
+        }
+
+        binding.btnDelete.setOnClickListener {
+            removeDigit()
+        }
+    }
+
+    private fun addDigit(digit: String) {
+        if (PinManager.isUserLocked(requireContext())) {
+            showToast("Çox səhv cəhd etdiniz! Zəhmət olmasa gözləyin")
+            return
+        }
+
+        if (enteredPin.length < pinLength) {
+            enteredPin += digit
+            updatePinDisplay()
+
+            if (enteredPin.length == pinLength) {
+                verifyPin()
+            }
+        }
+    }
+
+    private fun removeDigit() {
+        if (enteredPin.isNotEmpty()) {
+            enteredPin = enteredPin.dropLast(1)
+            updatePinDisplay()
+        }
+    }
+
+    private fun updatePinDisplay() {
+        val pinViews = listOf(binding.pin1, binding.pin2, binding.pin3, binding.pin4)
+        pinViews.forEachIndexed { index, imageView ->
+            if (index < enteredPin.length) {
+                // Dolu - qara rəng
+                imageView.setImageResource(R.drawable.paw)
+                imageView.setColorFilter(
+                    resources.getColor(android.R.color.black, null),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+            } else {
+                // Boş - boz rəng
+                imageView.setImageResource(R.drawable.paw)
+                imageView.setColorFilter(
+                    resources.getColor(android.R.color.darker_gray, null),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+            }
+        }
+    }
+
+    private fun verifyPin() {
+        if (PinManager.verifyPin(requireContext(), enteredPin)) {
+            // PIN düzgündür
+            PinManager.resetFailedAttempts(requireContext())
+            showToast("Xoş gəldiniz!")
+            findNavController().navigate(R.id.action_pinLoginFragment_to_homeFragment)
+        } else {
+            // PIN səhvdir
+            PinManager.addFailedAttempt(requireContext())
+            val remainingAttempts = PinManager.getRemainingAttempts(requireContext())
+
+            if (PinManager.isUserLocked(requireContext())) {
+                showToast("Çox səhv cəhd! 5 dəqiqə gözləyin")
+                disableInput()
+                startLockTimer()
+            } else {
+                showToast("Yanlış PIN! Qalan cəhd: $remainingAttempts")
+            }
+
+            enteredPin = ""
+            updatePinDisplay()
+        }
+    }
+
+    private fun setupForgetPin() {
+        binding.txtForget.setOnClickListener {
+            // PIN unutmuş - Login-a göndər
+            showToast("Yenidən giriş edin")
+            PinManager.clearPin(requireContext())
+            findNavController().navigate(R.id.action_pinLogin_to_login)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        lockTimer?.cancel()
+        lockTimer = null
+        _binding = null
+    }
 }

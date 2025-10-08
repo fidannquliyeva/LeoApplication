@@ -1,5 +1,3 @@
-package com.example.leoapplication.presentation.ui.fragments.loginAuth
-
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.Handler
@@ -8,14 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentLoadingBinding
 import com.example.leoapplication.util.Constants
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class LoadingFragment : Fragment() {
@@ -38,7 +33,7 @@ class LoadingFragment : Fragment() {
         startProgressAnimation()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            navigateToHome()
+            navigateToSetPin()
         }, Constants.LOADING_DELAY)
     }
 
@@ -54,9 +49,9 @@ class LoadingFragment : Fragment() {
         animator.start()
     }
 
-    private fun navigateToHome() {
-        val action = LoadingFragmentDirections.actionLoadingToHome()
-        findNavController().navigate(action)
+    private fun navigateToSetPin() {
+        // SignUp-dan sonra həmişə SetPin-ə göndər
+        findNavController().navigate(R.id.action_loadingFragment_to_setPinFragment)
     }
 
     override fun onDestroyView() {

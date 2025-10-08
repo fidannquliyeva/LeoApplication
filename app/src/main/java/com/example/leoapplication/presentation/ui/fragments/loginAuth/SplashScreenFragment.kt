@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentSplashScreenBinding
+import com.example.leoapplication.util.PinManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,27 +25,29 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         animateTextWithScale("Leobank")
-        goToSign()
-
+        goToNextScreen()
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-       binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
-       return binding.root
+    ): View {
+        binding = FragmentSplashScreenBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-
-    private fun goToSign(){
+    private fun goToNextScreen() {
         Handler(Looper.getMainLooper()).postDelayed({
-           findNavController().navigate(R.id.action_splashScreenFragment_to_loginWithNumberFragment)
+            // PIN təyin olunub ya yox yoxla
+            if (PinManager.isPinSet(requireContext())) {
+                // PIN var - PinLogin-ə göndər
+                findNavController().navigate(R.id.action_splashScreenFragment_to_pinLoginFragment)
+            } else {
+                // PIN yoxdur - Login-ə göndər
+                findNavController().navigate(R.id.action_splashScreenFragment_to_loginWithNumberFragment)
+            }
         }, 2000)
-
     }
-
 
     private fun animateTextWithScale(text: String) {
         binding.txtSplashScreen.text = ""
@@ -65,6 +68,4 @@ class SplashScreenFragment : Fragment() {
             }
         }
     }
-
-
 }
