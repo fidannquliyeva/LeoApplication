@@ -208,12 +208,95 @@ class FirestoreDataSource @Inject constructor(
     }
 
     // ==================== UTILITY ====================
+// ==================== CARD GENERATION UTILITIES ====================
 
     /**
-     * Kart nömrəsi generasiya
+     * Tam kart məlumatları ilə yeni kart generasiya et
+     */
+    fun generateFullCard(phoneNumber: String, fullName: String): Card {
+        val cardNumber = generateCardNumber(phoneNumber)
+        val cvv = generateCVV()
+        val expiryDate = generateExpiryDate()
+        val cardType = determineCardType(cardNumber)
+
+        return Card(
+            cardNumber = cardNumber,
+            cardHolderName = fullName.uppercase(),
+            cvv = cvv,
+            expiryDate = expiryDate,
+            cardType = cardType,
+            balance = Constants.DEFAULT_BALANCE,
+            currency = Constants.DEFAULT_CURRENCY,
+            isActive = true
+        )
+    }
+
+    /**
+     * Kart nömrəsi generasiya (Luhn algoritmi ilə)
      */
     fun generateCardNumber(phoneNumber: String): String {
-        val last4 = phoneNumber.takeLast(4)
-        return "5169 7380 ${last4.substring(0, 2)}${(10..99).random()} ${last4.substring(2)}"
+        val bin = "5169"
+        val phoneDigits = phoneNumber.filter { it.isDigit() }.takeLast(8)
+        val randomDigits = (1000..9999).random().toString()
+        val first15 = bin + phoneDigits.take(8) + randomDigits.take(3)
+        val checkDigit = calculateLuhnCheckDigit(first15)
+        val fullNumber = first15 + checkDigit
+
+        return "${fullNumber.substring(0, 4)} ${fullNumber.substring(4, 8)} ${fullNumber.substring(8, 12)} ${fullNumber.substring(12)}"
+    }
+
+    /**
+     * Luhn check digit hesabla
+     */
+    private fun calculateLuhnCheckDigit(number: String): Int {
+        var sum = 0
+        var alternate = true
+
+        for (i in number.length - 1 downTo 0) {
+            var digit = number[i].toString().toInt()
+            if (alternate) {
+                digit *= 2
+                if (digit > 9) {
+                    digit = (digit % 10) + 1
+                }
+            }
+            sum += digit
+            alternate = !alternate
+        }
+
+        return (10 - (sum % 10)) % 10
+    }
+
+    /**
+     * CVV generasiya (3 rəqəmli)
+     */
+    fun generateCVV(): String {
+        return kotlin.random.Random.nextInt(100, 999).toString()
+    }
+
+    /**
+     * Expiry date generasiya (indidən 5 il sonra)
+     */
+    fun generateExpiryDate(): String {
+        val calendar = java.util.Calendar.getInstance()
+        calendar.add(java.util.Calendar.YEAR, 5)
+
+        val month = calendar.get(java.util.Calendar.MONTH) + 1
+        val year = calendar.get(java.util.Calendar.YEAR) % 100
+
+        return String.format("%02d/%02d", month, year)
+    }
+
+    /**
+     * Kart nömrəsinə görə kart tipini təyin et
+     */
+    private fun determineCardType(cardNumber: String): String {
+        val firstDigits = cardNumber.replace(" ", "").take(4)
+        return when {
+            firstDigits.startsWith("4") -> "VISA"
+            firstDigits.startsWith("5") -> "MasterCard"
+            firstDigits.startsWith("62") -> "UnionPay"
+            else -> "VISA"
+        }
     }
 }

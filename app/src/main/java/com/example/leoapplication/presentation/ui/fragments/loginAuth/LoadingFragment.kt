@@ -1,3 +1,5 @@
+package com.example.leoapplication.presentation.ui.fragments.loginAuth
+
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.os.Handler

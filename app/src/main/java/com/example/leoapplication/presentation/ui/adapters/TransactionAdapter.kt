@@ -1,40 +1,96 @@
 package com.example.leoapplication.presentation.ui.adapters
 
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import android.widget.ImageView
-//import android.widget.TextView
-//import androidx.recyclerview.widget.RecyclerView
-//import com.example.leoapplication.R
-//import com.example.leoapplication.domain.model.Transaction
-//class TransactionAdapter(private val transactions: MutableList<Transaction>) :
-//    RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
-//
-//    inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//        val icon: ImageView = itemView.findViewById(R.id.imgIcon)
-//        val title: TextView = itemView.findViewById(R.id.tvTitle)
-//        val subtitle: TextView = itemView.findViewById(R.id.tvSubtitle)
-//        val amount: TextView = itemView.findViewById(R.id.tvAmount)
-//    }
-//
-//    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-//        val view = LayoutInflater.from(parent.context)
-//            .inflate(R.layout.item_transaction, parent, false)
-//        return TransactionViewHolder(view)
-//    }
-//
-//    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-//        val transaction = transactions[position]
-//        holder.title.text = transaction.title
-//        holder.subtitle.text = transaction.subtitle
-//        holder.amount.text = "${transaction.amount} ₼"
-//    }
-//
-//    override fun getItemCount(): Int = transactions.size
-//
-//    fun addTransaction(transaction: Transaction) {
-//        transactions.add(0, transaction)
-//        notifyItemInserted(0)
-//    }
-//}
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.leoapplication.R
+import com.example.leoapplication.data.model.Transaction
+import com.example.leoapplication.data.model.TransactionStatus
+import com.example.leoapplication.data.model.TransactionType
+import com.example.leoapplication.databinding.ItemTransactionBinding
+import java.text.SimpleDateFormat
+import java.util.*
+
+class TransactionAdapter(
+    private val onItemClick: (Transaction) -> Unit
+) : ListAdapter<Transaction, TransactionAdapter.TransactionViewHolder>(TransactionDiffCallback()) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
+        val binding = ItemTransactionBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return TransactionViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+    inner class TransactionViewHolder(
+        private val binding: ItemTransactionBinding
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(transaction: Transaction) {
+            with(binding) {
+                // Tarix formatı
+                val dateFormat = SimpleDateFormat("dd MMM, HH:mm", Locale("az"))
+                tvDate.text = dateFormat.format(Date(transaction.timestamp))
+
+                // Təsvir
+                tvDescription.text = when {
+                    transaction.description.isNotEmpty() -> transaction.description
+                    transaction.type == TransactionType.TRANSFER -> "Köçürmə"
+                    transaction.type == TransactionType.PAYMENT -> "Ödəniş"
+                    transaction.type == TransactionType.DEPOSIT -> "Balans artırma"
+                    else -> "Əməliyyat"
+                }
+
+                // Məbləğ və işarə (+ və ya -)
+                val isOutgoing = transaction.type == TransactionType.TRANSFER ||
+                        transaction.type == TransactionType.PAYMENT
+
+                val amountText = if (isOutgoing) {
+                    "- ${String.format("%.2f", transaction.amount)} ${transaction.currency}"
+                } else {
+                    "+ ${String.format("%.2f", transaction.amount)} ${transaction.currency}"
+                }
+                tvAmount.text = amountText
+
+                // Rəng
+                val color = if (isOutgoing) {
+                    ContextCompat.getColor(root.context, android.R.color.holo_red_dark)
+                } else {
+                    ContextCompat.getColor(root.context, android.R.color.holo_green_dark)
+                }
+                tvAmount.setTextColor(color)
+
+                // Status icon
+                val statusIcon = when (transaction.status) {
+                    TransactionStatus.COMPLETED -> R.drawable.ic_check_circle
+                    TransactionStatus.PENDING -> R.drawable.ic_pending
+                    TransactionStatus.FAILED -> R.drawable.ic_error
+                    TransactionStatus.CANCELLED -> R.drawable.ic_cancel
+                }
+                ivStatus.setImageResource(statusIcon)
+
+                // Click
+                root.setOnClickListener { onItemClick(transaction) }
+            }
+        }
+    }
+
+    private class TransactionDiffCallback : DiffUtil.ItemCallback<Transaction>() {
+        override fun areItemsTheSame(oldItem: Transaction, newItem: Transaction): Boolean {
+            return oldItem.transactionId == newItem.transactionId
+        }
+
+        override fun areContentsTheSame(oldItem: Transaction, newItem: Transaction): Boolean {
+            return oldItem == newItem
+        }
+    }
+}

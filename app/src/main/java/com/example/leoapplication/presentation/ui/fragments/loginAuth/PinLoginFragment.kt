@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentPinLoginBinding
+import com.example.leoapplication.util.DialogHelper.showSupportDialog
 import com.example.leoapplication.util.PinManager
 import com.example.leoapplication.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +39,9 @@ class PinLoginFragment : Fragment() {
         checkLockStatus()
         setupNumberPad()
         setupForgetPin()
+        binding.helpPin.setOnClickListener {
+            showSupportDialog()
+        }
     }
 
     private fun checkLockStatus() {

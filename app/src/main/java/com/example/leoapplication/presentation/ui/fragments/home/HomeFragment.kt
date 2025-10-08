@@ -1,195 +1,236 @@
 package com.example.leoapplication.presentation.ui.fragments.home
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-
-
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.leoapplication.databinding.FragmentHomeBinding
+import com.example.leoapplication.presentation.ui.adapters.TransactionAdapter
+import com.example.leoapplication.presentation.viewmodel.HomeUiState
+import com.example.leoapplication.presentation.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-// getalltransaction 5 denesi layotlari
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
-//    private lateinit var binding: FragmentHomeBinding
-//    private val cardVM: CardVM by activityViewModels()
-//    private val loginVM: LoginWithNumberVM by activityViewModels()
-//
-//    private lateinit var transactionAdapter: TransactionAdapter
-//    private val firestore = FirebaseFirestore.getInstance()
-//
-//
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        binding = FragmentHomeBinding.inflate(inflater, container, false)
-//        return binding.root
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        setupSearchView()
-//        navigateToIncreaseBalance()
-//        navigateOtherPay()
-//
-//
-//        val recyclerView = binding.recyclerView
-//        transactionAdapter = TransactionAdapter(mutableListOf())
-//        recyclerView.adapter = transactionAdapter
-//        recyclerView.layoutManager = LinearLayoutManager(context)
-//
-//        listenTransactions()
-//
-////        // Dummy transaction list
-////        val transactions = listOf(
-////            Transaction("suku", "Karta köçürmə", 1.00, false, R.drawable.ic_whatsapp),
-////            Transaction("Bolt", "Taksi", 2.65, false, R.drawable.icnextpage),
-////            Transaction("www.birbank.az", "Kart hesabının artımı", 5.00, true, R.drawable.icnotepad),
-////            Transaction("Xuraman Q.", "Kart hesabının artımı", 5.00, true, R.drawable.ic_whatsapp),
-////            Transaction("suku", "Karta köçürmə", 1.00, false, R.drawable.ic_whatsapp),
-////            Transaction("Bolt", "Taksi", 2.65, false, R.drawable.icnextpage),
-////            Transaction("www.birbank.az", "Kart hesabının artımı", 5.00, true, R.drawable.icnotepad),
-////            Transaction("Xuraman Q.", "Kart hesabının artımı", 5.00, true, R.drawable.ic_whatsapp),
-////            Transaction("suku", "Karta köçürmə", 1.00, false, R.drawable.ic_whatsapp),
-////            Transaction("Bolt", "Taksi", 2.65, false, R.drawable.icnextpage),
-////            Transaction("www.birbank.az", "Kart hesabının artımı", 5.00, true, R.drawable.icnotepad),
-////            Transaction("Xuraman Q.", "Kart hesabının artımı", 5.00, true, R.drawable.ic_whatsapp),
-////            Transaction("suku", "Karta köçürmə", 1.00, false, R.drawable.ic_whatsapp),
-////            Transaction("Bolt", "Taksi", 2.65, false, R.drawable.icnextpage),
-////            Transaction("www.birbank.az", "Kart hesabının artımı", 5.00, true, R.drawable.icnotepad),
-////            Transaction("Xuraman Q.", "Kart hesabının artımı", 5.00, true, R.drawable.ic_whatsapp),
-////        )
-//
-////        // Adapter və klik zamanı TransactionDetailFragment-ə keçid
-////        val adapter = TransactionAdapter(transactions) { clickedItem ->
-////            val bundle = Bundle().apply {
-////                putSerializable("transaction", clickedItem)
-////            }
-////            findNavController().navigate(
-////                R.id.action_nav_home_to_transactionDetailFragment,
-////                bundle
-////            )
-////        }
-////
-////        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-////        binding.recyclerView.adapter = adapter
-//
-//        // Firebase-dən mövcud kart məlumatını çək
-//        val phone = loginVM.phoneNumber
-//        if (phone.isNotEmpty()) {
-//            cardVM.fetchCardByPhone(phone)
-//        }
-//
-//        // Kart məlumatı gələndə UI göstər
-//        cardVM.bankCard.observe(viewLifecycleOwner) { card ->
-//            card ?: return@observe
-//
-//            binding.homeAppbar.balanceNum.text = card.balance.toString()
-//            binding.homeAppbar.balanceNumSmall.text = card.balance.toString()
-//
-//            val appBar = view.findViewById<AppBarLayout>(R.id.app_bar)
-//            val cardVisa = view.findViewById<View>(R.id.card_visa)
-//            val visaTxt = view.findViewById<TextView>(R.id.card_number)
-//
-//            // AppBar scroll animasiyası
-//            appBar.addOnOffsetChangedListener { _, verticalOffset ->
-//                val totalRange = appBar.totalScrollRange
-//                val progress = -verticalOffset / totalRange.toFloat()
-//
-//                if (progress >= 1f) {
-//                    cardVisa.visibility = View.GONE
-//                    visaTxt.visibility = View.GONE
-//                } else {
-//                    cardVisa.visibility = View.VISIBLE
-//                    visaTxt.visibility = View.VISIBLE
-//                    cardVisa.translationY = progress * cardVisa.height
-//                    visaTxt.translationY = progress * visaTxt.height
-//                }
-//            }
-//
-//            cardVisa.transitionName = "card_transition" // Shared element adı
-//
-//            cardVisa.setOnClickListener {
-//                visaTxt.isInvisible
-//                cardVisa.animate()
-//                    .rotationY(90f)
-//                    .setDuration(200)
-//                    .withEndAction {
-//                        val extras = androidx.navigation.fragment.FragmentNavigatorExtras(
-//                            cardVisa to "card_transition"
-//                        )
-//                        findNavController().navigate(
-//                            R.id.action_nav_home_to_cardFragment,
-//                            null,
-//                            null,
-//                            extras
-//                        )
-//                    }
-//                    .start()
-//            }
-//        }
-//    }
-//
-//    private fun navigateToIncreaseBalance() {
-//        binding.appBar.findViewById<ImageView>(R.id.add_button).setOnClickListener {
-//            findNavController().navigate(R.id.action_nav_home_to_increaseBalanceFragment)
-//        }
-//
-//        binding.appBar.findViewById<ImageView>(R.id.next_button).setOnClickListener {
-//            findNavController().navigate(R.id.action_nav_home_to_exportToFragment)
-//        }
-//    }
-//      private fun navigateOtherPay(){
-//          binding.homeAppbar.walletButton.setOnClickListener {
-//              findNavController().navigate(R.id.action_nav_home_to_otherPaysFragment)
-//          }
-//
-//      }
-//
-//    private fun setupSearchView() {
-//        val searchView = binding.searchView
-//        val imgSearch = binding.imgSearch
-//        val closeButton = binding.btnCloseSearch
-//
-//        searchView.visibility = View.GONE
-//        closeButton.visibility = View.GONE
-//
-//        imgSearch.setOnClickListener {
-//            imgSearch.visibility = View.GONE
-//            searchView.visibility = View.VISIBLE
-//            closeButton.visibility = View.VISIBLE
-//            searchView.isIconified = false
-//            searchView.requestFocus()
-//        }
-//
-//        closeButton.setOnClickListener {
-//            if (searchView.query.isEmpty()) {
-//                searchView.visibility = View.GONE
-//                closeButton.visibility = View.GONE
-//                imgSearch.visibility = View.VISIBLE
-//            } else {
-//                searchView.setQuery("", false)
-//            }
-//        }
-//
-//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-//            override fun onQueryTextSubmit(query: String?) = false
-//            override fun onQueryTextChange(newText: String?) = false
-//        })
-//    }
-//
-//
-//    private fun listenTransactions() {
-//        firestore.collection("transactions")
-//            .orderBy("transactionDate", Query.Direction.DESCENDING)
-//            .addSnapshotListener { snapshots, error ->
-//                if (error != null) return@addSnapshotListener
-//                snapshots?.documentChanges?.forEach { docChange ->
-//                    if (docChange.type == DocumentChange.Type.ADDED) {
-//                        val transaction = docChange.document.toObject(Transaction::class.java)
-//                        transactionAdapter.addTransaction(transaction)
-//                    }
-//                }
-//            }
-//}
+
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: HomeViewModel by viewModels()
+
+    private lateinit var transactionAdapter: TransactionAdapter
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupRecyclerView()
+        setupObservers()
+        setupClickListeners()
+        setupSearch()
+    }
+
+    private fun setupRecyclerView() {
+        transactionAdapter = TransactionAdapter { transaction ->
+            // Transaction detail-ə keç
+            Toast.makeText(
+                requireContext(),
+                "Məbləğ: ${transaction.amount} ${transaction.currency}\n${transaction.description}",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = transactionAdapter
+            setHasFixedSize(true)
+        }
+    }
+
+    private fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                // UI State observer
+                launch {
+                    viewModel.uiState.collect { state ->
+                        when (state) {
+                            is HomeUiState.Loading -> {
+                                showLoading(true)
+                            }
+                            is HomeUiState.Success -> {
+                                showLoading(false)
+                            }
+                            is HomeUiState.Error -> {
+                                showLoading(false)
+                                val errorMessage = state.message ?: "Xəta baş verdi"
+                                Toast.makeText(
+                                    requireContext(),
+                                    errorMessage,
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    }
+                }
+
+                // Selected Card observer
+                launch {
+                    viewModel.selectedCard.collect { card ->
+                        card?.let {
+                            updateCardUI(it)
+                        }
+                    }
+                }
+
+                // Transactions observer
+                launch {
+                    viewModel.filteredTransactions.collect { transactions ->
+                        transactionAdapter.submitList(transactions)
+
+                        // Empty state
+                        if (transactions.isEmpty()) {
+                            binding.recyclerView.visibility = View.GONE
+                            // TODO: Empty view göstər
+                        } else {
+                            binding.recyclerView.visibility = View.VISIBLE
+                        }
+                    }
+                }
+
+                // User Data observer (optional)
+                launch {
+                    viewModel.userData.collect { user ->
+                        user?.let {
+                            // İstifadəçi adını toolbar-da göstərə bilərsən
+                            // binding.homeAppbar.toolbar.title = user.fullName
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun updateCardUI(card: com.example.leoapplication.data.model.Card) {
+        with(binding.homeAppbar) {
+            // Böyük balans (expanded)
+            balanceNum.text = card.getFormattedBalance()
+            balanceNumAzn.text = card.currency
+
+            // Kiçik balans (collapsed)
+            balanceNumSmall.text = card.getFormattedBalance()
+            balanceNumAznSmall.text = card.currency
+
+            // Kart tipi
+            cardNumber.text = card.cardType
+        }
+    }
+
+    private fun setupClickListeners() {
+        with(binding.homeAppbar) {
+
+            // Balans artırılması
+            addButton.setOnClickListener {
+                Toast.makeText(
+                    requireContext(),
+                    "Balans artırılması",
+                    Toast.LENGTH_SHORT
+                ).show()
+                // TODO: Navigate to TopUpFragment
+            }
+
+            // Karta köçürmə
+            nextButton.setOnClickListener {
+                Toast.makeText(
+                    requireContext(),
+                    "Karta köçürmə",
+                    Toast.LENGTH_SHORT
+                ).show()
+                // TODO: Navigate to TransferFragment
+            }
+
+            // Əməliyyatlar
+            walletButton.setOnClickListener {
+                Toast.makeText(
+                    requireContext(),
+                    "Əməliyyatlar",
+                    Toast.LENGTH_SHORT
+                ).show()
+                // TODO: Navigate to TransactionsFragment
+            }
+
+            // Kart məlumatlarına keç
+            cardVisa.setOnClickListener {
+                viewModel.selectedCard.value?.let { card ->
+                    Toast.makeText(
+                        requireContext(),
+                        "Kart: ${card.cardNumber}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    // TODO: Navigate to CardFragment
+                    // val action = HomeFragmentDirections.actionHomeToCard(card.cardId)
+                    // findNavController().navigate(action)
+                }
+            }
+        }
+    }
+
+    private fun setupSearch() {
+        // Search açma
+        binding.imgSearch.setOnClickListener {
+            binding.searchView.visibility = View.VISIBLE
+            binding.imgSearch.visibility = View.GONE
+            binding.searchView.requestFocus()
+        }
+
+        // Search bağlama
+        binding.btnCloseSearch.setOnClickListener {
+            binding.searchView.visibility = View.GONE
+            binding.imgSearch.visibility = View.VISIBLE
+            binding.searchView.setQuery("", false)
+            binding.searchView.clearFocus()
+            viewModel.searchTransactions("")
+        }
+
+        // Search query listener
+        binding.searchView.setOnQueryTextListener(
+            object : android.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    query?.let { viewModel.searchTransactions(it) }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    newText?.let { viewModel.searchTransactions(it) }
+                    return true
+                }
+            }
+        )
+    }
+
+    private fun showLoading(show: Boolean) {
+        // TODO: ProgressBar əlavə et və göstər/gizlət
+        // binding.progressBar.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+}

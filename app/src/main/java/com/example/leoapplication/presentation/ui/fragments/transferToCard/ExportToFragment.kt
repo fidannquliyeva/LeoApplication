@@ -27,11 +27,11 @@ class ExportToFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.linearLayoutNewPay.setOnClickListener {
-            findNavController().navigate(R.id.action_exportToFragment_to_exportToNewCardFragment)
-
-
-        }
+//        binding.linearLayoutNewPay.setOnClickListener {
+//            findNavController().navigate(R.id.action_exportToFragment_to_exportToNewCardFragment)
+//
+//
+//        }
     }
 
 

@@ -14,6 +14,7 @@ import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentSmsLoginBinding
 import com.example.leoapplication.presentation.viewmodel.PhoneAuthViewModel
 import com.example.leoapplication.util.Constants
+import com.example.leoapplication.util.DialogHelper.showSupportDialog
 import com.example.leoapplication.util.PinManager
 import com.example.leoapplication.util.Resource
 import com.example.leoapplication.util.showToast
@@ -46,6 +47,10 @@ class SmsLoginFragment : Fragment() {
         setupUI()
         setupNumberPad()
         observeViewModel()
+        binding.btnHelp.setOnClickListener {
+            showSupportDialog()
+        }
+
     }
 
     private fun setupUI() {

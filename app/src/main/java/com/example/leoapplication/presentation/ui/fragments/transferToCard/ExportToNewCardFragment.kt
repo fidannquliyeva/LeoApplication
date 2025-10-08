@@ -36,7 +36,7 @@ class ExportToNewCardFragment : Fragment() {
             if (cardNumber.isNotEmpty()) {
                 val bundle = Bundle()
                 bundle.putString("receiverCardId", cardNumber)
-                findNavController().navigate(R.id.action_exportToNewCardFragment_to_exportToMoneyFragment, bundle)
+//                findNavController().navigate(R.id.action_exportToNewCardFragment_to_exportToMoneyFragment, bundle)
             } else {
                 Toast.makeText(context, "Kart nömrəsini daxil edin", Toast.LENGTH_SHORT).show()
             }

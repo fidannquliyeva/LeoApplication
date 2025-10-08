@@ -1,6 +1,6 @@
 package com.example.leoapplication.di
 
-import com.example.leoapplication.data.remote.PaymentRepositoryImpl
+import com.example.leoapplication.data.repository.PaymentRepositoryImpl
 import com.example.leoapplication.data.repository.AuthRepositoryImpl
 import com.example.leoapplication.data.repository.CardRepositoryImpl
 import com.example.leoapplication.data.repository.TransactionRepositoryImpl

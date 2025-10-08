@@ -15,8 +15,6 @@ import androidx.navigation.fragment.navArgs
 import com.example.leoapplication.data.model.User
 
 import com.example.leoapplication.databinding.FragmentSignUpBinding
-import com.example.leoapplication.presentation.viewmodel.AuthViewModel
-import com.example.leoapplication.presentation.viewmodel.CardViewModel
 import com.example.leoapplication.presentation.viewmodel.PhoneAuthViewModel
 import com.example.leoapplication.util.Constants
 import com.example.leoapplication.util.Resource

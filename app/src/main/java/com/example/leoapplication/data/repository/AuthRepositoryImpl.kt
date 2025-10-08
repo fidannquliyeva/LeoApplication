@@ -37,21 +37,26 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun createInitialCard(userId: String, phoneNumber: String): Result<Card> {
         return try {
-            val cardNumber = firestoreDataSource.generateCardNumber(phoneNumber)
+            // İstifadəçi məlumatlarını al (ad-soyad üçün)
+            val userResult = firestoreDataSource.getUser(userId)
+            val fullName = userResult.getOrNull()?.fullName ?: "CARD HOLDER"
+
+            // Kart ID yarat
             val cardId = FirebaseFirestore.getInstance()
                 .collection(Constants.CARDS_COLLECTION)
                 .document()
                 .id
 
-            val card = Card(
+            // Tam kart məlumatları ilə kart generasiya et
+            val generatedCard = firestoreDataSource.generateFullCard(phoneNumber, fullName)
+
+            // Card ID və userId əlavə et
+            val card = generatedCard.copy(
                 cardId = cardId,
-                userId = userId,
-                cardNumber = cardNumber,
-                balance = Constants.DEFAULT_BALANCE,
-                currency = Constants.DEFAULT_CURRENCY,
-                isActive = true
+                userId = userId
             )
 
+            // Firestore-a yaz
             val result = firestoreDataSource.createCard(card)
             if (result.isSuccess) {
                 Result.success(card)
