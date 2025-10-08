@@ -4,6 +4,14 @@ import android.app.Activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.leoapplication.data.model.Card
+import com.example.leoapplication.data.model.User
+import com.example.leoapplication.data.remote.FirestoreDataSource
+import com.example.leoapplication.domain.usecase.auth.CreateUserUseCase
+import com.example.leoapplication.domain.usecase.auth.SendOtpUseCase
+import com.example.leoapplication.domain.usecase.auth.VerifyOtpUseCase
+import com.example.leoapplication.util.Resource
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
@@ -11,85 +19,140 @@ import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class PhoneAuthViewModel @Inject constructor(
-    private val firestore: FirebaseFirestore
+    private val sendOtpUseCase: SendOtpUseCase,
+    private val verifyOtpUseCase: VerifyOtpUseCase,
+    private val createUserUseCase: CreateUserUseCase,
+    private val firestoreDataSource: FirestoreDataSource
+
 ) : ViewModel() {
 
-    private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    // OTP göndərilmə vəziyyəti
+    private val _verificationState = MutableLiveData<VerificationState>()
+    val verificationState: LiveData<VerificationState> = _verificationState
 
-    private val _otpSent = MutableLiveData<String>() // verificationId
-    val otpSent: LiveData<String> get() = _otpSent
+    // Auth vəziyyəti (OTP təsdiqlənməsi)
+    private val _authState = MutableLiveData<Resource<String>>()
+    val authState: LiveData<Resource<String>> = _authState
 
-    private val _otpVerified = MutableLiveData<Boolean>()
-    val otpVerified: LiveData<Boolean> get() = _otpVerified
+    // İstifadəçi yaradılması vəziyyəti
+    private val _userCreationState = MutableLiveData<Resource<Card>>()
+    val userCreationState: LiveData<Resource<Card>> = _userCreationState
 
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage: LiveData<String> get() = _errorMessage
+    // Saxlanmış verification ID və token
+    var storedVerificationId: String? = null
+    var resendToken: PhoneAuthProvider.ForceResendingToken? = null
 
-    private val _otpAutoFilled = MutableLiveData<String>()
-    val otpAutoFilled: LiveData<String> get() = _otpAutoFilled
+    /**
+     * OTP göndərmə
+     */
+    fun sendVerificationCode(
+        phoneNumber: String,
+        activity: androidx.fragment.app.FragmentActivity
+    ) {
+        _verificationState.value = VerificationState.CodeSending
 
-
-    // Firestore-da nömrəni yoxla və OTP göndər
-    fun checkNumberAndSendOtp(phoneNumber: String, activity: Activity) {
-        firestore.collection("users")
-            .whereEqualTo("phone", phoneNumber)
-            .get()
-            .addOnSuccessListener { snapshot ->
-                if (!snapshot.isEmpty) {
-                    startPhoneVerification(phoneNumber, activity)
-                } else {
-                    _errorMessage.value = "Bu nömrə ilə qeydiyyat yoxdur"
-                }
+        val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                // Avtomatik təsdiqləmə
+                verifyPhoneNumber(credential)
             }
-            .addOnFailureListener { e ->
-                _errorMessage.value = e.message
+
+            override fun onVerificationFailed(e: com.google.firebase.FirebaseException) {
+                _verificationState.value = VerificationState.CodeSendFailed(
+                    e.message ?: "Doğrulama uğursuz oldu"
+                )
             }
+
+            override fun onCodeSent(
+                verificationId: String,
+                token: PhoneAuthProvider.ForceResendingToken
+            ) {
+                android.util.Log.d("PhoneAuthVM", "📨 TEST: Kod göndərildi! ID: $verificationId")
+                storedVerificationId = verificationId
+                resendToken = token
+                _verificationState.value = VerificationState.CodeSent
+            }
+        }
+
+        sendOtpUseCase(phoneNumber, activity, callbacks)
     }
 
-    // OTP göndərmə
-    private fun startPhoneVerification(phoneNumber: String, activity: Activity) {
-        val options = PhoneAuthOptions.newBuilder(auth)
-            .setPhoneNumber(phoneNumber)
-            .setTimeout(60L, TimeUnit.SECONDS)
-            .setActivity(activity)
-            .setCallbacks(object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                    // SMS kodu varsa TextView-a avtomatik yaz
-                    credential.smsCode?.let { code ->
-                        _otpAutoFilled.value = code
-                    }
-                    // Avtomatik təsdiqləndi
-                    _otpVerified.value = true
-                }
+    /**
+     * OTP təsdiqləmə (manual kod daxil edildikdə)
+     */
+    fun verifyCode(code: String) {
+        val verificationId = storedVerificationId
+        if (verificationId.isNullOrEmpty()) {
+            _authState.value = Resource.Error("Doğrulama ID-si tapılmadı")
+            return
+        }
 
-                override fun onVerificationFailed(e: FirebaseException) {
-                    _errorMessage.value = e.message
-                }
-
-                override fun onCodeSent(
-                    verificationId: String,
-                    token: PhoneAuthProvider.ForceResendingToken
-                ) {
-                    _otpSent.value = verificationId
-                }
-            })
-            .build()
-
-        PhoneAuthProvider.verifyPhoneNumber(options)
-    }
-
-    // OTP yoxlama
-    fun verifyOtp(verificationId: String, code: String) {
         val credential = PhoneAuthProvider.getCredential(verificationId, code)
-        auth.signInWithCredential(credential)
-            .addOnCompleteListener { task ->
-                _otpVerified.value = task.isSuccessful
-                if (!task.isSuccessful) _errorMessage.value = task.exception?.message
+        verifyPhoneNumber(credential)
+    }
+
+    /**
+     * Firebase ilə credential yoxlama
+     */
+    private fun verifyPhoneNumber(credential: PhoneAuthCredential) {
+        _authState.value = Resource.Loading()
+
+        viewModelScope.launch {
+            val result = verifyOtpUseCase(credential)
+
+            _authState.value = if (result.isSuccess) {
+                Resource.Success(result.getOrNull()!!)
+            } else {
+                Resource.Error(result.exceptionOrNull()?.message ?: "Giriş uğursuz")
             }
+        }
+    }
+
+    /**
+     * İstifadəçi və kart yaratmaq
+     */
+    fun createUserProfile(user: User) {
+        _userCreationState.value = Resource.Loading()
+
+        viewModelScope.launch {
+            val result = createUserUseCase(user)
+
+            _userCreationState.value = if (result.isSuccess) {
+                Resource.Success(result.getOrNull()!!)
+            } else {
+                Resource.Error(
+                    result.exceptionOrNull()?.message ?: "Profil yaradılmadı"
+                )
+            }
+        }
+
+
+    }
+
+    /**
+     * User artıq qeydiyyatdan keçib?
+     */
+    suspend fun checkIfUserExists(userId: String): Boolean {
+        return try {
+            val result = firestoreDataSource.getUser(userId)
+            result.isSuccess && result.getOrNull() != null
+        } catch (e: Exception) {
+            false
+        }
+    }
+
+    /**
+     * Verification State
+     */
+    sealed class VerificationState {
+        object CodeSending : VerificationState()
+        object CodeSent : VerificationState()
+        data class CodeSendFailed(val message: String) : VerificationState()
     }
 }

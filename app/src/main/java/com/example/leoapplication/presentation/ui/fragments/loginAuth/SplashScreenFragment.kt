@@ -40,7 +40,7 @@ class SplashScreenFragment : Fragment() {
 
     private fun goToSign(){
         Handler(Looper.getMainLooper()).postDelayed({
-//            findNavController().navigate(R.id.action_splashScreenFragment_to_newUserInfoFragment)
+           findNavController().navigate(R.id.action_splashScreenFragment_to_loginWithNumberFragment)
         }, 2000)
 
     }

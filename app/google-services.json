@@ -12,7 +12,12 @@
           "package_name": "com.example.leoapplication"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "543097783294-elp8frf3pjulm8p37ik8v97bl58i3oma.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCT6uwUWRQ0x30q9K1FiOsnHoQnkJMEDpU"
@@ -20,7 +25,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "543097783294-elp8frf3pjulm8p37ik8v97bl58i3oma.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

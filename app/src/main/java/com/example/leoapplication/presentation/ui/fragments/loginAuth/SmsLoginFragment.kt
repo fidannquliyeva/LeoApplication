@@ -1,39 +1,35 @@
 package com.example.leoapplication.presentation.ui.fragments.loginAuth
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RadioButton
-import android.widget.RadioGroup
-import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentSmsLoginBinding
-import com.example.leoapplication.presentation.viewmodel.AuthViewModel
 import com.example.leoapplication.presentation.viewmodel.PhoneAuthViewModel
-import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.example.leoapplication.util.Constants
+import com.example.leoapplication.util.Resource
+import com.example.leoapplication.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
+import kotlinx.coroutines.launch
+
+
 @AndroidEntryPoint
 class SmsLoginFragment : Fragment() {
 
     private var _binding: FragmentSmsLoginBinding? = null
     private val binding get() = _binding!!
 
-    private val phoneAuthViewModel: PhoneAuthViewModel by viewModels()
+    private val viewModel: PhoneAuthViewModel by activityViewModels()
+    private val args: SmsLoginFragmentArgs by navArgs()
 
-    private var verificationId: String = ""
-    private var otpInput: String = ""
+    private var otpCode = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,62 +43,126 @@ class SmsLoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnHelp.setOnClickListener{
-            showSupportDialog()
-        }
-        verificationId = arguments?.getString("verificationId") ?: ""
-
+        setupUI()
         setupNumberPad()
-        setupObservers()
+        observeViewModel()
     }
 
-    private fun setupObservers() {
-        // OTP avtomatik gələndə TextView-a doldur
-        phoneAuthViewModel.otpAutoFilled.observe(viewLifecycleOwner) { code ->
-            otpInput = code
-            binding.msgNumber.text = otpInput.chunked(1).joinToString(" ")
-            phoneAuthViewModel.verifyOtp(verificationId, code)
-        }
-
-        phoneAuthViewModel.otpVerified.observe(viewLifecycleOwner) { success ->
-            if (success) {
-                Toast.makeText(requireContext(), "OTP təsdiqləndi!", Toast.LENGTH_SHORT).show()
-//                findNavController().navigate(R.id.action_smsLoginFragment_to_createPinFragment)
-            }
-        }
-
-        phoneAuthViewModel.errorMessage.observe(viewLifecycleOwner) { msg ->
-            msg?.let { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() }
-        }
+    private fun setupUI() {
+        binding.txtMsg.text = args.phoneNumber
+        updateOtpDisplay()
     }
 
     private fun setupNumberPad() {
-        val buttons = mapOf(
-            binding.btn0 to "0",
-            binding.btn1 to "1",
-            binding.btn2 to "2",
-            binding.btn3 to "3",
-            binding.btn4 to "4",
-            binding.btn5 to "5",
-            binding.btn6 to "6",
-            binding.btn7 to "7",
-            binding.btn8 to "8",
-            binding.btn9 to "9"
+        val numberButtons = listOf(
+            binding.btn0, binding.btn1, binding.btn2, binding.btn3,
+            binding.btn4, binding.btn5, binding.btn6, binding.btn7,
+            binding.btn8, binding.btn9
         )
 
-        buttons.forEach { (button, digit) ->
+        numberButtons.forEachIndexed { index, button ->
             button.setOnClickListener {
-                if (otpInput.length < 6) {
-                    otpInput += digit
-                    binding.msgNumber.text = otpInput.chunked(1).joinToString(" ")
+                if (otpCode.length < Constants.OTP_LENGTH) {
+                    otpCode += if (index == 0) "0" else index.toString()
+                    updateOtpDisplay()
+
+                    if (otpCode.length == Constants.OTP_LENGTH) {
+                        verifyOtp()
+                    }
                 }
             }
         }
 
         binding.btnDelete.setOnClickListener {
-            if (otpInput.isNotEmpty()) {
-                otpInput = otpInput.dropLast(1)
-                binding.msgNumber.text = otpInput.chunked(1).joinToString(" ")
+            if (otpCode.isNotEmpty()) {
+                otpCode = otpCode.dropLast(1)
+                updateOtpDisplay()
+            }
+        }
+
+        binding.infoMsg2.setOnClickListener {
+            viewModel.sendVerificationCode(args.phoneNumber, requireActivity())
+            showToast("Kod yenidən göndərildi")
+        }
+    }
+
+    private fun updateOtpDisplay() {
+        val displayText = buildString {
+            for (i in 0 until Constants.OTP_LENGTH) {
+                if (i < otpCode.length) {
+                    append(otpCode[i])
+                } else {
+                    append("0")
+                }
+                if (i < Constants.OTP_LENGTH - 1) {
+                    append(" ")
+                }
+            }
+        }
+
+        binding.msgNumber.text = displayText
+        binding.msgNumber.setTextColor(
+            if (otpCode.length == Constants.OTP_LENGTH) {
+                resources.getColor(R.color.textColor, null)
+            } else {
+                resources.getColor(android.R.color.darker_gray, null)
+            }
+        )
+    }
+
+    private fun verifyOtp() {
+        viewModel.verifyCode(otpCode)
+    }
+
+    private fun observeViewModel() {
+        viewModel.verificationState.observe(viewLifecycleOwner) { state ->
+            when (state) {
+                is PhoneAuthViewModel.VerificationState.CodeSending -> {
+                    // Loading
+                }
+                is PhoneAuthViewModel.VerificationState.CodeSent -> {
+                    showToast("Kod göndərildi")
+                }
+                is PhoneAuthViewModel.VerificationState.CodeSendFailed -> {
+                    showToast(state.message, android.widget.Toast.LENGTH_LONG)
+                }
+            }
+        }
+
+        viewModel.authState.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    binding.msgNumber.text = "Yoxlanılır..."
+                }
+                is Resource.Success -> {
+                    val userId = resource.data!!
+
+                    // ✅ User mövcudluğunu yoxla
+                    checkUserExists(userId)
+                }
+                is Resource.Error -> {
+                    showToast(resource.message ?: "Xəta baş verdi", android.widget.Toast.LENGTH_LONG)
+                    otpCode = ""
+                    updateOtpDisplay()
+                }
+            }
+        }
+    }
+
+    private fun checkUserExists(userId: String) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            // Firestore-da user var?
+            val userExists = viewModel.checkIfUserExists(userId)
+
+            if (userExists) {
+                // ✅ User var → Home-a get
+                showToast("Xoş gəldiniz!")
+                findNavController().navigate(R.id.action_smsLogin_to_home)
+            } else {
+                // ❌ Yeni user → SignUp-a get
+                val action = SmsLoginFragmentDirections
+                    .actionSmsLoginToSignUp(userId, args.phoneNumber)
+                findNavController().navigate(action)
             }
         }
     }
@@ -110,88 +170,5 @@ class SmsLoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-
-    private fun saveLanguage(context: Context, language: String) {
-        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        prefs.edit().putString("selected_language", language).apply()
-    }
-
-    private fun getSavedLanguage(context: Context): String {
-        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-        return prefs.getString("selected_language", "az") ?: "az"
-    }
-
-    private fun updateLocale(context: Context, language: String) {
-        val locale = Locale(language)
-        Locale.setDefault(locale)
-        val config = context.resources.configuration
-        config.setLocale(locale)
-        context.resources.updateConfiguration(config, context.resources.displayMetrics)
-    }
-
-    private fun applyLanguage(language: String) {
-        saveLanguage(requireContext(), language)
-        updateLocale(requireContext(), language)
-        requireActivity().recreate()
-    }
-
-    private fun showSupportDialog() {
-        val dialog = BottomSheetDialog(requireContext())
-        val view = layoutInflater.inflate(R.layout.dialog_support, null)
-        dialog.setContentView(view)
-
-        view.findViewById<LinearLayout>(R.id.layoutWhatsapp).setOnClickListener {
-            openLink("https://wa.me/994123101488", "com.whatsapp"); dialog.dismiss()
-        }
-        view.findViewById<LinearLayout>(R.id.layoutTelegram).setOnClickListener {
-            openLink("https://t.me/Leobank_bot"); dialog.dismiss()
-        }
-        view.findViewById<LinearLayout>(R.id.layoutFacebook).setOnClickListener {
-            openLink("https://www.facebook.com/leobank.az/"); dialog.dismiss()
-        }
-        view.findViewById<LinearLayout>(R.id.layoutViber).setOnClickListener {
-            openLink("https://www.viber.com/leobank.az/"); dialog.dismiss()
-        }
-
-        view.findViewById<ConstraintLayout>(R.id.layoutLanguage).setOnClickListener {
-            dialog.dismiss()
-            val dialogLanguage = BottomSheetDialog(requireContext())
-            val viewLanguage = layoutInflater.inflate(R.layout.dialog_language, null)
-            dialogLanguage.setContentView(viewLanguage)
-
-            val radioGroup = viewLanguage.findViewById<RadioGroup>(R.id.radioGroupLanguage)
-            val radioAzerbaijan = viewLanguage.findViewById<RadioButton>(R.id.radioAzerbaijan)
-            val radioRussian = viewLanguage.findViewById<RadioButton>(R.id.radioRussian)
-
-            if (getSavedLanguage(requireContext()) == "az") radioGroup.check(R.id.radioAzerbaijan)
-            else radioGroup.check(R.id.radioRussian)
-
-            radioAzerbaijan.setOnClickListener {
-                radioGroup.check(R.id.radioAzerbaijan)
-                applyLanguage("az")
-                dialogLanguage.dismiss()
-            }
-
-            radioRussian.setOnClickListener {
-                radioGroup.check(R.id.radioRussian)
-                applyLanguage("ru")
-                dialogLanguage.dismiss()
-            }
-
-            dialogLanguage.show()
-        }
-        dialog.show()
-    }
-
-    private fun openLink(url: String, packageName: String? = null) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            if (packageName != null) intent.setPackage(packageName)
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Tətbiq açılmadı", Toast.LENGTH_SHORT).show()
-        }
     }
 }

@@ -1,8 +1,12 @@
 package com.example.leoapplication.data.remote
 
 import android.provider.SyncStateContract
+import com.example.leoapplication.data.model.Card
+import com.example.leoapplication.data.model.Transaction
 import com.example.leoapplication.data.model.User
+import com.example.leoapplication.util.Constants
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,7 +23,7 @@ class FirestoreDataSource @Inject constructor(
      */
     suspend fun createUser(user: User): Result<Unit> {
         return try {
-            firestore.collection(SyncStateContract.Constants.USERS_COLLECTION)
+            firestore.collection(Constants.USERS_COLLECTION)
                 .document(user.userId)
                 .set(user)
                 .await()
@@ -190,7 +194,7 @@ class FirestoreDataSource @Inject constructor(
      */
     suspend fun updateTransactionStatus(
         transactionId: String,
-        status: com.yourapp.data.model.TransactionStatus
+        status: com.example.leoapplication.data.model.TransactionStatus
     ): Result<Unit> {
         return try {
             firestore.collection(Constants.TRANSACTIONS_COLLECTION)

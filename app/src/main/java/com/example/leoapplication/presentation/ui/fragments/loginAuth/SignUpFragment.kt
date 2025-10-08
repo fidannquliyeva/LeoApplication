@@ -11,27 +11,35 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.example.leoapplication.data.model.User
 
 import com.example.leoapplication.databinding.FragmentSignUpBinding
 import com.example.leoapplication.presentation.viewmodel.AuthViewModel
 import com.example.leoapplication.presentation.viewmodel.CardViewModel
+import com.example.leoapplication.presentation.viewmodel.PhoneAuthViewModel
+import com.example.leoapplication.util.Constants
+import com.example.leoapplication.util.Resource
+import com.example.leoapplication.util.isValidEmail
+import com.example.leoapplication.util.isValidFinCode
+import com.example.leoapplication.util.showToast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-
 @AndroidEntryPoint
 class SignUpFragment : Fragment() {
 
     private var _binding: FragmentSignUpBinding? = null
     private val binding get() = _binding!!
 
-    private val authViewModel: AuthViewModel by viewModels()
-    private val cardViewModel: CardViewModel by viewModels()
+    private val viewModel: PhoneAuthViewModel by viewModels()
+    private val args: SignUpFragmentArgs by navArgs()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSignUpBinding.inflate(inflater, container, false)
@@ -41,117 +49,110 @@ class SignUpFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupObservers()
-        setupListeners()
+        setupDatePicker()
+        setupNextButton()
+        observeViewModel()
+    }
+
+    private fun setupDatePicker() {
         binding.birthDateEditText.setOnClickListener {
-            showDatePickerDialog()
+            val calendar = Calendar.getInstance()
+            val year = calendar.get(Calendar.YEAR)
+            val month = calendar.get(Calendar.MONTH)
+            val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            DatePickerDialog(
+                requireContext(),
+                { _, selectedYear, selectedMonth, selectedDay ->
+                    val formattedDate = String.format(
+                        "%02d/%02d/%d",
+                        selectedDay,
+                        selectedMonth + 1,
+                        selectedYear
+                    )
+                    binding.birthDateEditText.setText(formattedDate)
+                },
+                year,
+                month,
+                day
+            ).show()
         }
     }
 
-    private fun setupListeners() {
+    private fun setupNextButton() {
         binding.nextButton.setOnClickListener {
+            if (validateInputs()) {
+                val user = User(
+                    userId = args.userId,
+                    phoneNumber = args.phoneNumber,
+                    fullName = binding.fullNameEditText.text.toString().trim(),
+                    email = binding.emailEditText.text.toString().trim(),
+                    finCode = binding.finEditText.text.toString().trim().uppercase(),
+                    birthDate = binding.birthDateEditText.text.toString().trim(),
+                    isVerified = true
+                )
 
-            authViewModel.emailInput.value = binding.emailEditText.text.toString()
-
-
-            authViewModel.signUp()
+                viewModel.createUserProfile(user)
+            }
         }
     }
 
-    private fun setupObservers() {
-        // İstifadəçi qeydiyyatı nəticəsi
-        authViewModel.signUpResult.observe(viewLifecycleOwner) { success ->
-            if (success) {
-                Toast.makeText(requireContext(), "Qeydiyyat uğurlu oldu", Toast.LENGTH_SHORT).show()
+    private fun validateInputs(): Boolean {
+        val fullName = binding.fullNameEditText.text.toString().trim()
+        val email = binding.emailEditText.text.toString().trim()
+        val birthDate = binding.birthDateEditText.text.toString().trim()
+        val finCode = binding.finEditText.text.toString().trim()
 
-
-                val uid = authViewModel.getCurrentUserUid()
-                viewLifecycleOwner.lifecycleScope.launch {
-                    cardViewModel.createCardForUser(uid)
-                }
-
-                // OTP fragment-ə dərhal keç
-//                findNavController().navigate(
-//                    SignUpFragmentDirections.actionNewUserInfoFragmentToLoginWithNumberFragment()
-//                )
-            } else {
-                Toast.makeText(requireContext(), "Qeydiyyat uğursuz oldu", Toast.LENGTH_SHORT).show()
+        return when {
+            fullName.isEmpty() || fullName.length < Constants.MIN_NAME_LENGTH -> {
+                binding.fullNameEditText.error = "Ad və soyad ən azı 3 simvol olmalıdır"
+                false
             }
-        }
-
-        // Kart yaradılma nəticəsi
-        cardViewModel.cardCreationResult.observe(viewLifecycleOwner) { success ->
-            if (success) {
-                // Toast göstərmək olar, lakin UI artıq OTP ekranında ola bilər
-                Toast.makeText(requireContext(), "Kart uğurla yaradıldı", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "Kart yaradılmadı", Toast.LENGTH_SHORT).show()
+            email.isEmpty() || !email.isValidEmail() -> {
+                binding.emailEditText.error = "Düzgün email daxil edin"
+                false
             }
-        }
-
-        // Error-lar
-        authViewModel.errorMessage.observe(viewLifecycleOwner) { msg ->
-            if (!msg.isNullOrEmpty()) Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
-        }
-
-        cardViewModel.errorMessage.observe(viewLifecycleOwner) { msg ->
-            if (!msg.isNullOrEmpty()) Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
+            birthDate.isEmpty() -> {
+                showToast("Doğum tarixi seçin")
+                false
+            }
+            finCode.isEmpty() || !finCode.isValidFinCode() -> {
+                binding.finEditText.error = "7 simvollu FIN kod daxil edin"
+                false
+            }
+            else -> true
         }
     }
 
-
-    private fun showDatePickerDialog() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePicker = DatePickerDialog(
-            requireContext(),
-            { _, selectedYear, selectedMonth, selectedDay ->
-                // Seçilən tarixi Calendar obyektinə yazırıq
-                val selectedCalendar = Calendar.getInstance()
-                selectedCalendar.set(selectedYear, selectedMonth, selectedDay)
-
-                // Formatlama: dd.MM.yyyy
-                val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-                val formattedDate = dateFormat.format(selectedCalendar.time)
-
-                // EditText-ə tarixi yazırıq
-                binding.birthDateEditText.setText(formattedDate)
-
-                // Yaşı hesablayırıq
-                val today = Calendar.getInstance()
-                var age = today.get(Calendar.YEAR) - selectedYear
-
-                // Əgər bu il ad günü hələ gəlməyibsə, yaşı -1 edirik
-                if (today.get(Calendar.DAY_OF_YEAR) < selectedCalendar.get(Calendar.DAY_OF_YEAR)) {
-                    age--
+    private fun observeViewModel() {
+        viewModel.userCreationState.observe(viewLifecycleOwner) { resource ->
+            when (resource) {
+                is Resource.Loading -> {
+                    setLoadingState(true)
                 }
+                is Resource.Success -> {
+                    setLoadingState(false)
 
-                // Şərt: 18 yaşdan kiçikdirsə, kart verilmir
-                if (age >= 18) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Yaş: $age → Kart ala bilər ✅",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    // Burada kartı aktivləşdirə bilərsən
-                    binding.nextButton.isEnabled = true
-                } else {
-                    Toast.makeText(
-                        requireContext(),
-                        "Yaş: $age → Kart ala bilməz 🚫",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    // Burada kartı deaktivləşdirə bilərsən
-                    binding.nextButton.isEnabled = false
+                    // LoadingFragment-ə keç
+                    val action = SignUpFragmentDirections.actionSignUpToLoading()
+                    findNavController().navigate(action)
                 }
-            },
-            year, month, day
-        )
+                is Resource.Error -> {
+                    setLoadingState(false)
+                    showToast("Xəta: ${resource.message}", android.widget.Toast.LENGTH_LONG)
+                }
+            }
+        }
+    }
 
-        datePicker.show()
+    private fun setLoadingState(isLoading: Boolean) {
+        binding.nextButton.isEnabled = !isLoading
+        binding.nextButton.text = if (isLoading) "Yüklənir..." else "İrəli"
+
+        binding.fullNameEditText.isEnabled = !isLoading
+        binding.emailEditText.isEnabled = !isLoading
+        binding.birthDateEditText.isEnabled = !isLoading
+        binding.finEditText.isEnabled = !isLoading
     }
 
     override fun onDestroyView() {
