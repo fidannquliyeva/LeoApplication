@@ -150,10 +150,10 @@
         <action
             android:id="@+id/action_nav_home_to_cardFragment"
             app:destination="@id/cardFragment"
-            app:enterAnim="@android:anim/fade_in"
-            app:exitAnim="@android:anim/fade_out"
-            app:popEnterAnim="@android:anim/fade_in"
-            app:popExitAnim="@android:anim/fade_out" />
+            app:enterAnim="@anim/card_flip_left_in"
+            app:exitAnim="@anim/card_flip_right_out"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_nav_home_to_increaseBalanceFragment"
             app:destination="@id/increaseBalanceFragment" />
@@ -224,8 +224,9 @@
         android:name="com.example.leoapplication.presentation.ui.fragments.home.CardFragment"
         android:label="fragment_card"
         tools:layout="@layout/fragment_card" >
+
         <argument
-            android:name="phoneNumber"
+            android:name="cardId"
             app:argType="string" />
     </fragment>
     <fragment

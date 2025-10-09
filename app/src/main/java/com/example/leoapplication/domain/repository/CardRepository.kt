@@ -19,4 +19,6 @@ interface CardRepository {
      * Kart balansını yeniləmək
      */
     suspend fun updateCardBalance(cardId: String, newBalance: Double): Result<Unit>
+
+    suspend fun toggleCardStatus(cardId: String, isActive: Boolean): Result<Unit>
 }

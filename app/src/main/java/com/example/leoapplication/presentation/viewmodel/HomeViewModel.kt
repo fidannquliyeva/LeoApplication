@@ -1,5 +1,6 @@
 package com.example.leoapplication.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.leoapplication.domain.repository.HomeRepository
@@ -42,6 +43,17 @@ class HomeViewModel @Inject constructor(
     val filteredTransactions: StateFlow<List<Transaction>> = _filteredTransactions.asStateFlow()
 
     init {
+        // ✅ LOG
+        val currentUser = auth.currentUser
+        Log.d("HomeViewModel", "====== INIT ======")
+        Log.d("HomeViewModel", "Current user: ${currentUser?.uid}")
+
+        if (currentUser == null) {
+            Log.e("HomeViewModel", "❌ User not logged in!")
+            _uiState.value = HomeUiState.Error("İstifadəçi daxil olmayıb")
+
+        }
+
         loadUserData()
         observeCards()
         loadTransactions()
@@ -63,23 +75,38 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+
+
+
     private fun observeCards() {
         viewModelScope.launch {
+            Log.d("HomeViewModel", "Starting to observe cards...")
             homeRepository.observeUserCards().collect { result ->
+                Log.d("HomeViewModel", "Cards result: $result") // ✅ LOG
+
                 when (result) {
                     is Resource.Success -> {
-                        _cards.value = result.data ?: emptyList()
+                        val cards = result.data ?: emptyList()
+                        _cards.value = cards
 
-                        if (_selectedCard.value == null && result.data?.isNotEmpty() == true) {
-                            _selectedCard.value = result.data.first()
+                        Log.d("HomeViewModel", "✅ Cards loaded: ${cards.size}")
+                        cards.forEach { card ->
+                            Log.d("HomeViewModel", "  - ${card.cardNumber}: ${card.balance} ${card.currency}")
+                        }
+
+                        if (_selectedCard.value == null && cards.isNotEmpty()) {
+                            _selectedCard.value = cards.first()
+                            Log.d("HomeViewModel", "✅ Selected first card: ${cards.first().cardNumber}")
                         }
 
                         _uiState.value = HomeUiState.Success
                     }
                     is Resource.Error -> {
+                        Log.e("HomeViewModel", "❌ Cards error: ${result.message}")
                         _uiState.value = HomeUiState.Error(result.message)
                     }
                     is Resource.Loading -> {
+                        Log.d("HomeViewModel", "⏳ Loading cards...")
                         _uiState.value = HomeUiState.Loading
                     }
                 }
@@ -89,24 +116,30 @@ class HomeViewModel @Inject constructor(
 
     private fun loadTransactions() {
         viewModelScope.launch {
-            val userId = auth.currentUser?.uid ?: return@launch
+            val userId = auth.currentUser?.uid
+            if (userId == null) {
+                Log.e("HomeViewModel", "❌ Cannot load transactions: user is null")
+                return@launch
+            }
 
-            // ✅ DÜZGÜN YOL
+            Log.d("HomeViewModel", "Loading transactions for user: $userId")
+
             val result = transactionRepository.getUserTransactions(userId)
 
             result.onSuccess { txList ->
                 _transactions.value = txList
                 _filteredTransactions.value = txList
+                Log.d("HomeViewModel", "✅ Transactions loaded: ${txList.size}")
             }
 
             result.onFailure { error ->
                 _transactions.value = emptyList()
                 _filteredTransactions.value = emptyList()
-                // İstəsən error message göstər:
-                // _uiState.value = HomeUiState.Error(error.message ?: "Transaksiyalar yüklənmədi")
+                Log.e("HomeViewModel", "❌ Transactions error: ${error.message}")
             }
         }
     }
+
 
     fun searchTransactions(query: String) {
         if (query.isBlank()) {

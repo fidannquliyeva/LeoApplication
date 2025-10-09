@@ -299,4 +299,18 @@ class FirestoreDataSource @Inject constructor(
             else -> "VISA"
         }
     }
+
+
+    // ✅ YENİ - Block/Unblock kart
+    suspend fun toggleCardStatus(cardId: String, isActive: Boolean): Result<Unit> {
+        return try {
+            firestore.collection(Constants.CARDS_COLLECTION)
+                .document(cardId)
+                .update("isActive", isActive)
+                .await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
