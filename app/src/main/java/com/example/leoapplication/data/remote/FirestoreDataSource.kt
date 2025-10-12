@@ -1,12 +1,16 @@
 package com.example.leoapplication.data.remote
 
-import android.provider.SyncStateContract
+import android.util.Log
 import com.example.leoapplication.data.model.Card
 import com.example.leoapplication.data.model.Transaction
+import com.example.leoapplication.data.model.TransactionStatus
 import com.example.leoapplication.data.model.User
 import com.example.leoapplication.util.Constants
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -18,9 +22,6 @@ class FirestoreDataSource @Inject constructor(
 
     // ==================== USER OPERATIONS ====================
 
-    /**
-     * İstifadəçi profili yaratmaq
-     */
     suspend fun createUser(user: User): Result<Unit> {
         return try {
             firestore.collection(Constants.USERS_COLLECTION)
@@ -33,9 +34,6 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
-    /**
-     * İstifadəçi məlumatlarını oxumaq
-     */
     suspend fun getUser(userId: String): Result<User?> {
         return try {
             val snapshot = firestore.collection(Constants.USERS_COLLECTION)
@@ -50,9 +48,6 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
-    /**
-     * İstifadəçi məlumatlarını yeniləmək
-     */
     suspend fun updateUser(userId: String, updates: Map<String, Any>): Result<Unit> {
         return try {
             firestore.collection(Constants.USERS_COLLECTION)
@@ -65,9 +60,6 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
-    /**
-     * Telefon nömrəsi ilə istifadəçi tapmaq
-     */
     suspend fun getUserByPhoneNumber(phoneNumber: String): Result<User?> {
         return try {
             val snapshot = firestore.collection(Constants.USERS_COLLECTION)
@@ -89,9 +81,6 @@ class FirestoreDataSource @Inject constructor(
 
     // ==================== CARD OPERATIONS ====================
 
-    /**
-     * Kart yaratmaq
-     */
     suspend fun createCard(card: Card): Result<Unit> {
         return try {
             firestore.collection(Constants.CARDS_COLLECTION)
@@ -104,9 +93,6 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
-    /**
-     * İstifadəçinin kartlarını oxumaq
-     */
     suspend fun getUserCards(userId: String): Result<List<Card>> {
         return try {
             val snapshot = firestore.collection(Constants.CARDS_COLLECTION)
@@ -122,9 +108,6 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
-    /**
-     * Kart balansını yeniləmək
-     */
     suspend fun updateCardBalance(cardId: String, newBalance: Double): Result<Unit> {
         return try {
             firestore.collection(Constants.CARDS_COLLECTION)
@@ -137,9 +120,6 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
-    /**
-     * Kart ID-sinə görə kartı oxumaq
-     */
     suspend fun getCardById(cardId: String): Result<Card?> {
         return try {
             val snapshot = firestore.collection(Constants.CARDS_COLLECTION)
@@ -154,11 +134,59 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
+    suspend fun toggleCardStatus(cardId: String, isActive: Boolean): Result<Unit> {
+        return try {
+            firestore.collection(Constants.CARDS_COLLECTION)
+                .document(cardId)
+                .update("isActive", isActive)
+                .await()
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun getCardByNumber(cardNumber: String): Result<Card> {
+        return try {
+            Log.d("FirestoreDataSource", "Searching card: $cardNumber")
+
+            var snapshot = firestore.collection(Constants.CARDS_COLLECTION)
+                .whereEqualTo("cardNumber", cardNumber)
+                .limit(1)
+                .get()
+                .await()
+
+            if (snapshot.isEmpty) {
+                val formattedCardNumber = cardNumber.chunked(4).joinToString(" ")
+                Log.d("FirestoreDataSource", "Trying with spaces: $formattedCardNumber")
+
+                snapshot = firestore.collection(Constants.CARDS_COLLECTION)
+                    .whereEqualTo("cardNumber", formattedCardNumber)
+                    .limit(1)
+                    .get()
+                    .await()
+            }
+
+            if (snapshot.isEmpty) {
+                Log.e("FirestoreDataSource", "❌ Card not found: $cardNumber")
+                Result.failure(Exception("Kart tapılmadı"))
+            } else {
+                val card = snapshot.documents[0].toObject(Card::class.java)
+                if (card != null) {
+                    Log.d("FirestoreDataSource", "✅ Card found: ${card.cardId}")
+                    Result.success(card)
+                } else {
+                    Result.failure(Exception("Kart məlumatı oxuna bilmədi"))
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("FirestoreDataSource", "❌ Error: ${e.message}")
+            Result.failure(e)
+        }
+    }
+
     // ==================== TRANSACTION OPERATIONS ====================
 
-    /**
-     * Transaksiya yaratmaq
-     */
     suspend fun createTransaction(transaction: Transaction): Result<Unit> {
         return try {
             firestore.collection(Constants.TRANSACTIONS_COLLECTION)
@@ -171,48 +199,151 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
-    /**
-     * İstifadəçinin transaksiyalarını oxumaq
-     */
     suspend fun getUserTransactions(userId: String): Result<List<Transaction>> {
         return try {
-            val snapshot = firestore.collection(Constants.TRANSACTIONS_COLLECTION)
+            val sentSnapshot = firestore.collection(Constants.TRANSACTIONS_COLLECTION)
                 .whereEqualTo("fromUserId", userId)
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .await()
 
-            val transactions = snapshot.toObjects(Transaction::class.java)
-            Result.success(transactions)
+            val receivedSnapshot = firestore.collection(Constants.TRANSACTIONS_COLLECTION)
+                .whereEqualTo("toUserId", userId)
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .get()
+                .await()
+
+            val sentTransactions = sentSnapshot.toObjects(Transaction::class.java)
+            val receivedTransactions = receivedSnapshot.toObjects(Transaction::class.java)
+
+            val allTransactions = (sentTransactions + receivedTransactions)
+                .sortedByDescending { it.timestamp }
+
+            Log.d("FirestoreDataSource", "✅ Total transactions: ${allTransactions.size}")
+            Log.d("FirestoreDataSource", "  - Sent: ${sentTransactions.size}")
+            Log.d("FirestoreDataSource", "  - Received: ${receivedTransactions.size}")
+
+            Result.success(allTransactions)
         } catch (e: Exception) {
+            Log.e("FirestoreDataSource", "❌ Error: ${e.message}")
             Result.failure(e)
         }
     }
 
     /**
-     * Transaksiya statusunu yeniləmək
+     * ✅ YENİ - Real-time transaction observer
      */
-    suspend fun updateTransactionStatus(
-        transactionId: String,
-        status: com.example.leoapplication.data.model.TransactionStatus
-    ): Result<Unit> {
+    fun observeUserTransactions(userId: String): Flow<Result<List<Transaction>>> = callbackFlow {
+        Log.d("FirestoreDataSource", "Starting to observe transactions for: $userId")
+
+        // Sent transactions listener
+        val sentListener = firestore.collection(Constants.TRANSACTIONS_COLLECTION)
+            .whereEqualTo("fromUserId", userId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e("FirestoreDataSource", "❌ Sent listener error: ${error.message}")
+                    trySend(Result.failure(error))
+                    return@addSnapshotListener
+                }
+
+                val sentTransactions = snapshot?.documents?.mapNotNull { doc ->
+                    doc.toObject(Transaction::class.java)?.copy(transactionId = doc.id)
+                } ?: emptyList()
+
+                Log.d("FirestoreDataSource", "Sent transactions: ${sentTransactions.size}")
+
+                // Received transactions-ı da oxu
+                firestore.collection(Constants.TRANSACTIONS_COLLECTION)
+                    .whereEqualTo("toUserId", userId)
+                    .get()
+                    .addOnSuccessListener { receivedSnapshot ->
+                        val receivedTransactions = receivedSnapshot.documents.mapNotNull { doc ->
+                            doc.toObject(Transaction::class.java)?.copy(transactionId = doc.id)
+                        }
+
+                        Log.d("FirestoreDataSource", "Received transactions: ${receivedTransactions.size}")
+
+                        val allTransactions = (sentTransactions + receivedTransactions)
+                            .distinctBy { it.transactionId }
+                            .sortedByDescending { it.timestamp }
+
+                        Log.d("FirestoreDataSource", "✅ Total transactions: ${allTransactions.size}")
+                        trySend(Result.success(allTransactions))
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("FirestoreDataSource", "❌ Received transactions error: ${e.message}")
+                        trySend(Result.failure(e))
+                    }
+            }
+
+        awaitClose {
+            Log.d("FirestoreDataSource", "Closing transaction listener")
+            sentListener.remove()
+        }
+    }
+
+    /**
+     * ✅ YENİ - Transaction silmək
+     */
+    suspend fun deleteTransaction(transactionId: String): Result<Unit> {
         return try {
+            Log.d("FirestoreDataSource", "Deleting transaction: $transactionId")
+
             firestore.collection(Constants.TRANSACTIONS_COLLECTION)
                 .document(transactionId)
-                .update("status", status)
+                .delete()
                 .await()
+
+            Log.d("FirestoreDataSource", "✅ Transaction deleted: $transactionId")
             Result.success(Unit)
         } catch (e: Exception) {
+            Log.e("FirestoreDataSource", "❌ Delete failed: ${e.message}")
             Result.failure(e)
         }
     }
 
-    // ==================== UTILITY ====================
-// ==================== CARD GENERATION UTILITIES ====================
-
     /**
-     * Tam kart məlumatları ilə yeni kart generasiya et
+     * ✅ YENİ - Transaction-ı geri yükləmək (Undo)
      */
+    suspend fun restoreTransaction(transaction: Transaction): Result<Unit> {
+        return try {
+            Log.d("FirestoreDataSource", "Restoring transaction: ${transaction.transactionId}")
+
+            firestore.collection(Constants.TRANSACTIONS_COLLECTION)
+                .document(transaction.transactionId)
+                .set(transaction)
+                .await()
+
+            Log.d("FirestoreDataSource", "✅ Transaction restored: ${transaction.transactionId}")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e("FirestoreDataSource", "❌ Restore failed: ${e.message}")
+            Result.failure(e)
+        }
+    }
+
+    suspend fun updateTransactionStatus(
+        transactionId: String,
+        status: TransactionStatus
+    ): Result<Unit> {
+        return try {
+            Log.d("FirestoreDataSource", "Updating transaction status: $transactionId -> $status")
+
+            firestore.collection(Constants.TRANSACTIONS_COLLECTION)
+                .document(transactionId)
+                .update("status", status.name)
+                .await()
+
+            Log.d("FirestoreDataSource", "✅ Status updated")
+            Result.success(Unit)
+        } catch (e: Exception) {
+            Log.e("FirestoreDataSource", "❌ Status update failed: ${e.message}")
+            Result.failure(e)
+        }
+    }
+
+    // ==================== CARD GENERATION UTILITIES ====================
+
     fun generateFullCard(phoneNumber: String, fullName: String): Card {
         val cardNumber = generateCardNumber(phoneNumber)
         val cvv = generateCVV()
@@ -231,9 +362,6 @@ class FirestoreDataSource @Inject constructor(
         )
     }
 
-    /**
-     * Kart nömrəsi generasiya (Luhn algoritmi ilə)
-     */
     fun generateCardNumber(phoneNumber: String): String {
         val bin = "5169"
         val phoneDigits = phoneNumber.filter { it.isDigit() }.takeLast(8)
@@ -245,9 +373,6 @@ class FirestoreDataSource @Inject constructor(
         return "${fullNumber.substring(0, 4)} ${fullNumber.substring(4, 8)} ${fullNumber.substring(8, 12)} ${fullNumber.substring(12)}"
     }
 
-    /**
-     * Luhn check digit hesabla
-     */
     private fun calculateLuhnCheckDigit(number: String): Int {
         var sum = 0
         var alternate = true
@@ -267,16 +392,10 @@ class FirestoreDataSource @Inject constructor(
         return (10 - (sum % 10)) % 10
     }
 
-    /**
-     * CVV generasiya (3 rəqəmli)
-     */
     fun generateCVV(): String {
         return kotlin.random.Random.nextInt(100, 999).toString()
     }
 
-    /**
-     * Expiry date generasiya (indidən 5 il sonra)
-     */
     fun generateExpiryDate(): String {
         val calendar = java.util.Calendar.getInstance()
         calendar.add(java.util.Calendar.YEAR, 5)
@@ -287,9 +406,6 @@ class FirestoreDataSource @Inject constructor(
         return String.format("%02d/%02d", month, year)
     }
 
-    /**
-     * Kart nömrəsinə görə kart tipini təyin et
-     */
     private fun determineCardType(cardNumber: String): String {
         val firstDigits = cardNumber.replace(" ", "").take(4)
         return when {
@@ -297,20 +413,6 @@ class FirestoreDataSource @Inject constructor(
             firstDigits.startsWith("5") -> "MasterCard"
             firstDigits.startsWith("62") -> "UnionPay"
             else -> "VISA"
-        }
-    }
-
-
-    // ✅ YENİ - Block/Unblock kart
-    suspend fun toggleCardStatus(cardId: String, isActive: Boolean): Result<Unit> {
-        return try {
-            firestore.collection(Constants.CARDS_COLLECTION)
-                .document(cardId)
-                .update("isActive", isActive)
-                .await()
-            Result.success(Unit)
-        } catch (e: Exception) {
-            Result.failure(e)
         }
     }
 }

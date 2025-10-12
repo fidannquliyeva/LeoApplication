@@ -160,10 +160,10 @@ class SmsLoginFragment : Fragment() {
             val userExists = viewModel.checkIfUserExists(userId)
 
             if (userExists) {
-                // ✅ User var → PIN yoxla
+                // User var → PIN yoxla
                 checkPinAndNavigate()
             } else {
-                // ❌ Yeni user → SignUp-a get
+                //Yeni user → SignUp-a get
                 val action = SmsLoginFragmentDirections
                     .actionSmsLoginToSignUp(userId, args.phoneNumber)
                 findNavController().navigate(action)

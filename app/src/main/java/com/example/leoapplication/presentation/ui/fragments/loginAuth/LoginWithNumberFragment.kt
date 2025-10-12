@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentLoginWithNumberBinding
 import com.example.leoapplication.presentation.viewmodel.PhoneAuthViewModel
 import com.example.leoapplication.util.Constants
@@ -40,6 +41,12 @@ class LoginWithNumberFragment : Fragment() {
 
         setupNumberPad()
         setupNextButton()
+        binding.help.setOnClickListener {
+            showSupportDialog()
+        }
+        binding.infoTextNext.setOnClickListener{
+            findNavController().navigate(R.id.action_loginWithNumberFragment_to_aboutLeoFragment)
+        }
     }
 
     private fun setupNumberPad() {

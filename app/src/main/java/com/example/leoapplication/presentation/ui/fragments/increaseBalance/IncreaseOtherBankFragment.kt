@@ -1,85 +1,137 @@
 package com.example.leoapplication.presentation.ui.fragments.increaseBalance
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.example.leoapplication.databinding.FragmentIncreaseBalanceBinding
+import com.example.leoapplication.databinding.FragmentIncreaseOtherBankBinding
+import com.example.leoapplication.presentation.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class IncreaseOtherBankFragment : Fragment() {
 
-//    private lateinit var binding: FragmentIncreaseOtherBankBinding
-//    private val cardVM: CardVM by activityViewModels()
-//    private val loginVM: LoginWithNumberVM by activityViewModels()
-//
-//
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        // Inflate the layout for this fragment
-//        binding = FragmentIncreaseOtherBankBinding.inflate(inflater, container, false)
-//        return binding.root
-//
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//        getCardInfo()
-//        copyLink()
-//
-//
-//
-//    }
-//
-//    private fun getCardInfo(){
-//        // Firebase-dən mövcud kart məlumatını çək
-//        val phone = loginVM.phoneNumber
-//        if (phone.isNotEmpty()) {
-//            cardVM.fetchCardByPhone(phone)
-//        }
-//
-//        // Kart məlumatı gələndə UI göstər
-//        cardVM.bankCard.observe(viewLifecycleOwner) { card ->
-//            card ?: return@observe
-//            binding.cardNumber.text = card.cardNumber
-//
-//
-//        }
-//    }
-//
-//    private fun copyLink(){
-//
-//        binding.imgCopy.setOnClickListener {
-//            // Kart nömrəsini kopyala
-//            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-//            val clip = ClipData.newPlainText("Card Number", binding.cardNumber.text.toString())
-//            clipboard.setPrimaryClip(clip)
-//
-//            // Toast göstər
-//            Toast.makeText(requireContext(), "Kart nömrəsi kopyalandı", Toast.LENGTH_SHORT).show()
-//
-//            // Animasiya: qısaca böyüt və kiçilt
-//            binding.imgCopy.animate()
-//                .scaleX(1.3f)
-//                .scaleY(1.3f)
-//                .setDuration(100)
-//                .withEndAction {
-//                    binding.imgCopy.animate()
-//                        .scaleX(1f)
-//                        .scaleY(1f)
-//                        .setDuration(100)
-//                        .start()
-//                }
-//                .start()
-//
-//            // Rəngi dəyişdir: qısa yaşıl rəng efekti
-//            binding.imgCopy.setColorFilter(resources.getColor(android.R.color.holo_green_light))
-//            binding.imgCopy.postDelayed({
-//                binding.imgCopy.setColorFilter(resources.getColor(R.color.colorUnchecked)) // default rənginə qayıt
-//            }, 500)
-//        }
-//
-//
-//    }
+    private var _binding: FragmentIncreaseOtherBankBinding? = null
+    private val binding get() = _binding!!
+
+
+    private val homeViewModel: HomeViewModel by activityViewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentIncreaseOtherBankBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupToolbar()
+        observeSelectedCard()
+        setupCopyButton()
+    }
+
+    private fun setupToolbar() {
+        binding.toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+        }
+    }
+
+    private fun observeSelectedCard() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                homeViewModel.selectedCard.collect { card ->
+                    card?.let {
+                        binding.cardNumber.text = it.cardNumber
+                        Log.d("IncreaseBalance", "Card number: ${it.cardNumber}")
+                    } ?: run {
+
+                        binding.cardNumber.text = "Kart yoxdur"
+                        Log.e("IncreaseBalance", "No card selected")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupCopyButton() {
+        binding.imgCopy.setOnClickListener {
+            val cardNumber = binding.cardNumber.text.toString()
+
+            if (cardNumber.isNotEmpty() && cardNumber != "Kart yoxdur") {
+
+                copyToClipboard(cardNumber)
+                showCopySuccess()
+
+                Toast.makeText(
+                    requireContext(),
+                    "Kart nömrəsi kopyalandı",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                Log.d("IncreaseBalance", "Card number copied: $cardNumber")
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Kart nömrəsi yoxdur",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun showCopySuccess() {
+        binding.imgCopy.setColorFilter(
+            requireContext().getColor(android.R.color.holo_green_dark)
+        )
+
+        binding.imgCopy.animate()
+            .scaleX(1.3f)
+            .scaleY(1.3f)
+            .setDuration(150)
+            .withEndAction {
+                binding.imgCopy.animate()
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setDuration(150)
+                    .start()
+            }
+            .start()
+
+        // ✅ 2 saniyə sonra əvvəlki rəngə qayıt
+        binding.imgCopy.postDelayed({
+            resetCopyButton()
+        }, 2000)
+    }
+
+    private fun resetCopyButton() {
+
+        binding.imgCopy.clearColorFilter()
+    }
+
+    private fun copyToClipboard(text: String) {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("Kart nömrəsi", text)
+        clipboard.setPrimaryClip(clip)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.leoapplication.di
 
+import com.example.leoapplication.data.remote.FirestoreDataSource
 import com.example.leoapplication.data.repository.HomeRepositoryImpl
 import com.example.leoapplication.domain.repository.HomeRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -18,8 +19,9 @@ object HomeModule {
     @Singleton
     fun provideHomeRepository(
         firestore: FirebaseFirestore,
-        auth: FirebaseAuth
+        auth: FirebaseAuth,
+        firestoreDataSource: FirestoreDataSource
     ): HomeRepository {
-        return HomeRepositoryImpl(firestore, auth)
+        return HomeRepositoryImpl(firestore, auth, firestoreDataSource)
     }
 }

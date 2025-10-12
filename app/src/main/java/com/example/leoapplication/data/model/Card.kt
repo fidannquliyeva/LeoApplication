@@ -15,7 +15,9 @@ data class Card(
     val currency: String = "AZN",
     val createdAt: Long = System.currentTimeMillis(),
     val isActive: Boolean = true
-) {
+
+)
+{
     // Maskalanmış kart nömrəsi
     fun getMaskedCardNumber(): String {
         return if (cardNumber.length >= 4) {

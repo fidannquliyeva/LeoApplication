@@ -74,18 +74,70 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        transactionAdapter = TransactionAdapter { transaction ->
-            Toast.makeText(
-                requireContext(),
-                "Məbləğ: ${transaction.amount} ${transaction.currency}",
-                Toast.LENGTH_SHORT
-            ).show()
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        transactionAdapter = TransactionAdapter(currentUserId) { transaction ->
+            navigateToTransactionDetail(transaction)
         }
 
         binding.recyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = transactionAdapter
             setHasFixedSize(true)
+        }
+
+        setupSwipeToDelete()
+    }
+
+    private fun setupSwipeToDelete() {
+        val swipeCallback = com.example.leoapplication.presentation.ui.utils.SwipeDeleteCallback { position ->
+            val transaction = transactionAdapter.currentList[position]
+            deleteTransactionWithUndo(transaction, position)
+        }
+
+        val itemTouchHelper = androidx.recyclerview.widget.ItemTouchHelper(swipeCallback)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+    }
+
+    private fun deleteTransactionWithUndo(
+        transaction: com.example.leoapplication.data.model.Transaction,
+        position: Int
+    ) {
+        viewModel.deleteTransaction(transaction)
+
+        com.google.android.material.snackbar.Snackbar.make(
+            binding.root,
+            "Transaction silindi",
+            com.google.android.material.snackbar.Snackbar.LENGTH_LONG
+        ).setAction("GERİ AL") {
+            viewModel.restoreTransaction(transaction)
+        }.show()
+    }
+
+    private fun navigateToTransactionDetail(transaction: com.example.leoapplication.data.model.Transaction) {
+        try {
+            val bundle = Bundle().apply {
+                putString("transactionId", transaction.transactionId)
+                putDouble("amount", transaction.amount)
+                putLong("timestamp", transaction.timestamp)
+                putString("description", transaction.description)
+                putString("fromUserId", transaction.fromUserId)
+                putString("toUserId", transaction.toUserId)
+            }
+
+            Log.d("HomeFragment", "Navigating to transaction detail: ${transaction.transactionId}")
+
+            findNavController().navigate(
+                R.id.action_nav_home_to_transactionDetailFragment,
+                bundle
+            )
+        } catch (e: Exception) {
+            Log.e("HomeFragment", "Navigation error: ${e.message}")
+            Toast.makeText(
+                requireContext(),
+                "Xəta: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -141,27 +193,23 @@ class HomeFragment : Fragment() {
         with(binding.homeAppbar) {
 
             addButton.setOnClickListener {
-                // Navigate to IncreaseBalance
                 findNavController().navigate(
                     R.id.action_nav_home_to_increaseBalanceFragment
                 )
             }
 
             nextButton.setOnClickListener {
-                // Navigate to Export/Transfer
                 findNavController().navigate(
                     R.id.action_nav_home_to_exportToFragment
                 )
             }
 
             walletButton.setOnClickListener {
-                // Navigate to Other Pays
                 findNavController().navigate(
                     R.id.action_nav_home_to_otherPaysFragment
                 )
             }
 
-            // ✅ KART CLICK - Navigation Component ilə
             cardVisa.setOnClickListener {
                 viewModel.selectedCard.value?.let { card ->
                     navigateToCardDetails(card.cardId)
@@ -170,7 +218,6 @@ class HomeFragment : Fragment() {
         }
     }
 
-    // ✅ Navigation with Safe Args
     private fun navigateToCardDetails(cardId: String) {
         Log.d("HomeFragment", "Navigating to card: $cardId")
 
@@ -200,14 +247,6 @@ class HomeFragment : Fragment() {
             binding.searchView.requestFocus()
         }
 
-        binding.btnCloseSearch.setOnClickListener {
-            binding.searchView.visibility = View.GONE
-            binding.imgSearch.visibility = View.VISIBLE
-            binding.searchView.setQuery("", false)
-            binding.searchView.clearFocus()
-            viewModel.searchTransactions("")
-        }
-
         binding.searchView.setOnQueryTextListener(
             object : android.widget.SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
@@ -224,7 +263,17 @@ class HomeFragment : Fragment() {
     }
 
     private fun showLoading(show: Boolean) {
-        // TODO: ProgressBar
+        binding.progressBar?.visibility = if (show) View.VISIBLE else View.GONE
+        binding.recyclerView.visibility = if (show) View.GONE else View.VISIBLE
+    }
+
+    // ✅ onResume artıq lazım deyil - real-time sync var!
+    // Amma user data refresh etmək istəyirsinizsə, saxlaya bilərsiniz:
+    override fun onResume() {
+        super.onResume()
+        Log.d("HomeFragment", "onResume")
+        // ❌ viewModel.refresh() - artıq transactions yeniləməyə ehtiyac yoxdur!
+        // Transactions avtomatik real-time update olunur
     }
 
     override fun onDestroyView() {

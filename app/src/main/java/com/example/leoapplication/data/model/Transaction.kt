@@ -21,6 +21,7 @@ enum class TransactionType {
     TRANSFER,      // İstifadəçidən istifadəçiyə
     PAYMENT,       // Xidmət ödənişi
     DEPOSIT,       // Balans artırma
+    BALANCE_INCREASE,
     WITHDRAWAL     // Balans çıxarma
 }
 

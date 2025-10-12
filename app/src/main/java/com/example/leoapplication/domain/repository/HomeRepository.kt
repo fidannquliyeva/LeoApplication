@@ -20,4 +20,12 @@ interface HomeRepository {
      * İstifadəçinin kartlarını bir dəfə almaq
      */
     suspend fun getUserCards(): Resource<List<Card>>
+
+
+    suspend fun increaseBalanceWithTransaction(
+        cardId: String,
+        amount: Double,
+        externalCardLast4: String
+    ): Resource<Unit>
+
 }

@@ -20,6 +20,11 @@ class LoadingFragment : Fragment() {
     private var _binding: FragmentLoadingBinding? = null
     private val binding get() = _binding!!
 
+    // ✅ Reference-lər saxla
+    private var progressAnimator: ValueAnimator? = null
+    private var handler: Handler? = null
+    private var navigationRunnable: Runnable? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,31 +38,64 @@ class LoadingFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         startProgressAnimation()
-
-        Handler(Looper.getMainLooper()).postDelayed({
-            navigateToSetPin()
-        }, Constants.LOADING_DELAY)
+        scheduleNavigation()
     }
 
     private fun startProgressAnimation() {
-        val animator = ValueAnimator.ofInt(0, 100)
-        animator.duration = Constants.LOADING_DELAY
+        // ✅ Animator-u reference-də saxla
+        progressAnimator = ValueAnimator.ofInt(0, 100).apply {
+            duration = Constants.LOADING_DELAY
 
-        animator.addUpdateListener { animation ->
-            val progress = animation.animatedValue as Int
-            binding.progressBar.progress = progress
+            addUpdateListener { animation ->
+                // ✅ Null check - binding varsa update et
+                _binding?.let {
+                    val progress = animation.animatedValue as Int
+                    it.progressBar?.progress = progress
+                } ?: run {
+                    // Binding null-dursa, animator cancel et
+                    animation.cancel()
+                }
+            }
+
+            start()
+        }
+    }
+
+    private fun scheduleNavigation() {
+        // ✅ Handler və Runnable saxla
+        handler = Handler(Looper.getMainLooper())
+
+        navigationRunnable = Runnable {
+            // Fragment hələ mövcuddursa navigate et
+            if (isAdded && _binding != null) {
+                navigateToSetPin()
+            }
         }
 
-        animator.start()
+        handler?.postDelayed(navigationRunnable!!, Constants.LOADING_DELAY)
     }
 
     private fun navigateToSetPin() {
-        // SignUp-dan sonra həmişə SetPin-ə göndər
-        findNavController().navigate(R.id.action_loadingFragment_to_setPinFragment)
+        try {
+            findNavController().navigate(R.id.action_loadingFragment_to_setPinFragment)
+        } catch (e: Exception) {
+            // Navigation exception handle et
+            e.printStackTrace()
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+
+        // ✅ Animator cancel et
+        progressAnimator?.cancel()
+        progressAnimator = null
+
+        // ✅ Handler callback-i sil
+        navigationRunnable?.let { handler?.removeCallbacks(it) }
+        handler = null
+        navigationRunnable = null
+
         _binding = null
     }
 }

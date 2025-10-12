@@ -20,5 +20,7 @@ interface CardRepository {
      */
     suspend fun updateCardBalance(cardId: String, newBalance: Double): Result<Unit>
 
+    suspend fun getCardByNumber(cardNumber: String): Result<Card>
+
     suspend fun toggleCardStatus(cardId: String, isActive: Boolean): Result<Unit>
 }

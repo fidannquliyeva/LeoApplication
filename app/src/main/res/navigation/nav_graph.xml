@@ -159,7 +159,7 @@
             app:destination="@id/increaseBalanceFragment" />
         <action
             android:id="@+id/action_nav_home_to_exportToFragment"
-            app:destination="@id/exportToFragment" />
+            app:destination="@id/transferSelectFragment" />
         <action
             android:id="@+id/action_nav_home_to_nav_collect"
             app:destination="@id/nav_collect"
@@ -173,12 +173,12 @@
         <action
             android:id="@+id/action_nav_home_to_nav_menu"
             app:destination="@id/nav_menu" />
-<!--        <action-->
-<!--            android:id="@+id/action_nav_home_to_transactionDetailFragment"-->
-<!--            app:destination="@id/transactionDetailFragment" />-->
         <action
             android:id="@+id/action_nav_home_to_otherPaysFragment"
             app:destination="@id/otherPaysFragment" />
+        <action
+            android:id="@+id/action_nav_home_to_transactionDetailFragment"
+            app:destination="@id/transactionDetailFragment" />
     </fragment>
 
     <fragment
@@ -267,7 +267,7 @@
         tools:layout="@layout/fragment_increase_other_card" >
         <action
             android:id="@+id/action_increaseOtherCardFragment_to_increaseBalanceOtherCardsFragment"
-            app:destination="@id/increaseBalanceOtherCardsFragment" />
+            app:destination="@id/IncreaseBalanceAmountFragment" />
     </fragment>
 <!--    <fragment-->
 <!--        android:id="@+id/increaseWithMoneyFragment"-->
@@ -280,47 +280,53 @@
         android:label="fragment_increase_with_swift"
         tools:layout="@layout/fragment_increase_with_swift" />
     <fragment
-        android:id="@+id/increaseBalanceOtherCardsFragment"
-        android:name="com.example.leoapplication.presentation.ui.fragments.increaseBalance.IncreaseBalanceOtherCardsFragment"
+        android:id="@+id/IncreaseBalanceAmountFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.increaseBalance.IncreaseBalanceAmountFragment"
         android:label="fragment_increase_balance_other_cards"
-        tools:layout="@layout/fragment_increase_balance_other_cards" >
+        tools:layout="@layout/fragment_increase_balance_amount" >
         <action
             android:id="@+id/action_increaseBalanceOtherCardsFragment_to_paymentSuccessFragment"
             app:destination="@id/paymentSuccessFragment" />
     </fragment>
     <fragment
-        android:id="@+id/exportToFragment"
-        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.ExportToFragment"
+        android:id="@+id/transferSelectFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.TransferSelectFragment"
         android:label="fragment_export_to"
-        tools:layout="@layout/fragment_export_to" >
+        tools:layout="@layout/fragment_transfer_select" >
 <!--        <action-->
 <!--            android:id="@+id/action_exportToFragment_to_exportToNewCardFragment"-->
 <!--            app:destination="@id/exportToNewCardFragment" />-->
+        <action
+            android:id="@+id/action_transferSelectFragment_to_transferManualInputFragment"
+            app:destination="@id/transferManualInputFragment" />
+        <action
+            android:id="@+id/action_transferSelectFragment_to_transferAmountFragment"
+            app:destination="@id/transferAmountFragment" />
     </fragment>
 
-<!--    <fragment-->
-<!--        android:id="@+id/transactionDetailFragment"-->
-<!--        android:name="com.example.leoapplication.presentation.ui.fragments.home.TransactionDetailFragment"-->
-<!--        android:label="fragment_transaction_detail"-->
-<!--        tools:layout="@layout/fragment_transaction_detail" />-->
-<!--    <fragment-->
-<!--        android:id="@+id/exportToNewCardFragment"-->
-<!--        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.ExportToNewCardFragment"-->
-<!--        android:label="fragment_export_to_new_card"-->
-<!--        tools:layout="@layout/fragment_export_to_new_card" >-->
-<!--        <action-->
-<!--            android:id="@+id/action_exportToNewCardFragment_to_exportToMoneyFragment"-->
-<!--            app:destination="@id/exportToMoneyFragment" />-->
-<!--    </fragment>-->
-<!--    <fragment-->
-<!--        android:id="@+id/exportToMoneyFragment"-->
-<!--        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.ExportToMoneyFragment"-->
-<!--        android:label="fragment_export_to_money"-->
-<!--        tools:layout="@layout/fragment_export_to_money" >-->
-<!--        <action-->
-<!--            android:id="@+id/action_exportToMoneyFragment_to_paymentSuccessFragment"-->
-<!--            app:destination="@id/paymentSuccessFragment" />-->
-<!--    </fragment>-->
+    <fragment
+        android:id="@+id/transactionDetailFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.home.TransactionDetailFragment"
+        android:label="fragment_transaction_detail"
+        tools:layout="@layout/fragment_transaction_detail" />
+    <fragment
+        android:id="@+id/transferManualInputFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.TransferManualInputFragment"
+        android:label="fragment_export_to_new_card"
+        tools:layout="@layout/fragment_transfer_manual_input" >
+        <action
+            android:id="@+id/action_exportToNewCardFragment_to_exportToMoneyFragment"
+            app:destination="@id/transferAmountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transferAmountFragment"
+        android:name="com.example.leoapplication.presentation.ui.fragments.transferToCard.TransferAmountFragment"
+        android:label="fragment_export_to_money"
+        tools:layout="@layout/fragment_transfer_amount" >
+        <action
+            android:id="@+id/action_transferAmountFragment_to_paymentSuccessFragment"
+            app:destination="@id/paymentSuccessFragment" />
+    </fragment>
     <fragment
         android:id="@+id/paymentSuccessFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.home.PaymentSuccessFragment"
@@ -337,7 +343,7 @@
         tools:layout="@layout/fragment_other_pays" >
         <action
             android:id="@+id/action_otherPaysFragment_to_exportToFragment"
-            app:destination="@id/exportToFragment" />
+            app:destination="@id/transferSelectFragment" />
         <action
             android:id="@+id/action_otherPaysFragment_to_mobileBalanceFragment"
             app:destination="@id/mobileBalanceFragment" />

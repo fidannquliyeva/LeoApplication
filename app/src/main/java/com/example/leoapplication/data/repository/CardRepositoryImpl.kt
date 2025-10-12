@@ -24,6 +24,11 @@ class CardRepositoryImpl @Inject constructor(
         return firestoreDataSource.updateCardBalance(cardId, newBalance)
     }
 
+
+    override suspend fun getCardByNumber(cardNumber: String): Result<Card> {
+        return firestoreDataSource.getCardByNumber(cardNumber)
+         }
+
     override suspend fun toggleCardStatus(cardId: String, isActive: Boolean): Result<Unit> {
         return firestoreDataSource.toggleCardStatus(cardId, isActive)
     }
