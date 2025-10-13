@@ -1,5 +1,6 @@
 package com.example.leoapplication.presentation.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,10 +8,14 @@ import com.example.leoapplication.domain.repository.HomeRepository
 import com.example.leoapplication.domain.repository.TransactionRepository
 import com.example.leoapplication.data.model.Card
 import com.example.leoapplication.data.model.Transaction
+import com.example.leoapplication.data.model.TransactionType
 import com.example.leoapplication.data.model.User
+import com.example.leoapplication.util.NotificationHelper
 import com.example.leoapplication.util.Resource
+import com.example.leoapplication.util.TransactionSearchHelper
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +26,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository,
     private val transactionRepository: TransactionRepository,
-    private val auth: FirebaseAuth
+    private val auth: FirebaseAuth,
+    @ApplicationContext private val context: Context // ✅ Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -42,6 +48,10 @@ class HomeViewModel @Inject constructor(
     private val _filteredTransactions = MutableStateFlow<List<Transaction>>(emptyList())
     val filteredTransactions: StateFlow<List<Transaction>> = _filteredTransactions.asStateFlow()
 
+    // ✅ YENİ - Notification üçün köhnə transaction ID-ləri
+    private var oldTransactionIds = emptySet<String>()
+    private var isFirstLoad = true // İlk yükləmədə notification göstərmə
+
     init {
         val currentUser = auth.currentUser
         Log.d("HomeViewModel", "====== INIT ======")
@@ -54,7 +64,7 @@ class HomeViewModel @Inject constructor(
 
         loadUserData()
         observeCards()
-        observeTransactions() // ✅ Real-time observer
+        observeTransactions()
     }
 
     private fun loadUserData() {
@@ -86,10 +96,7 @@ class HomeViewModel @Inject constructor(
 
                         Log.d("HomeViewModel", "✅ Cards loaded: ${cards.size}")
                         cards.forEach { card ->
-                            Log.d(
-                                "HomeViewModel",
-                                "  - ${card.cardNumber}: ${card.balance} ${card.currency}"
-                            )
+                            Log.d("HomeViewModel", "  - ${card.cardNumber}: ${card.balance} ${card.currency}")
                         }
 
                         if (cards.isNotEmpty()) {
@@ -99,23 +106,14 @@ class HomeViewModel @Inject constructor(
                                 val updatedCard = cards.find { it.cardId == currentSelectedCardId }
                                 if (updatedCard != null) {
                                     _selectedCard.value = updatedCard
-                                    Log.d(
-                                        "HomeViewModel",
-                                        "✅ Selected card updated: ${updatedCard.cardNumber} - Balance: ${updatedCard.balance}"
-                                    )
+                                    Log.d("HomeViewModel", "✅ Selected card updated: ${updatedCard.cardNumber} - Balance: ${updatedCard.balance}")
                                 } else {
                                     _selectedCard.value = cards.first()
-                                    Log.d(
-                                        "HomeViewModel",
-                                        "⚠️ Selected card not found, switching to first card"
-                                    )
+                                    Log.d("HomeViewModel", "⚠️ Selected card not found, switching to first card")
                                 }
                             } else {
                                 _selectedCard.value = cards.first()
-                                Log.d(
-                                    "HomeViewModel",
-                                    "✅ Selected first card initially: ${cards.first().cardNumber}"
-                                )
+                                Log.d("HomeViewModel", "✅ Selected first card initially: ${cards.first().cardNumber}")
                             }
                         } else {
                             _selectedCard.value = null
@@ -137,7 +135,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    // ✅ YENİ - Real-time transaction observer
     private fun observeTransactions() {
         viewModelScope.launch {
             val userId = auth.currentUser?.uid
@@ -152,7 +149,30 @@ class HomeViewModel @Inject constructor(
                 result.onSuccess { txList ->
                     _transactions.value = txList
                     _filteredTransactions.value = txList
+
                     Log.d("HomeViewModel", "✅ Transactions updated: ${txList.size}")
+
+                    // ✅ İlk yükləmədən sonra yalnız SON 10 SANİYƏ ərzində yaranmış transactions
+                    if (!isFirstLoad && oldTransactionIds.isNotEmpty()) {
+                        val currentTime = System.currentTimeMillis()
+                        val tenSecondsAgo = currentTime - 10_000 // 10 saniyə
+
+                        val newTransactions = txList.filter { tx ->
+                            // Yeni transaction ID və SON 10 saniyə ərzində yaranıb
+                            tx.transactionId !in oldTransactionIds &&
+                                    tx.timestamp >= tenSecondsAgo
+                        }
+
+                        Log.d("HomeViewModel", "🔔 New transactions (last 10 sec): ${newTransactions.size}")
+
+                        newTransactions.forEach { tx ->
+                            showNotificationForTransaction(tx, userId)
+                        }
+                    }
+
+                    // ✅ Transaction ID-ləri yenilə
+                    oldTransactionIds = txList.map { it.transactionId }.toSet()
+                    isFirstLoad = false
                 }
 
                 result.onFailure { error ->
@@ -163,14 +183,70 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
+    /**
+     * ✅ Transaction üçün notification göstər
+     */
+    private fun showNotificationForTransaction(transaction: Transaction, currentUserId: String) {
+        Log.d("HomeViewModel", "🔔 Showing notification for: ${transaction.type}")
+
+        when (transaction.type) {
+            TransactionType.BALANCE_INCREASE -> {
+                // ✅ Balans artırma
+                NotificationHelper.showBalanceIncreaseNotification(
+                    context,
+                    transaction.amount
+                )
+            }
+
+            TransactionType.TRANSFER -> {
+                val isReceived = transaction.toUserId == currentUserId
+
+                if (isReceived) {
+                    // ✅ Transfer alındı
+                    NotificationHelper.showTransactionReceivedNotification(
+                        context,
+                        transaction.amount,
+                        transaction.description
+                    )
+                } else {
+                    // ✅ Transfer göndərildi
+                    NotificationHelper.showTransactionSentNotification(
+                        context,
+                        transaction.amount,
+                        transaction.description
+                    )
+                }
+            }
+
+            else -> {
+                // Digər transaction tipləri üçün (future)
+                Log.d("HomeViewModel", "Other transaction type: ${transaction.type}")
+            }
+        }
+    }
 
     fun searchTransactions(query: String) {
+        Log.d("HomeViewModel", "🔍 Searching: '$query'")
+
         if (query.isBlank()) {
             _filteredTransactions.value = _transactions.value
-        } else {
-            _filteredTransactions.value = _transactions.value.filter {
-                it.description.contains(query, ignoreCase = true) ||
-                        it.amount.toString().contains(query)
+            Log.d("HomeViewModel", "📋 Showing all ${_transactions.value.size} transactions")
+            return
+        }
+
+        val userId = auth.currentUser?.uid ?: ""
+
+        val filtered = _transactions.value.filter { transaction ->
+            TransactionSearchHelper.matchesQuery(transaction, query, userId)
+        }
+
+        _filteredTransactions.value = filtered
+
+        Log.d("HomeViewModel", "✅ Found ${filtered.size} of ${_transactions.value.size} transactions")
+
+        if (filtered.isNotEmpty()) {
+            filtered.forEach { tx ->
+                Log.d("HomeViewModel", "  → [${tx.type}] ${tx.amount} ${tx.currency} - ${tx.description}")
             }
         }
     }
@@ -183,10 +259,8 @@ class HomeViewModel @Inject constructor(
     fun refresh() {
         Log.d("HomeViewModel", "====== REFRESHING DATA ======")
         loadUserData()
-        // ❌ loadTransactions() - artıq lazım deyil, real-time observer var!
     }
 
-    // ✅ Transaction sil
     fun deleteTransaction(transaction: Transaction) {
         viewModelScope.launch {
             try {
@@ -196,7 +270,6 @@ class HomeViewModel @Inject constructor(
 
                 if (result.isSuccess) {
                     Log.d("HomeViewModel", "✅ Transaction deleted")
-                    // ❌ Local state yeniləməyə ehtiyac yoxdur - observer avtomatik yeniləyir!
                 } else {
                     Log.e("HomeViewModel", "❌ Delete failed: ${result.exceptionOrNull()?.message}")
                 }
@@ -206,7 +279,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    // ✅ Transaction geri qaytır (Undo)
     fun restoreTransaction(transaction: Transaction) {
         viewModelScope.launch {
             try {
@@ -216,7 +288,6 @@ class HomeViewModel @Inject constructor(
 
                 if (result.isSuccess) {
                     Log.d("HomeViewModel", "✅ Transaction restored successfully")
-                    // ❌ Local state yeniləməyə ehtiyac yoxdur - observer avtomatik yeniləyir!
                 } else {
                     Log.e("HomeViewModel", "❌ Restore failed: ${result.exceptionOrNull()?.message}")
                 }

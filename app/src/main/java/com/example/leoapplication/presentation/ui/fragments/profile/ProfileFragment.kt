@@ -1,160 +1,185 @@
 package com.example.leoapplication.presentation.ui.fragments.profile
 
-import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
-import android.widget.RadioGroup
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.fragment.app.activityViewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.leoapplication.R
-
 import com.example.leoapplication.databinding.FragmentProfileBinding
-
-
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.firebase.auth.FirebaseAuth
+import com.example.leoapplication.presentation.viewmodel.ProfileViewModel
+import com.example.leoapplication.presentation.viewmodel.ProfileUiState
+import com.example.leoapplication.util.LanguageManager
+import com.example.leoapplication.util.ThemeHelper
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.Locale
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ProfileFragment : Fragment() {
-//
-//    private lateinit var binding: FragmentProfileBinding
-//    private val viewModel: ProfileVM by activityViewModels()
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View {
-//        binding = FragmentProfileBinding.inflate(inflater, container, false)
-//        return binding.root
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        val uid = FirebaseAuth.getInstance().currentUser?.uid ?: return
-//        Log.d("ProfileFragment", "Current UID: $uid")
-//        viewModel.loadUserProfile(uid)
-//
-//        observeProfile()
-//
-//        binding.labelTheme.setOnClickListener{showThemeDialog()}
-//        binding.labelLang.setOnClickListener { showLanguageDialog() }
-//        binding.btnLogout.setOnClickListener {
-//            FirebaseAuth.getInstance().signOut()
-//            findNavController().navigate(R.id.action_profileFragment_to_loginWithNumberFragment)
-//        }
-//
-//
-//
-//
-//
-//    }
-//
-//    private fun observeProfile() {
-//        viewModel.userProfile.observe(viewLifecycleOwner) { user ->
-//            user?.let {
-//                binding.valueName.text = it.firstName
-//                binding.valueEmail.text = it.email
-//                binding.valuePhone.text = it.phone
-//                // avatar varsa Glide ilə yükləyə bilərsiniz
-//                // Glide.with(this).load(it.avatarUrl).into(binding.imgAvatar)
-//            }
-//        }
-//
-//        viewModel.error.observe(viewLifecycleOwner) { msg ->
-//            msg?.let { Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show() }
-//        }
-//    }
-//
-//
-//
-//
-//
-//    private fun showLanguageDialog() {
-//        val dialogLanguage = BottomSheetDialog(requireContext())
-//        val viewLanguage = layoutInflater.inflate(R.layout.dialog_language, null)
-//        dialogLanguage.setContentView(viewLanguage)
-//
-//        val radioGroup = viewLanguage.findViewById<RadioGroup>(R.id.radioGroupLanguage)
-//        val radioAzerbaijan = viewLanguage.findViewById<RadioButton>(R.id.radioAzerbaijan)
-//        val radioRussian = viewLanguage.findViewById<RadioButton>(R.id.radioRussian)
-//
-//        // Seçilmiş dili göstər
-//        if (getSavedLanguage(requireContext()) == "az") radioGroup.check(R.id.radioAzerbaijan)
-//        else radioGroup.check(R.id.radioRussian)
-//
-//        radioAzerbaijan.setOnClickListener {
-//            radioGroup.check(R.id.radioAzerbaijan)
-//            applyLanguage("az")
-//            dialogLanguage.dismiss()
-//        }
-//
-//        radioRussian.setOnClickListener {
-//            radioGroup.check(R.id.radioRussian)
-//            applyLanguage("ru")
-//            dialogLanguage.dismiss()
-//        }
-//
-//        dialogLanguage.show()
-//    }
-//
-//    private fun saveLanguage(context: Context, language: String) {
-//        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-//        prefs.edit().putString("selected_language", language).apply()
-//    }
-//
-//    private fun getSavedLanguage(context: Context): String {
-//        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
-//        return prefs.getString("selected_language", "az") ?: "az"
-//    }
-//
-//    private fun updateLocale(context: Context, language: String) {
-//        val locale = Locale(language)
-//        Locale.setDefault(locale)
-//        val config = context.resources.configuration
-//        config.setLocale(locale)
-//        context.resources.updateConfiguration(config, context.resources.displayMetrics)
-//    }
-//
-//    private fun applyLanguage(language: String) {
-//        saveLanguage(requireContext(), language)
-//        updateLocale(requireContext(), language)
-//        requireActivity().recreate()  // Activity restart ilə UI yenilənir
-//    }
-//
-//
-//    private fun showThemeDialog() {
-//        val themes = arrayOf("Açıq", "Tünd")
-//
-//        AlertDialog.Builder(requireContext())
-//            .setTitle("Tema seçin")
-//            .setSingleChoiceItems(themes, -1) { dialog, which ->
-//                when (which) {
-//                    0 -> {
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//                        Toast.makeText(requireContext(), "Açıq tema seçildi", Toast.LENGTH_SHORT).show()
-//                    }
-//                    1 -> {
-//                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//                        Toast.makeText(requireContext(), "Tünd tema seçildi", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//                dialog.dismiss()
-//            }
-//            .create()
-//            .show()
-//    }
 
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+
+    private val viewModel: ProfileViewModel by viewModels()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupObservers()
+        setupClickListeners()
+        setupTheme()
+        setupLanguage()
+    }
+
+    private fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                launch {
+                    viewModel.userData.collect { user ->
+                        user?.let {
+                            binding.valueName.text = it.fullName
+                            binding.valuePhone.text = it.phoneNumber
+                            binding.valueEmail.text = it.email.ifEmpty { "Email yoxdur" }
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.uiState.collect { state ->
+                        when (state) {
+                            is ProfileUiState.Loading -> {}
+                            is ProfileUiState.Success -> {}
+                            is ProfileUiState.LoggedOut -> {
+                                navigateToLogin()
+                            }
+                            is ProfileUiState.Error -> {
+                                Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setupClickListeners() {
+        binding.btnBack.setOnClickListener {
+            findNavController().navigateUp()
+        }
+
+        binding.btnEdit.setOnClickListener {
+            Toast.makeText(requireContext(), "Avatar dəyişmə tezliklə", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.btnLogout.setOnClickListener {
+            viewModel.logout()
+        }
+
+        binding.valueLang.setOnClickListener {
+            showLanguageDialog()
+        }
+
+        binding.valueTheme.setOnClickListener {
+            toggleTheme()
+        }
+
+        binding.switchBio.setOnCheckedChangeListener { _, isChecked ->
+            Toast.makeText(requireContext(), if (isChecked) "Biometrik aktiv" else "Biometrik deaktiv", Toast.LENGTH_SHORT).show()
+        }
+
+        binding.switchOtherUser.setOnCheckedChangeListener { _, isChecked ->
+            Toast.makeText(requireContext(), if (isChecked) "Məxfilik aktiv" else "Məxfilik deaktiv", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun setupTheme() {
+        val isDark = viewModel.isDarkTheme()
+        updateThemeUI(isDark)
+    }
+
+    private fun setupLanguage() {
+        val currentLang = LanguageManager.getSavedLanguage(requireContext())
+        updateLanguageUI(currentLang)
+    }
+
+    private fun showLanguageDialog() {
+        val languages = arrayOf("Azərbaycan", "English", "Русский")
+        val languageCodes = arrayOf("az", "en", "ru")
+
+        val currentLang = LanguageManager.getSavedLanguage(requireContext())
+        val checkedItem = languageCodes.indexOf(currentLang).takeIf { it >= 0 } ?: 0
+
+        AlertDialog.Builder(requireContext())
+            .setTitle("Dil seçin")
+            .setSingleChoiceItems(languages, checkedItem) { dialog, which ->
+                val selectedLang = languageCodes[which]
+                if (selectedLang != currentLang) {
+                    LanguageManager.applyLanguage(requireActivity(), selectedLang)
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Ləğv et", null)
+            .show()
+    }
+
+    private fun updateLanguageUI(langCode: String) {
+        binding.valueLang.text = when (langCode) {
+            "az" -> "Azərbaycan dili"
+            "en" -> "English"
+            "ru" -> "Русский"
+            else -> "Azərbaycan dili"
+        }
+    }
+
+    private fun toggleTheme() {
+        val newTheme = !viewModel.isDarkTheme()
+        viewModel.saveTheme(newTheme)
+        updateThemeUI(newTheme)
+
+        Toast.makeText(requireContext(), if (newTheme) "Qaranlıq tema" else "İşıqlı tema", Toast.LENGTH_SHORT).show()
+
+        requireActivity().recreate()
+    }
+
+    private fun updateThemeUI(isDark: Boolean) {
+        binding.valueTheme.text = if (isDark) "Qaranlıq" else "İşıqlı"
+    }
+
+    private fun navigateToLogin() {
+        try {
+            findNavController().navigate(
+                R.id.loginWithNumberFragment,
+                null,
+                androidx.navigation.NavOptions.Builder()
+                    .setPopUpTo(0, true)
+                    .build()
+            )
+        } catch (e: Exception) {
+
+            val intent = requireActivity().intent
+            requireActivity().finish()
+            startActivity(intent)
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
-
-

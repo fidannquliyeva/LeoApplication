@@ -233,10 +233,31 @@ class FirestoreDataSource @Inject constructor(
     /**
      * ✅ YENİ - Real-time transaction observer
      */
+    /**
+     * ✅ Real-time transaction observer - həm sent həm received
+     */
     fun observeUserTransactions(userId: String): Flow<Result<List<Transaction>>> = callbackFlow {
         Log.d("FirestoreDataSource", "Starting to observe transactions for: $userId")
 
-        // Sent transactions listener
+        var sentTransactions: List<Transaction> = emptyList()
+        var receivedTransactions: List<Transaction> = emptyList()
+
+        fun emitCombinedTransactions() {
+            val allTransactions = (sentTransactions + receivedTransactions)
+                .distinctBy { it.transactionId }
+                .sortedByDescending { it.timestamp }
+
+            Log.d("FirestoreDataSource", "✅ Combined transactions: ${allTransactions.size}")
+            Log.d("FirestoreDataSource", "  - Sent: ${sentTransactions.size}")
+            Log.d("FirestoreDataSource", "  - Received: ${receivedTransactions.size}")
+
+            allTransactions.forEach { tx ->
+                Log.d("FirestoreDataSource", "    [${tx.type}] ${tx.amount} - ${tx.description}")
+            }
+
+            trySend(Result.success(allTransactions))
+        }
+
         val sentListener = firestore.collection(Constants.TRANSACTIONS_COLLECTION)
             .whereEqualTo("fromUserId", userId)
             .addSnapshotListener { snapshot, error ->
@@ -246,39 +267,35 @@ class FirestoreDataSource @Inject constructor(
                     return@addSnapshotListener
                 }
 
-                val sentTransactions = snapshot?.documents?.mapNotNull { doc ->
+                sentTransactions = snapshot?.documents?.mapNotNull { doc ->
                     doc.toObject(Transaction::class.java)?.copy(transactionId = doc.id)
                 } ?: emptyList()
 
-                Log.d("FirestoreDataSource", "Sent transactions: ${sentTransactions.size}")
+                Log.d("FirestoreDataSource", "Sent transactions updated: ${sentTransactions.size}")
+                emitCombinedTransactions()
+            }
 
-                // Received transactions-ı da oxu
-                firestore.collection(Constants.TRANSACTIONS_COLLECTION)
-                    .whereEqualTo("toUserId", userId)
-                    .get()
-                    .addOnSuccessListener { receivedSnapshot ->
-                        val receivedTransactions = receivedSnapshot.documents.mapNotNull { doc ->
-                            doc.toObject(Transaction::class.java)?.copy(transactionId = doc.id)
-                        }
+        val receivedListener = firestore.collection(Constants.TRANSACTIONS_COLLECTION)
+            .whereEqualTo("toUserId", userId)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    Log.e("FirestoreDataSource", "❌ Received listener error: ${error.message}")
+                    trySend(Result.failure(error))
+                    return@addSnapshotListener
+                }
 
-                        Log.d("FirestoreDataSource", "Received transactions: ${receivedTransactions.size}")
+                receivedTransactions = snapshot?.documents?.mapNotNull { doc ->
+                    doc.toObject(Transaction::class.java)?.copy(transactionId = doc.id)
+                } ?: emptyList()
 
-                        val allTransactions = (sentTransactions + receivedTransactions)
-                            .distinctBy { it.transactionId }
-                            .sortedByDescending { it.timestamp }
-
-                        Log.d("FirestoreDataSource", "✅ Total transactions: ${allTransactions.size}")
-                        trySend(Result.success(allTransactions))
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("FirestoreDataSource", "❌ Received transactions error: ${e.message}")
-                        trySend(Result.failure(e))
-                    }
+                Log.d("FirestoreDataSource", "Received transactions updated: ${receivedTransactions.size}")
+                emitCombinedTransactions()
             }
 
         awaitClose {
-            Log.d("FirestoreDataSource", "Closing transaction listener")
+            Log.d("FirestoreDataSource", "Closing transaction listeners")
             sentListener.remove()
+            receivedListener.remove()
         }
     }
 

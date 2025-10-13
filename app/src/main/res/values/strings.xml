@@ -126,7 +126,7 @@
     <string name="e_po_t">E-poçt</string>
     <string name="biometrik_m_lumatlarla_giri">Biometrik məlumatlarla giriş</string>
     <string name="dig_r_istifad_il_rin_laq_l_r_kitab_as_nda_g_st_r">Digər istifadəçilərin əlaqələr kitabçasında göstər</string>
-    <string name="t_tniqin_rejimi">Tətniqin rejimi</string>
+    <string name="t_tniqin_rejimi">Tətbiqin rejimi</string>
     <string name="defolt">Defolt</string>
     <string name="x">Çıxış</string>
     <string name="sms_l_g_l_n_kodu_daxil_edin">SMS-lə gələn kodu daxil edin</string>
@@ -150,6 +150,20 @@
     <string name="do_um_tarixi">Doğum tarixi</string>
     <string name="email">Email</string>
     <string name="fin">Fin</string>
+    <string name="biometrik_ikonu">biometrik_ikonu</string>
+    <string name="email_ikonu">email_ikonu</string>
+    <string name="telefon_ikonu">telefon_ikonu</string>
+    <string name="istifadeci">istifadeci</string>
+    <string name="ad_ikonu">ad_ikonu</string>
+    <string name="istifadeci_sekli">istifadeci_sekli</string>
+    <string name="geri">geri</string>
+    <string name="biometrik_acik_bagla">biometrik_acik_bagla</string>
+    <string name="mexfilik_ikonu">mexfilik_ikonu</string>
+    <string name="istifadeci_ikonu">istifadeci_ikonu</string>
+    <string name="mexfilik_acik_bagla">mexfilik_acik_bagla</string>
+    <string name="dil_ikonu">dil_ikonu</string>
+    <string name="tema_ikonu">tema_ikonu</string>
+    <string name="cixis_ikonu">cixis_ikonu</string>
 
 
 </resources>

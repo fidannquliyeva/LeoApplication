@@ -1,6 +1,5 @@
 package com.example.leoapplication.presentation.ui.adapters
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -14,6 +13,7 @@ import com.example.leoapplication.data.model.TransactionType
 import com.example.leoapplication.databinding.ItemTransactionBinding
 import java.text.SimpleDateFormat
 import java.util.*
+
 class TransactionAdapter(
     private val currentUserId: String,
     private val onItemClick: (Transaction) -> Unit
@@ -42,19 +42,29 @@ class TransactionAdapter(
                 val dateFormat = SimpleDateFormat("dd MMM, HH:mm", Locale("az"))
                 tvDate.text = dateFormat.format(Date(transaction.timestamp))
 
-                val isOutgoing = transaction.fromUserId == currentUserId
-
-                // Əməliyyat təsviri
-                val description = when (transaction.type) {
-                    TransactionType.TRANSFER -> if (isOutgoing) "Göndərildi" else "Alındı"
-                    TransactionType.PAYMENT -> "Ödəniş"
-                    TransactionType.DEPOSIT, TransactionType.BALANCE_INCREASE -> "Balans artırma"
-                    TransactionType.WITHDRAWAL -> "Çıxarış"
-                    else -> if (transaction.description.isNotEmpty()) transaction.description else "Əməliyyat"
+                val isOutgoing = when (transaction.type) {
+                    TransactionType.BALANCE_INCREASE -> false // ✅ Həmişə incoming
+                    else -> transaction.fromUserId == currentUserId
                 }
-                tvDescription.text = description
 
-                // Məbləğ və rəng
+                tvDescription.text = when (transaction.type) {
+                    TransactionType.TRANSFER -> {
+                        if (isOutgoing) "Göndərildi" else "Alındı"
+                    }
+                    TransactionType.BALANCE_INCREASE -> "Balans artırma" // ✅ YENİ
+                    TransactionType.PAYMENT -> "Ödəniş"
+                    TransactionType.DEPOSIT -> "Depozit"
+                    TransactionType.WITHDRAWAL -> "Çıxarış"
+                    else -> {
+                        if (transaction.description.isNotEmpty()) {
+                            transaction.description
+                        } else {
+                            "Əməliyyat"
+                        }
+                    }
+                }
+
+                // Amount formatı
                 val amountText = if (isOutgoing) {
                     "-${String.format("%.2f", transaction.amount)} ${transaction.currency}"
                 } else {
@@ -62,10 +72,11 @@ class TransactionAdapter(
                 }
                 tvAmount.text = amountText
 
-                val color = when {
-                    !isOutgoing -> ContextCompat.getColor(root.context, android.R.color.holo_green_dark)
-                    isOutgoing -> ContextCompat.getColor(root.context, android.R.color.holo_red_dark)
-                    else -> Color.BLACK
+                // Rəng
+                val color = if (isOutgoing) {
+                    ContextCompat.getColor(root.context, android.R.color.holo_red_dark)
+                } else {
+                    ContextCompat.getColor(root.context, android.R.color.holo_green_dark)
                 }
                 tvAmount.setTextColor(color)
 
