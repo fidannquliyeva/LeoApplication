@@ -145,12 +145,6 @@ class TransferViewModel @Inject constructor(
         Log.d("TransferViewModel", "Selected: ${contact.name} - ${contact.phoneNumber}")
     }
 
-    fun setManualRecipient(phoneNumber: String) {
-        _recipientPhoneNumber.value = phoneNumber
-        _recipientName.value = "" // Manual input-da ad yoxdur
-        Log.d("TransferViewModel", "Manual phone: $phoneNumber")
-    }
-
     // ============ FIND USER BY CARD NUMBER ============
 
     fun findUserByCardNumber(cardNumber: String) {

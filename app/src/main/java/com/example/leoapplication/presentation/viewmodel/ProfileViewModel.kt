@@ -1,11 +1,14 @@
 package com.example.leoapplication.presentation.viewmodel
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.leoapplication.data.model.User
 import com.example.leoapplication.domain.repository.HomeRepository
+import com.example.leoapplication.util.AvatarManager
+import com.example.leoapplication.util.PinManager
 import com.example.leoapplication.util.Resource
 import com.example.leoapplication.util.ThemeHelper
 import com.google.firebase.auth.FirebaseAuth
@@ -30,8 +33,13 @@ class ProfileViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<ProfileUiState>(ProfileUiState.Loading)
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
 
+
+    private val _avatarUri = MutableStateFlow<String?>(null)
+    val avatarUri: StateFlow<String?> = _avatarUri.asStateFlow()
+
     init {
         loadUserData()
+        loadAvatar()
     }
 
     private fun loadUserData() {
@@ -54,13 +62,64 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun logout() {
-        auth.signOut()
-        _uiState.value = ProfileUiState.LoggedOut
+        viewModelScope.launch {
+            try {
+                Log.d("ProfileViewModel", "🔴 LOGOUT STARTED")
+
+                // Auth sign out
+                val userBeforeLogout = auth.currentUser?.uid
+                Log.d("ProfileViewModel", "User before logout: $userBeforeLogout")
+
+                auth.signOut()
+
+                val userAfterLogout = auth.currentUser?.uid
+                Log.d("ProfileViewModel", "User after logout: $userAfterLogout (should be null)")
+
+                // Avatar təmizlə
+                AvatarManager.clearAvatar(context)
+                Log.d("ProfileViewModel", "✅ Avatar cleared")
+
+                // PIN təmizlə
+                val pinBeforeClear = PinManager.isPinSet(context)
+                Log.d("ProfileViewModel", "PIN before clear: $pinBeforeClear")
+
+                PinManager.clearPin(context)
+
+                val pinAfterClear = PinManager.isPinSet(context)
+                Log.d("ProfileViewModel", "PIN after clear: $pinAfterClear (should be false)")
+
+                // SharedPreferences təmizlə
+                val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+                prefs.edit().clear().apply()
+                Log.d("ProfileViewModel", "✅ SharedPreferences cleared")
+
+                Log.d("ProfileViewModel", "✅ LOGOUT COMPLETED - all data cleared")
+
+                _uiState.value = ProfileUiState.LoggedOut
+            } catch (e: Exception) {
+                Log.e("ProfileViewModel", "❌ Logout error: ${e.message}")
+                _uiState.value = ProfileUiState.Error("Çıxış zamanı xəta")
+            }
+        }
     }
 
     fun isDarkTheme(): Boolean = ThemeHelper.isDarkTheme(context)
 
     fun saveTheme(isDark: Boolean) = ThemeHelper.setTheme(context, isDark)
+
+    fun saveAvatar(uri: Uri) {
+        AvatarManager.saveAvatar(context, uri)
+        loadAvatar()
+    }
+
+    private fun loadAvatar() {
+        _avatarUri.value = AvatarManager.getAvatar(context)
+    }
+
+    fun clearAvatar() {
+        AvatarManager.clearAvatar(context)
+        _avatarUri.value = null
+    }
 }
 
 sealed class ProfileUiState {

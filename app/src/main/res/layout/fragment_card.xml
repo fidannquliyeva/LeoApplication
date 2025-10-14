@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    android:background="@color/white"
+    android:background="@color/transferBg"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -129,7 +129,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_visa_card"
-        app:tint="@color/black"
+        app:tint="@color/textColor"
         app:layout_constraintVertical_bias="0.06"/>
 
     <TextView
@@ -138,6 +138,7 @@
         android:layout_height="wrap_content"
         android:text="@string/plastik_kart_blokla"
         android:textSize="18sp"
+        android:textColor="@color/textColor"
         app:layout_constraintBottom_toTopOf="@id/txt_block_msg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
@@ -150,6 +151,7 @@
         android:layout_height="wrap_content"
         android:text="@string/st_diyiniz_vaxt_onu_blokdan_xara_bil_rsiniz"
         android:textSize="14sp"
+        android:textColor="@color/textColor"
         app:layout_constraintBottom_toBottomOf="@id/img_block"
         app:layout_constraintStart_toStartOf="@+id/txt_block"
         app:layout_constraintTop_toBottomOf="@id/txt_block" />
@@ -161,6 +163,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:src="@drawable/baseline_edit_24"
+        app:tint="@color/textColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/img_block"
@@ -172,6 +175,7 @@
         android:layout_height="wrap_content"
         android:text="@string/pin_kod_d_yi_m_k"
         android:textSize="18sp"
+        android:textColor="@color/textColor"
         app:layout_constraintBottom_toTopOf="@id/txt_change_pin_msg"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
@@ -184,36 +188,10 @@
         android:layout_height="wrap_content"
         android:text="@string/kart_v_t_tbiql_r"
         android:textSize="14sp"
+        android:textColor="@color/textColor"
         app:layout_constraintBottom_toBottomOf="@id/txt_change_pin_msg"
         app:layout_constraintStart_toStartOf="@+id/txt_change_pin"
         app:layout_constraintTop_toBottomOf="@id/txt_change_pin" />
-
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifImageView"
-        android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:src="@drawable/leo_animasiya3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
- />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

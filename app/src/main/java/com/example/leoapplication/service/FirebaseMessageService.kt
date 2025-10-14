@@ -13,10 +13,7 @@ import com.example.leoapplication.presentation.ui.fragments.home.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
-/**
- * Firebase Cloud Messaging Service
- * Push notification-lar üçün
- */
+
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
     companion object {
@@ -33,9 +30,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         // sendTokenToServer(token)
     }
 
-    /**
-     * Push notification alınanda çağırılır
-     */
     override fun onMessageReceived(message: RemoteMessage) {
         super.onMessageReceived(message)
 
@@ -52,7 +46,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             )
         }
 
-        // Data var?
         if (message.data.isNotEmpty()) {
             Log.d(TAG, "Message data: ${message.data}")
 
@@ -95,9 +88,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
     }
 
-    /**
-     * Notification channel yaratmaq (Android 8.0+)
-     */
+
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_HIGH

@@ -11,10 +11,7 @@ import com.example.leoapplication.databinding.FragmentSetPinBinding
 import com.example.leoapplication.util.DialogHelper.showSupportDialog
 import com.example.leoapplication.util.PinManager
 import com.example.leoapplication.util.showToast
-//import com.example.leoapplication.databinding.FragmentPinCreatedBinding
-//import com.example.leoapplication.presentation.viewmodel.PinCreatedVM
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class SetPinFragment : Fragment() {
@@ -45,6 +42,8 @@ class SetPinFragment : Fragment() {
         setupNumberPad()
         setupEyeToggle()
         updateInstructions()
+        updatePinDisplay()
+
         binding.helpPin.setOnClickListener {
             showSupportDialog()
         }
@@ -117,35 +116,69 @@ class SetPinFragment : Fragment() {
     private fun updatePinDisplay() {
         // İlk PIN göstərmə
         val pinViews = listOf(binding.pin1, binding.pin2, binding.pin3, binding.pin4)
+        val pinTexts = listOf(binding.pin1Text, binding.pin2Text, binding.pin3Text, binding.pin4Text)
+
         pinViews.forEachIndexed { index, imageView ->
-            when {
-                index < firstPin.length -> {
-                    if (isPinVisible && firstPin.isNotEmpty()) {
-                        imageView.setImageResource(R.drawable.paw)
-                    } else {
-                        imageView.setImageResource(R.drawable.paw)
-                    }
+            if (index < firstPin.length) {
+                // Dolu - qara rəng
+                imageView.setImageResource(R.drawable.paw)
+                imageView.setColorFilter(
+                    resources.getColor(android.R.color.black, null),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+
+                // Rəqəmi göstər/gizlət
+                if (isPinVisible) {
+                    imageView.visibility = View.GONE
+                    pinTexts[index].text = firstPin[index].toString()
+                    pinTexts[index].visibility = View.VISIBLE
+                } else {
+                    imageView.visibility = View.VISIBLE
+                    pinTexts[index].visibility = View.GONE
                 }
-                else -> {
-                    imageView.setImageResource(R.drawable.paw)
-                }
+            } else {
+                // Boş - boz rəng
+                imageView.setImageResource(R.drawable.paw)
+                imageView.setColorFilter(
+                    resources.getColor(android.R.color.darker_gray, null),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                imageView.visibility = View.VISIBLE
+                pinTexts[index].visibility = View.GONE
             }
         }
 
         // Təsdiq PIN göstərmə
         val confirmPinViews = listOf(binding.pinC1, binding.pinC2, binding.pinC3, binding.pinC4)
+        val confirmPinTexts = listOf(binding.pinC1Text, binding.pinC2Text, binding.pinC3Text, binding.pinC4Text)
+
         confirmPinViews.forEachIndexed { index, imageView ->
-            when {
-                index < confirmPin.length -> {
-                    if (isConfirmPinVisible && confirmPin.isNotEmpty()) {
-                        imageView.setImageResource(R.drawable.paw)
-                    } else {
-                        imageView.setImageResource(R.drawable.paw)
-                    }
+            if (index < confirmPin.length) {
+                // Dolu - qara rəng
+                imageView.setImageResource(R.drawable.paw)
+                imageView.setColorFilter(
+                    resources.getColor(android.R.color.black, null),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+
+                // Rəqəmi göstər/gizlət
+                if (isConfirmPinVisible) {
+                    imageView.visibility = View.GONE
+                    confirmPinTexts[index].text = confirmPin[index].toString()
+                    confirmPinTexts[index].visibility = View.VISIBLE
+                } else {
+                    imageView.visibility = View.VISIBLE
+                    confirmPinTexts[index].visibility = View.GONE
                 }
-                else -> {
-                    imageView.setImageResource(R.drawable.paw)
-                }
+            } else {
+                // Boş - boz rəng
+                imageView.setImageResource(R.drawable.paw)
+                imageView.setColorFilter(
+                    resources.getColor(android.R.color.darker_gray, null),
+                    android.graphics.PorterDuff.Mode.SRC_IN
+                )
+                imageView.visibility = View.VISIBLE
+                confirmPinTexts[index].visibility = View.GONE
             }
         }
     }
@@ -171,11 +204,10 @@ class SetPinFragment : Fragment() {
     }
 
     private fun updateInstructions() {
-        // UI-da instruction text varsa, onu yenilə
-        binding.confirmNumberText?.text = if (isConfirming) {
-            "PIN-i təsdiqləyin"
+        binding.phoneNumberText.text = if (!isConfirming) {
+            "Yeni PIN kodunuzu yaradın"
         } else {
-            "4 rəqəmli PIN təyin edin"
+            "PIN kodunuzu təsdiqləyin"
         }
     }
 
@@ -209,6 +241,10 @@ class SetPinFragment : Fragment() {
         firstPin = ""
         confirmPin = ""
         isConfirming = false
+        isPinVisible = false
+        isConfirmPinVisible = false
+        binding.eyeToggle.setImageResource(R.drawable.ic_eye_closed)
+        binding.eyeToggleConfirm.setImageResource(R.drawable.ic_eye_closed)
         updatePinDisplay()
         updateInstructions()
     }

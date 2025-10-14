@@ -25,13 +25,14 @@
             app:tabIndicatorHeight="0dp"
             android:background="@color/white"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="#070707"
+            app:tabSelectedTextColor="@color/textColor"
+            android:backgroundTint="@color/background"
             app:tabTextColor="#757575" />
 
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- ViewPager2 -->
+
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPagerEdv"

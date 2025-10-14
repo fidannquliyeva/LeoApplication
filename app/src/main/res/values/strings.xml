@@ -61,7 +61,7 @@
     <string name="rus">Русский</string>
     <string name="kod">Kod</string>
     <string name="_994_555_555_555">+994 (555) 555-555</string>
-    <string name="n_mr_sin_g_nd_rildi">nömrəsinə gündərildi</string>
+    <string name="n_mr_sin_g_nd_rildi">nömrəsinə göndərildi</string>
     <string name="code">Kod</string>
     <string name="_0_0">0.0</string>
     <string name="man_t_m_bl_i">Əmanət məbləği</string>
@@ -164,6 +164,47 @@
     <string name="dil_ikonu">dil_ikonu</string>
     <string name="tema_ikonu">tema_ikonu</string>
     <string name="cixis_ikonu">cixis_ikonu</string>
+    <string name="miqdar_daxil_edin">Miqdarı daxil edin (₼)</string>
+    <string name="d_ni_l_r">Ödənişlər</string>
+    <string name="kart_n_mr_sini_daxil_edin">Kart nömrəsini daxil edin</string>
+    <string name="na_d_pulla">Nağd pulla</string>
+    <string name="silk_l_v_d">Silkələ və ödə</string>
+    <string name="yax_nl_qda_k_rm">Yaxınlıqda köçürmə</string>
+    <string name="h_kum_t_d_ni_l_ri">Hökumət ödənişləri</string>
+    <string name="dyp_c_rim_l_ri">DYP cərimələri</string>
+    <string name="parking_n_d_ni">Parking üçün ödəniş</string>
+    <string name="anipay_k_rm_si">AniPay köçürməsi</string>
+    <string name="kredit_d_ni_i">Kredit ödənişi</string>
+    <string name="kontakt_home_r_ad_soliton">Kontakt Home, İrşad, Soliton...</string>
+    <string name="m_t_madi_d_ni">Mütəmadi ödəniş</string>
+    <string name="yeni">Yeni</string>
+    <string name="lk_q_bzini_skan_edin">İlk qəbzini skan edin</string>
+    <string name="lav_edilmi_q_bzl_r_burada_g_r_n_c_k">Əlavə edilmiş qəbzlər burada görünəcək</string>
+    <string name="son_3_ay_zr_l_v_edilmi_q_bz_yoxdur">Son 3 ay üzrə ləğv edilmiş qəbz yoxdur</string>
+    <string name="x_zin_l_r">Xəzinələr</string>
+    <string name="neyese">neyese</string>
+    <string name="h_d_f">Hədəf</string>
+    <string name="depozitlar_v_x_zin_l_r">Depozitlar və Xəzinələr</string>
+    <string name="st_diyiniz_m_bl_x_zin_a_a_ist_diyiniz_zaman_balans_n_art_ra_v_ba_laya_bil_rsiniz">💰 İstədiyiniz məbləğə Xəzinə aça, istədiyiniz zaman balansını artıra və bağlaya bilərsiniz</string>
+    <string name="depozit_m_yy_n_m_dd_t_balansart_rma_imkan_olmadan_a_l_r_lakin_faiz_d_r_c_si_y_ks_kdir">🌻 Depozit müəyyən müddətə, balansartırma imkanı olmadan açılır; lakin faiz dərəcəsi yüksəkdir</string>
+    <string name="depozitl_siz_illik_12_q_d_r_qazanc_ld_ed_c_ksiniz_x_zin_il_is_leo_black_kart_n_z_varsa_6_v_ya_leo_prime_kart_n_z_varsa_7_qazanc_ld_ed_c_ksiniz">🤲 Depozitlə siz illik 12%-ə qədər qazanc əldə edəcəksiniz! Xəzinə ilə isə Leo Black kartınız varsa, 6% və ya Leo Prime kartınız varsa, 7% qazanc əldə edəcəksiniz</string>
+    <string name="pulunuz_az_rbaycan_respublikas_n_n_man_tl_rin_s_ortalanmas_fondunun_etibarl_m_hafiz_si_alt_ndad_r">🛡️ Pulunuz Azərbaycan Respublikasının Əmanətlərin Sığortalanması Fondunun etibarlı mühafizəsi altındadır</string>
+    <string name="s_n_dl_r_sizin_n_haz_rlan_r">Sənədlər sizin üçün hazırlanır</string>
+    <string name="bir_d_qiq_d_n_az_k_c_k">Bir dəqiqədən az çəkəcək</string>
+    <string name="u_urla_d_ni_edildi">✔ Uğurla ödəniş edildi</string>
+    <string name="hesab">Hesab</string>
+    <string name="g_nd_r_n">Göndərən</string>
+    <string name="haz_rd_r">Hazırdır</string>
+    <string name="_1_dan_ba_layan_kr_ptovalyutalar">1₼-DAN BAŞLAYAN KRİPTOVALYUTALAR</string>
+    <string name="polkadot">Polkadot</string>
+    <string name="ripple">Ripple</string>
+    <string name="ethereum">Ethereum</string>
+    <string name="_5_dan_ba_layan_s_hml_r">5₼-DAN BAŞLAYAN SƏHMLƏR</string>
+    <string name="kolleks_yalar">KOLLEKSİYALAR</string>
+    <string name="leo_m_t_ril_rinin_se_imi">Leo müştərilərinin seçimi 🔥</string>
+    <string name="meml_r">Memlər</string>
+    <string name="oyun">Oyun</string>
+    <string name="defi">DeFi</string>
 
 
 </resources>

@@ -11,12 +11,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.ActivityMainBinding
 import com.example.leoapplication.util.LanguageManager
+import com.example.leoapplication.util.PinManager
 import com.example.leoapplication.util.ThemeHelper
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,8 +27,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
 
-    // ✅ YENİ - Notification permission launcher
+    // ✅ YENİ: Background vaxtını saxlamaq üçün
+    private var backgroundTime: Long = 0
+    private val PIN_TIMEOUT_MS = 10_000L // 10 saniyə (millisaniyə ilə)
+
+    // Notification permission launcher
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -41,9 +49,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Dil və tema yüklə
         LanguageManager.loadLanguage(this)
-//        ThemeHelper.applyTheme(this)
+        ThemeHelper.applyTheme(this)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -51,15 +58,13 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
 
         setupNavigation()
-
-        // ✅ YENİ - Notification permission və FCM token
         requestNotificationPermission()
     }
 
     private fun setupNavigation() {
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.fragment_container) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
 
         val bottomNav = binding.bottomNav
         bottomNav.setupWithNavController(navController)
@@ -82,7 +87,13 @@ class MainActivity : AppCompatActivity() {
                 R.id.exportToMobileFragment,
                 R.id.monileNumberFragment,
                 R.id.mobileBalanceFragment,
-                R.id.loadingFragment -> {
+                R.id.loadingFragment,
+                R.id.setPinFragment,
+                R.id.transactionDetailFragment,
+                R.id.transferSelectFragment,
+                R.id.profileFragment,
+                R.id.transferManualInputFragment,
+                R.id.transferAmountFragment -> {
                     binding.bottomNav.visibility = View.GONE
                 }
                 else -> {
@@ -90,9 +101,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        Log.d("MainActivity", "Navigation setup complete")
     }
 
-    // ✅ YENİ - Notification permission istə (Android 13+)
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             when {
@@ -100,12 +112,10 @@ class MainActivity : AppCompatActivity() {
                     this,
                     Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    // Permission var
                     Log.d("MainActivity", "✅ Notification permission already granted")
                     getFCMToken()
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
-                    // İzah göstər
                     Toast.makeText(
                         this,
                         "Bildirişlər üçün icazə lazımdır",
@@ -114,17 +124,14 @@ class MainActivity : AppCompatActivity() {
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
                 else -> {
-                    // Permission istə
                     requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
             }
         } else {
-            // Android 12 və aşağı - permission avtomatik verilir
             getFCMToken()
         }
     }
 
-    // ✅ YENİ - FCM Token əldə et
     private fun getFCMToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
@@ -132,14 +139,83 @@ class MainActivity : AppCompatActivity() {
                 return@addOnCompleteListener
             }
 
-            // FCM Token
             val token = task.result
             Log.d("MainActivity", "✅✅✅ FCM TOKEN ✅✅✅")
             Log.d("MainActivity", token)
             Log.d("MainActivity", "✅✅✅ FCM TOKEN ✅✅✅")
+        }
+    }
 
-            // TODO: Token-u server-ə göndər (gələcəkdə)
-            // sendTokenToServer(token)
+    // ✅ YENİ: App background-a getdikdə
+    override fun onPause() {
+        super.onPause()
+
+        // Yalnız user login olubsa və PIN varsa vaxtı qeyd et
+        val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
+        val hasPIN = PinManager.isPinSet(this)
+
+        if (isLoggedIn && hasPIN) {
+            backgroundTime = System.currentTimeMillis()
+            Log.d("MainActivity", "⏸️ App paused at: $backgroundTime")
+        }
+    }
+
+    // ✅ YENİ: App foreground-a qayıdanda
+    override fun onResume() {
+        super.onResume()
+
+        // Əgər background vaxtı qeyd olunubsa
+        if (backgroundTime > 0) {
+            val currentTime = System.currentTimeMillis()
+            val elapsedTime = currentTime - backgroundTime
+
+            Log.d("MainActivity", "▶️ App resumed. Elapsed time: ${elapsedTime}ms")
+
+            // Əgər 10 saniyədən çox keçibsə
+            if (elapsedTime > PIN_TIMEOUT_MS) {
+                Log.d("MainActivity", "🔒 Timeout! Redirecting to PIN login...")
+                navigateToPinLogin()
+            }
+
+            // Vaxtı sıfırla
+            backgroundTime = 0
+        }
+    }
+
+    // ✅ YENİ: PIN login ekranına yönləndirmə
+    private fun navigateToPinLogin() {
+        try {
+            // NavController hazır olana qədər gözlə
+            if (!::navController.isInitialized) {
+                Log.e("MainActivity", "NavController not initialized yet")
+                return
+            }
+
+            val currentDest = navController.currentDestination?.id
+
+            // Əgər artıq PIN login ekranındaysa və ya login ekranlarındaysa, yönləndirmə
+            if (currentDest == R.id.pinLoginFragment ||
+                currentDest == R.id.loginWithNumberFragment ||
+                currentDest == R.id.smsLoginFragment ||
+                currentDest == R.id.splashScreenFragment) {
+                Log.d("MainActivity", "Already on login screen, skipping navigation")
+                return
+            }
+
+            // PIN login ekranına get və bütün stack-i təmizlə
+            navController.navigate(
+                R.id.pinLoginFragment,
+                null,
+                androidx.navigation.NavOptions.Builder()
+                    .setPopUpTo(navController.graph.startDestinationId, true)
+                    .setLaunchSingleTop(true)
+                    .build()
+            )
+
+            Log.d("MainActivity", "✅ Navigated to PIN login")
+
+        } catch (e: Exception) {
+            Log.e("MainActivity", "❌ Navigation error: ${e.message}")
         }
     }
 }

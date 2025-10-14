@@ -40,6 +40,7 @@ class CardViewModel @Inject constructor(
                     _isBlocked.value = !cardData.isActive
                     _uiState.value = CardUiState.Success
                     Log.d("CardViewModel", "✅ Card loaded: ${cardData.cardNumber}")
+                    Log.d("CardViewModel", "Card isActive: ${cardData.isActive}, isBlocked: ${!cardData.isActive}")
                 } else {
                     _uiState.value = CardUiState.Error("Kart tapılmadı")
                     Log.e("CardViewModel", "❌ Card is null")
@@ -55,21 +56,28 @@ class CardViewModel @Inject constructor(
     fun toggleCardBlock() {
         viewModelScope.launch {
             val currentCard = _card.value ?: return@launch
-            val newStatus = !_isBlocked.value
 
-            Log.d("CardViewModel", "Toggling card block: $newStatus")
+            // ✅ DÜZGÜN: isBlocked tərsinədir isActive-dən
+            val currentIsBlocked = _isBlocked.value
+            val newIsActive = currentIsBlocked  // Əgər blokludursa, aktivləşdir
+            val newIsBlocked = !newIsActive     // Əgər aktivdirsə, blokla
 
-            val result = cardRepository.toggleCardStatus(currentCard.cardId, newStatus)
+            Log.d("CardViewModel", "Current: isActive=${currentCard.isActive}, isBlocked=$currentIsBlocked")
+            Log.d("CardViewModel", "Toggling to: isActive=$newIsActive, isBlocked=$newIsBlocked")
+
+            val result = cardRepository.toggleCardStatus(currentCard.cardId, newIsActive)
 
             if (result.isSuccess) {
-                _isBlocked.value = newStatus
-                _card.value = currentCard.copy(isActive = newStatus)
+                _isBlocked.value = newIsBlocked
+                _card.value = currentCard.copy(isActive = newIsActive)
 
-                val message = if (newStatus) {
+                // ✅ DÜZGÜN mesaj
+                val message = if (newIsActive) {
                     "✅ Kart aktivləşdirildi"
                 } else {
                     "⚠️ Kart bloklandı"
                 }
+
                 _uiState.value = CardUiState.Message(message)
                 Log.d("CardViewModel", message)
             } else {

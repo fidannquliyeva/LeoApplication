@@ -1,5 +1,6 @@
 package com.example.leoapplication.presentation.ui.fragments.loginAuth
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentPinLoginBinding
+import com.example.leoapplication.util.AvatarManager
 import com.example.leoapplication.util.DialogHelper.showSupportDialog
 import com.example.leoapplication.util.PinManager
 import com.example.leoapplication.util.showToast
@@ -39,6 +41,7 @@ class PinLoginFragment : Fragment() {
         checkLockStatus()
         setupNumberPad()
         setupForgetPin()
+        loadAvatar()
         binding.helpPin.setOnClickListener {
             showSupportDialog()
         }
@@ -78,7 +81,7 @@ class PinLoginFragment : Fragment() {
         binding.numberPad.alpha = 0.3f
         binding.numberPad.isEnabled = false
 
-        // Bütün düymələri deaktiv et
+        //deaktiv
         listOf(
             binding.btn0, binding.btn1, binding.btn2, binding.btn3,
             binding.btn4, binding.btn5, binding.btn6, binding.btn7,
@@ -90,7 +93,7 @@ class PinLoginFragment : Fragment() {
         binding.numberPad.alpha = 1f
         binding.numberPad.isEnabled = true
 
-        // Bütün düymələri aktiv et
+        //aktiv
         listOf(
             binding.btn0, binding.btn1, binding.btn2, binding.btn3,
             binding.btn4, binding.btn5, binding.btn6, binding.btn7,
@@ -145,14 +148,12 @@ class PinLoginFragment : Fragment() {
         val pinViews = listOf(binding.pin1, binding.pin2, binding.pin3, binding.pin4)
         pinViews.forEachIndexed { index, imageView ->
             if (index < enteredPin.length) {
-                // Dolu - qara rəng
                 imageView.setImageResource(R.drawable.paw)
                 imageView.setColorFilter(
-                    resources.getColor(android.R.color.black, null),
+                    resources.getColor(android.R.color.holo_purple, null),
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
             } else {
-                // Boş - boz rəng
                 imageView.setImageResource(R.drawable.paw)
                 imageView.setColorFilter(
                     resources.getColor(android.R.color.darker_gray, null),
@@ -195,6 +196,20 @@ class PinLoginFragment : Fragment() {
         }
     }
 
+    private fun loadAvatar() {
+        val avatarPath = AvatarManager.getAvatar(requireContext())
+
+        if (avatarPath != null) {
+            try {
+                val file = java.io.File(avatarPath)
+                binding.imgAvatar.setImageURI(android.net.Uri.fromFile(file))
+            } catch (e: Exception) {
+                binding.imgAvatar.setImageResource(R.drawable.icons8testaccount80)
+            }
+        } else {
+            binding.imgAvatar.setImageResource(R.drawable.icons8testaccount80)
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         lockTimer?.cancel()

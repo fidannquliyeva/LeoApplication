@@ -65,7 +65,7 @@ class HomeRepositoryImpl @Inject constructor(
 
         val listener = firestore.collection(Constants.CARDS_COLLECTION)
             .whereEqualTo("userId", userId)
-            .whereEqualTo("isActive", true)
+            // ✅ isActive filter-i SİLDİK - Bütün kartları göstər (aktiv və bloklu)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     trySend(Resource.Error(error.message ?: "Xəta baş verdi"))
@@ -75,6 +75,11 @@ class HomeRepositoryImpl @Inject constructor(
                 if (snapshot != null) {
                     val cards = snapshot.toObjects(Card::class.java)
                     trySend(Resource.Success(cards))
+
+                    Log.d("HomeRepository", "✅ Cards loaded: ${cards.size}")
+                    cards.forEach { card ->
+                        Log.d("HomeRepository", "  - ${card.cardNumber}: isActive=${card.isActive}")
+                    }
                 } else {
                     trySend(Resource.Error("Məlumat tapılmadı"))
                 }
@@ -105,7 +110,7 @@ class HomeRepositoryImpl @Inject constructor(
         }
     }
 
-    // ✅ YENİ METOD - Transaction ilə balans artırma
+
     override suspend fun increaseBalanceWithTransaction(
         cardId: String,
         amount: Double,

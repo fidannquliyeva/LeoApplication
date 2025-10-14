@@ -27,7 +27,7 @@ class HomeViewModel @Inject constructor(
     private val homeRepository: HomeRepository,
     private val transactionRepository: TransactionRepository,
     private val auth: FirebaseAuth,
-    @ApplicationContext private val context: Context // ✅ Context
+    @ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -42,15 +42,18 @@ class HomeViewModel @Inject constructor(
     private val _selectedCard = MutableStateFlow<Card?>(null)
     val selectedCard: StateFlow<Card?> = _selectedCard.asStateFlow()
 
+    // ✅ YENİ: Balance StateFlow
+    private val _balance = MutableStateFlow(0.0)
+    val balance: StateFlow<Double> = _balance.asStateFlow()
+
     private val _transactions = MutableStateFlow<List<Transaction>>(emptyList())
     val transactions: StateFlow<List<Transaction>> = _transactions.asStateFlow()
 
     private val _filteredTransactions = MutableStateFlow<List<Transaction>>(emptyList())
     val filteredTransactions: StateFlow<List<Transaction>> = _filteredTransactions.asStateFlow()
 
-    // ✅ YENİ - Notification üçün köhnə transaction ID-ləri
     private var oldTransactionIds = emptySet<String>()
-    private var isFirstLoad = true // İlk yükləmədə notification göstərmə
+    private var isFirstLoad = true
 
     init {
         val currentUser = auth.currentUser
@@ -106,17 +109,22 @@ class HomeViewModel @Inject constructor(
                                 val updatedCard = cards.find { it.cardId == currentSelectedCardId }
                                 if (updatedCard != null) {
                                     _selectedCard.value = updatedCard
+                                    // ✅ Balansı yenilə
+                                    _balance.value = updatedCard.balance
                                     Log.d("HomeViewModel", "✅ Selected card updated: ${updatedCard.cardNumber} - Balance: ${updatedCard.balance}")
                                 } else {
                                     _selectedCard.value = cards.first()
+                                    _balance.value = cards.first().balance
                                     Log.d("HomeViewModel", "⚠️ Selected card not found, switching to first card")
                                 }
                             } else {
                                 _selectedCard.value = cards.first()
+                                _balance.value = cards.first().balance
                                 Log.d("HomeViewModel", "✅ Selected first card initially: ${cards.first().cardNumber}")
                             }
                         } else {
                             _selectedCard.value = null
+                            _balance.value = 0.0
                             Log.d("HomeViewModel", "❌ No cards available")
                         }
 
@@ -152,13 +160,11 @@ class HomeViewModel @Inject constructor(
 
                     Log.d("HomeViewModel", "✅ Transactions updated: ${txList.size}")
 
-                    // ✅ İlk yükləmədən sonra yalnız SON 10 SANİYƏ ərzində yaranmış transactions
                     if (!isFirstLoad && oldTransactionIds.isNotEmpty()) {
                         val currentTime = System.currentTimeMillis()
-                        val tenSecondsAgo = currentTime - 10_000 // 10 saniyə
+                        val tenSecondsAgo = currentTime - 10_000
 
                         val newTransactions = txList.filter { tx ->
-                            // Yeni transaction ID və SON 10 saniyə ərzində yaranıb
                             tx.transactionId !in oldTransactionIds &&
                                     tx.timestamp >= tenSecondsAgo
                         }
@@ -170,7 +176,6 @@ class HomeViewModel @Inject constructor(
                         }
                     }
 
-                    // ✅ Transaction ID-ləri yenilə
                     oldTransactionIds = txList.map { it.transactionId }.toSet()
                     isFirstLoad = false
                 }
@@ -183,15 +188,12 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-    /**
-     * ✅ Transaction üçün notification göstər
-     */
+
     private fun showNotificationForTransaction(transaction: Transaction, currentUserId: String) {
         Log.d("HomeViewModel", "🔔 Showing notification for: ${transaction.type}")
 
         when (transaction.type) {
             TransactionType.BALANCE_INCREASE -> {
-                // ✅ Balans artırma
                 NotificationHelper.showBalanceIncreaseNotification(
                     context,
                     transaction.amount
@@ -202,14 +204,12 @@ class HomeViewModel @Inject constructor(
                 val isReceived = transaction.toUserId == currentUserId
 
                 if (isReceived) {
-                    // ✅ Transfer alındı
                     NotificationHelper.showTransactionReceivedNotification(
                         context,
                         transaction.amount,
                         transaction.description
                     )
                 } else {
-                    // ✅ Transfer göndərildi
                     NotificationHelper.showTransactionSentNotification(
                         context,
                         transaction.amount,
@@ -219,7 +219,6 @@ class HomeViewModel @Inject constructor(
             }
 
             else -> {
-                // Digər transaction tipləri üçün (future)
                 Log.d("HomeViewModel", "Other transaction type: ${transaction.type}")
             }
         }
@@ -251,15 +250,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun selectCard(card: Card) {
-        _selectedCard.value = card
-        Log.d("HomeViewModel", "Card selected manually: ${card.cardNumber}")
-    }
-
-    fun refresh() {
-        Log.d("HomeViewModel", "====== REFRESHING DATA ======")
-        loadUserData()
-    }
 
     fun deleteTransaction(transaction: Transaction) {
         viewModelScope.launch {

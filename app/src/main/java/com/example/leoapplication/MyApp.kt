@@ -12,7 +12,7 @@ class MyApp : Application() {
         super.onCreate()
 
         LanguageManager.loadLanguage(this)
-//        ThemeHelper.applyTheme(this)
+        ThemeHelper.applyTheme(this)
         NotificationHelper.createNotificationChannel(this)
     }
 }

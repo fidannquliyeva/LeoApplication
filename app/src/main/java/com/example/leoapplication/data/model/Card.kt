@@ -1,6 +1,8 @@
 package com.example.leoapplication.data.model
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.PropertyName
+
 
 data class Card(
     @DocumentId
@@ -14,7 +16,12 @@ data class Card(
     val balance: Double = 0.0,
     val currency: String = "AZN",
     val createdAt: Long = System.currentTimeMillis(),
-    val isActive: Boolean = true
+
+
+    @get:PropertyName("isActive")
+    @set:PropertyName("isActive")
+    var isActive: Boolean = true
+
 
 )
 {

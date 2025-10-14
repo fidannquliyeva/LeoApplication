@@ -57,7 +57,6 @@ class TransferSelectFragment : Fragment() {
 
     private fun setupToolbar() {
         binding.toolbar2.apply {
-            subtitle = "Karta köçürmə"
             setNavigationOnClickListener {
                 requireActivity().onBackPressed()
             }
@@ -122,11 +121,8 @@ class TransferSelectFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        // "Yeni karta köçürmə" button
         binding.linearLayoutNewPay.setOnClickListener {
-            Log.d("TransferSelect", "Manual card input clicked")
 
-            // Navigate to manual input
             findNavController().navigate(
                 R.id.action_transferSelectFragment_to_transferManualInputFragment
             )

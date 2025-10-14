@@ -209,9 +209,19 @@ class HomeFragment : Fragment() {
                     R.id.action_nav_home_to_otherPaysFragment
                 )
             }
-
             cardVisa.setOnClickListener {
-                viewModel.selectedCard.value?.let { card ->
+                val card = viewModel.selectedCard.value
+
+                Log.d("HomeFragment", "━━━━━━━━━━━━━━━━━━")
+                Log.d("HomeFragment", "🖱️ Card CLICKED")
+                Log.d("HomeFragment", "Card: $card")
+                Log.d("HomeFragment", "Card ID: ${card?.cardId}")
+                Log.d("HomeFragment", "Card isActive: ${card?.isActive}")
+                Log.d("HomeFragment", "━━━━━━━━━━━━━━━━━━")
+
+                if (card == null) {
+                    Toast.makeText(requireContext(), "❌ Kart tapılmadı!", Toast.LENGTH_LONG).show()
+                } else {
                     navigateToCardDetails(card.cardId)
                 }
             }
@@ -267,14 +277,6 @@ class HomeFragment : Fragment() {
         binding.recyclerView.visibility = if (show) View.GONE else View.VISIBLE
     }
 
-    // ✅ onResume artıq lazım deyil - real-time sync var!
-    // Amma user data refresh etmək istəyirsinizsə, saxlaya bilərsiniz:
-    override fun onResume() {
-        super.onResume()
-        Log.d("HomeFragment", "onResume")
-        // ❌ viewModel.refresh() - artıq transactions yeniləməyə ehtiyac yoxdur!
-        // Transactions avtomatik real-time update olunur
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -40,7 +40,7 @@
             android:id="@+id/txtTreasure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Xəzinələr"
+            android:text="@string/x_zin_l_r"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +60,7 @@
             android:id="@+id/txt1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="neyese"
+            android:text="@string/neyese"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintStart_toStartOf="@+id/view" />
@@ -90,7 +90,7 @@
             android:id="@+id/txt3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hədəf"
+            android:text="@string/h_d_f"
             android:textColor="@color/colorUnchecked"
             android:textSize="18dp"
             app:layout_constraintStart_toStartOf="@+id/view"
@@ -132,7 +132,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="12dp"
-                android:text="Depozitlar və Xəzinələr"
+                android:text="@string/depozitlar_v_x_zin_l_r"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -140,27 +140,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:text="💰 İstədiyiniz məbləğə Xəzinə aça, istədiyiniz zaman balansını artıra və bağlaya bilərsiniz"
+                android:text="@string/st_diyiniz_m_bl_x_zin_a_a_ist_diyiniz_zaman_balans_n_art_ra_v_ba_laya_bil_rsiniz"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:text="🌻 Depozit müəyyən müddətə, balansartırma imkanı olmadan açılır; lakin faiz dərəcəsi yüksəkdir"
+                android:text="@string/depozit_m_yy_n_m_dd_t_balansart_rma_imkan_olmadan_a_l_r_lakin_faiz_d_r_c_si_y_ks_kdir"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="8dp"
-                android:text="🤲 Depozitlə siz illik 12%-ə qədər qazanc əldə edəcəksiniz! Xəzinə ilə isə Leo Black kartınız varsa, 6% və ya Leo Prime kartınız varsa, 7% qazanc əldə edəcəksiniz"
+                android:text="@string/depozitl_siz_illik_12_q_d_r_qazanc_ld_ed_c_ksiniz_x_zin_il_is_leo_black_kart_n_z_varsa_6_v_ya_leo_prime_kart_n_z_varsa_7_qazanc_ld_ed_c_ksiniz"
                 android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="🛡️ Pulunuz Azərbaycan Respublikasının Əmanətlərin Sığortalanması Fondunun etibarlı mühafizəsi altındadır"
+                android:text="@string/pulunuz_az_rbaycan_respublikas_n_n_man_tl_rin_s_ortalanmas_fondunun_etibarl_m_hafiz_si_alt_ndad_r"
                 android:textSize="16sp" />
 
         </LinearLayout>

@@ -89,7 +89,6 @@ class TransferAmountFragment : Fragment() {
                     }
                 }
 
-                // UI State
                 launch {
                     viewModel.uiState.collect { state ->
                         when (state) {

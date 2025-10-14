@@ -46,18 +46,12 @@ class FirebaseAuthDataSource @Inject constructor(
         }
     }
 
-    /**
-     * Hazırki istifadəçi UID
-     */
+
     fun getCurrentUserId(): String? = auth.currentUser?.uid
 
-    /**
-     * İstifadəçi qeydiyyatdan keçib?
-     */
+
     fun isUserLoggedIn(): Boolean = auth.currentUser != null
 
-    /**
-     * Çıxış
-     */
+
     fun signOut() = auth.signOut()
 }

@@ -264,7 +264,6 @@ class CardFragment : Fragment() {
     }
 
     private fun showLoading(show: Boolean) {
-        binding.gifImageView.visibility = if (show) View.VISIBLE else View.GONE
 
         // Digər elementləri disable et loading zamanı
         binding.btnCopy.isEnabled = !show

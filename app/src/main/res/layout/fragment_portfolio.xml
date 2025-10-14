@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
-    android:background="@android:color/white"
+    android:background="@color/background"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <LinearLayout
@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="1₼-DAN BAŞLAYAN KRİPTOVALYUTALAR"
+            android:text="@string/_1_dan_ba_layan_kr_ptovalyutalar"
             android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="#888888"
@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!-- Polkadot -->
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -47,7 +47,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Polkadot"
+                    android:text="@string/polkadot"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:paddingTop="4dp"/>
@@ -59,7 +59,7 @@
                     android:textColor="#D32F2F"/>
             </LinearLayout>
 
-            <!-- Ripple -->
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ripple"
+                    android:text="@string/ripple"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:paddingTop="4dp"/>
@@ -90,7 +90,6 @@
                     android:textColor="#D32F2F"/>
             </LinearLayout>
 
-            <!-- Ethereum -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -109,7 +108,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ethereum"
+                    android:text="@string/ethereum"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:paddingTop="4dp"/>
@@ -122,11 +121,11 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Səhmələr -->
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="5₼-DAN BAŞLAYAN SƏHMLƏR"
+            android:text="@string/_5_dan_ba_layan_s_hml_r"
             android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="#888888"
@@ -236,7 +235,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="KOLLEKSİYALAR"
+            android:text="@string/kolleks_yalar"
             android:textSize="12sp"
             android:textStyle="bold"
             android:textColor="#888888"
@@ -267,7 +266,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Leo müştərilərinin seçimi 🔥"
+                    android:text="@string/leo_m_t_ril_rinin_se_imi"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:paddingTop="4dp"/>
@@ -298,7 +297,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Memlər"
+                    android:text="@string/meml_r"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:paddingTop="4dp"/>
@@ -335,7 +334,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Oyun"
+                    android:text="@string/oyun"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:paddingTop="4dp"/>
@@ -366,7 +365,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DeFi"
+                    android:text="@string/defi"
                     android:textStyle="bold"
                     android:textColor="#000"
                     android:paddingTop="4dp"/>

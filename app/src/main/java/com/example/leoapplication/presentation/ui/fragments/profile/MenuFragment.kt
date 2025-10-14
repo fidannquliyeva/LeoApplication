@@ -11,17 +11,26 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentMenuBinding
+import com.example.leoapplication.presentation.viewmodel.HomeViewModel
+import com.example.leoapplication.util.DialogHelper.showSupportDialog
 import com.example.leoapplication.util.LanguageManager
+import com.example.leoapplication.util.openLink
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MenuFragment : Fragment() {
 
     private var _binding: FragmentMenuBinding? = null
+    private val homeViewModel: HomeViewModel by viewModels()
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -37,6 +46,9 @@ class MenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupClickListeners()
+        setupObservers()
+
+
     }
 
     private fun setupClickListeners() {
@@ -47,6 +59,7 @@ class MenuFragment : Fragment() {
 
         // Home
         binding.cardMain.setOnClickListener {
+
             findNavController().navigate(R.id.action_nav_menu_to_nav_home)
         }
 
@@ -64,74 +77,20 @@ class MenuFragment : Fragment() {
         binding.txtGMenu.setOnClickListener {
             openLink("https://www.instagram.com/leobank.az/")
         }
+
     }
 
-    private fun showSupportDialog() {
-        val dialog = BottomSheetDialog(requireContext())
-        val view = layoutInflater.inflate(R.layout.dialog_support, null)
-        dialog.setContentView(view)
+    private fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-        // Sosial media
-        view.findViewById<LinearLayout>(R.id.layoutWhatsapp).setOnClickListener {
-            openLink("https://wa.me/994123101488", "com.whatsapp")
-            dialog.dismiss()
-        }
-
-        view.findViewById<LinearLayout>(R.id.layoutTelegram).setOnClickListener {
-            openLink("https://t.me/Leobank_bot")
-            dialog.dismiss()
-        }
-
-        view.findViewById<LinearLayout>(R.id.layoutFacebook).setOnClickListener {
-            openLink("https://www.facebook.com/leobank.az/")
-            dialog.dismiss()
-        }
-
-        view.findViewById<LinearLayout>(R.id.layoutViber).setOnClickListener {
-            openLink("https://www.viber.com/leobank.az/")
-            dialog.dismiss()
-        }
-
-        // ✅ Dil seçimi - LanguageManager ilə
-        view.findViewById<ConstraintLayout>(R.id.layoutLanguage).setOnClickListener {
-            dialog.dismiss()
-            showLanguageDialog()
-        }
-
-        dialog.show()
-    }
-
-    private fun showLanguageDialog() {
-        val languages = arrayOf("Azərbaycan", "English", "Русский")
-        val languageCodes = arrayOf("az", "en", "ru")
-
-        val currentLang = LanguageManager.getSavedLanguage(requireContext())
-        val checkedItem = languageCodes.indexOf(currentLang).takeIf { it >= 0 } ?: 0
-
-        AlertDialog.Builder(requireContext())
-            .setTitle("Dil seçin")
-            .setSingleChoiceItems(languages, checkedItem) { dialog, which ->
-                val selectedLang = languageCodes[which]
-
-                if (selectedLang != currentLang) {
-                    LanguageManager.applyLanguage(requireActivity(), selectedLang)
+                homeViewModel.balance.collect { balance ->
+                    binding.txtMainNum.text = String.format("%.2f ₼", balance)
                 }
-
-                dialog.dismiss()
             }
-            .setNegativeButton("Ləğv et", null)
-            .show()
-    }
-
-    private fun openLink(url: String, packageName: String? = null) {
-        try {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            if (packageName != null) intent.setPackage(packageName)
-            startActivity(intent)
-        } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Tətbiq açılmadı", Toast.LENGTH_SHORT).show()
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

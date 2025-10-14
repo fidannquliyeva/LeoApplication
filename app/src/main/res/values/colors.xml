@@ -14,4 +14,11 @@
     <color name="brown">#643A07</color>
     <color name="background">#FFFFFF</color>
     <color name="textColor">#000000</color>
+    <color name="bottom_nav_bg">#FFFFFF</color>
+    <color name="bottom_nav_icon_tint">#505050</color>
+    <color name="search">#FFFFFF</color>
+    <color name="otherBankBg">#FFFFFF</color>
+    <color name="transferBg">#FFFFFF</color>
+
+
 </resources>

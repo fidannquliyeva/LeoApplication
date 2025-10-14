@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="Karta köçürmə"
+                android:text="@string/karta_k_rm"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -67,7 +67,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="Mobil balansın artırılması"
+                android:text="@string/mobil_balans_n_art_r_lmas"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -89,14 +89,14 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:contentDescription="Kommunal və internet"
+                android:contentDescription="@string/kommunal_v_internet"
                 android:src="@drawable/wifi" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="Kommunal və internet"
+                android:text="@string/kommunal_v_internet"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -117,7 +117,7 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:contentDescription="Silkələ və ödə"
+                android:contentDescription="@string/silk_l_v_d"
                 android:src="@drawable/send_money"/>
 
             <LinearLayout
@@ -129,14 +129,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Silkələ və ödə"
+                    android:text="@string/silk_l_v_d"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Yaxınlıqda köçürmə"
+                    android:text="@string/yax_nl_qda_k_rm"
                     android:textColor="#777"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -158,14 +158,14 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:contentDescription="Hökumət ödənişləri"
+                android:contentDescription="@string/h_kum_t_d_ni_l_ri"
                 android:src="@drawable/accaunt_balance" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="Hökumət ödənişləri"
+                android:text="@string/h_kum_t_d_ni_l_ri"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -186,14 +186,14 @@
             <ImageView
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:contentDescription="DYP cərimələri"
+                android:contentDescription="@string/dyp_c_rim_l_ri"
                 android:src="@drawable/siren" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="DYP cərimələri"
+                android:text="@string/dyp_c_rim_l_ri"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -221,7 +221,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="Parking üçün ödəniş"
+                android:text="@string/parking_n_d_ni"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -249,7 +249,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:text="AniPay köçürməsi"
+                android:text="@string/anipay_k_rm_si"
                 android:textSize="16sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -282,14 +282,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kredit ödənişi"
+                    android:text="@string/kredit_d_ni_i"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Kontakt Home, İrşad, Soliton..."
+                    android:text="@string/kontakt_home_r_ad_soliton"
                     android:textColor="#777"
                     android:textSize="13sp" />
             </LinearLayout>
@@ -323,14 +323,14 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Mütəmadi ödəniş"
+                    android:text="@string/m_t_madi_d_ni"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Yeni"
+                    android:text="@string/yeni"
                     android:textColor="@android:color/holo_red_dark"
                     android:textSize="13sp" />
             </LinearLayout>

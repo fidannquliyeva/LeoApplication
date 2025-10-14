@@ -380,7 +380,7 @@ class FirestoreDataSource @Inject constructor(
     }
 
     fun generateCardNumber(phoneNumber: String): String {
-        val bin = "5169"
+        val bin = "4098"
         val phoneDigits = phoneNumber.filter { it.isDigit() }.takeLast(8)
         val randomDigits = (1000..9999).random().toString()
         val first15 = bin + phoneDigits.take(8) + randomDigits.take(3)

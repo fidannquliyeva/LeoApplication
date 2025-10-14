@@ -80,7 +80,16 @@ class LoginWithNumberFragment : Fragment() {
                 append(" ")
                 phoneNumber.forEachIndexed { index, char ->
                     append(char)
-                    if ((index + 1) % 3 == 0 && index != phoneNumber.length - 1) {
+
+                    if (index == 1 && phoneNumber.length > 2) {
+                        append(" ")
+                    }
+
+                    else if (index == 4 && phoneNumber.length > 5) {
+                        append(" ")
+                    }
+
+                    else if (index == 6 && phoneNumber.length > 7) {
                         append(" ")
                     }
                 }

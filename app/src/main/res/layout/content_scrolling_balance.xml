@@ -3,21 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollable"
-    android:background="@drawable/content_scrolling_back"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/content_scrolling_back"
     android:paddingVertical="20dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
->
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Başlıq -->
-
-        <!-- Kart / Pul variantları -->
         <LinearLayout
             android:id="@+id/llOptions"
             android:layout_width="0dp"
@@ -28,21 +24,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <!-- Variant nümunəsi -->
             <LinearLayout
                 android:id="@+id/withGoogle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/selectableItemBackground"
                 android:orientation="horizontal"
-                android:padding="12dp"
-                >
+                android:padding="12dp">
 
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/icgoogle24"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@drawable/icgoogle24" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -54,8 +48,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/textColor"
                         android:text="@string/ba_qa_kartdan_google_pay"
+                        android:textColor="@color/textColor"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -68,10 +62,8 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
-            <!-- Variant nümunəsi -->
             <LinearLayout
                 android:id="@+id/otherBank"
                 android:layout_width="match_parent"
@@ -83,8 +75,8 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/icbank24"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@drawable/icbank24" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -104,10 +96,8 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
-            <!-- Variant nümunəsi -->
             <LinearLayout
                 android:id="@+id/otherCard"
                 android:layout_width="match_parent"
@@ -119,8 +109,8 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/icnextpage"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@drawable/icnextpage" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -140,10 +130,8 @@
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
-            <!-- Variant nümunəsi -->
             <LinearLayout
                 android:id="@+id/withMoney"
                 android:layout_width="match_parent"
@@ -155,8 +143,8 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/iclocation24"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:src="@drawable/iclocation24" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -168,18 +156,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nağd pulla "
+                        android:text="@string/na_d_pulla"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
 
 
-
             </LinearLayout>
 
-
-            <!-- Variant nümunəsi -->
             <LinearLayout
                 android:id="@+id/withSwift"
                 android:layout_width="match_parent"
@@ -191,8 +176,9 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
+                    android:layout_gravity="center"
                     android:src="@drawable/icnotepad"
-                    android:layout_gravity="center"/>
+                    app:tint="@color/textColor" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -217,14 +203,8 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
-
-
             </LinearLayout>
 
-
-
-            <!-- Digər variantlar üçün eyni qayda təkrar olunur -->
-            <!-- ic_drawable və TextView-ları dəyişdirin -->
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

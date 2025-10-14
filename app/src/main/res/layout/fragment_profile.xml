@@ -12,7 +12,6 @@
         android:background="@color/background"
         android:padding="16dp">
 
-
         <ImageView
             android:id="@+id/btnBack"
             android:layout_width="24dp"
@@ -36,16 +35,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/btnBack" />
 
-        <ImageView
-            android:id="@+id/imgAvatar"
+        <!-- ✅ YENİ: Dairəvi Avatar -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/avatarCard"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:src="@drawable/icons8testaccount80"
-            android:contentDescription="@string/istifadeci_sekli"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="4dp"
             app:layout_constraintTop_toBottomOf="@id/btnBack"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="24dp"/>
+            android:layout_marginTop="24dp">
+
+            <ImageView
+                android:id="@+id/imgAvatar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/icons8testaccount80"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/istifadeci_sekli" />
+
+        </androidx.cardview.widget.CardView>
 
         <Button
             android:id="@+id/btnEdit"
@@ -54,7 +64,7 @@
             android:text="@string/d_z_li_et"
             android:textColor="@color/textColor"
             android:backgroundTint="#D0D0D0"
-            app:layout_constraintTop_toBottomOf="@id/imgAvatar"
+            app:layout_constraintTop_toBottomOf="@id/avatarCard"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="12dp"/>
@@ -69,6 +79,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- Qalan hissə eyni qalır... -->
         <ImageView
             android:id="@+id/iconName"
             android:layout_width="40dp"
@@ -111,7 +122,6 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/labelName"
             app:layout_constraintTop_toBottomOf="@id/labelName" />
-
 
         <ImageView
             android:id="@+id/iconPhone"
@@ -255,7 +265,6 @@
             app:layout_constraintBottom_toBottomOf="@id/iconBio"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-
         <ImageView
             android:id="@+id/iconOtherUser"
             android:layout_width="40dp"
@@ -358,7 +367,6 @@
             app:layout_constraintStart_toStartOf="@id/labelLang"
             app:layout_constraintTop_toBottomOf="@id/labelLang" />
 
-
         <ImageView
             android:id="@+id/iconTheme"
             android:layout_width="40dp"
@@ -405,7 +413,6 @@
             app:layout_constraintStart_toStartOf="@id/labelTheme"
             app:layout_constraintTop_toBottomOf="@id/labelTheme" />
 
-
         <View
             android:id="@+id/line4"
             android:layout_width="match_parent"
@@ -415,7 +422,6 @@
             app:layout_constraintTop_toBottomOf="@id/valueTheme"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
-
 
         <ImageView
             android:id="@+id/iconSignOut"

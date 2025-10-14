@@ -36,7 +36,7 @@
         android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="✔ Uğurla ödəniş edildi"
+        android:text="@string/u_urla_d_ni_edildi"
         android:textSize="15sp"
         android:textColor="@android:color/holo_green_dark"
         app:layout_constraintTop_toBottomOf="@id/tvAmount"
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Hesab"
+                android:text="@string/hesab"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"/>
@@ -82,7 +82,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Göndərən"
+                android:text="@string/g_nd_r_n"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"/>
@@ -99,7 +99,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tarix"
+                android:text="@string/tarix"
                 android:textStyle="bold"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"/>
@@ -120,7 +120,7 @@
         android:id="@+id/btnReady"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Hazırdır"
+        android:text="@string/haz_rd_r"
         android:backgroundTint="@android:color/black"
         android:textColor="@android:color/white"
         android:textSize="16sp"

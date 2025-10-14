@@ -18,6 +18,9 @@
             app:destination="@id/pinLoginFragment"
             app:popUpTo="@id/splashScreenFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_setPinFragment"
+            app:destination="@id/setPinFragment" />
     </fragment>
 
     <fragment
@@ -208,6 +211,7 @@
             android:id="@+id/action_nav_menu_to_nav_home"
             app:destination="@id/nav_home" />
     </fragment>
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.example.leoapplication.presentation.ui.fragments.profile.ProfileFragment"
@@ -216,7 +220,7 @@
         <action
             android:id="@+id/action_profileFragment_to_loginWithNumberFragment"
             app:destination="@id/loginWithNumberFragment"
-            app:popUpTo="@id/nav_graph"
+            app:popUpTo="@id/splashScreenFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

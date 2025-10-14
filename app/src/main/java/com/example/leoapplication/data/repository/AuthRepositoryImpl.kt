@@ -37,7 +37,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun createInitialCard(userId: String, phoneNumber: String): Result<Card> {
         return try {
-            // İstifadəçi məlumatlarını al (ad-soyad üçün)
+
             val userResult = firestoreDataSource.getUser(userId)
             val fullName = userResult.getOrNull()?.fullName ?: "CARD HOLDER"
 

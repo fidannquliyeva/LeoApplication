@@ -94,35 +94,35 @@ class IncreaseOtherBankFragment : Fragment() {
             }
         }
     }
-
     private fun showCopySuccess() {
-        binding.imgCopy.setColorFilter(
-            requireContext().getColor(android.R.color.holo_green_dark)
-        )
+        _binding?.let { binding ->
+            binding.imgCopy.setColorFilter(requireContext().getColor(android.R.color.holo_green_dark))
 
-        binding.imgCopy.animate()
-            .scaleX(1.3f)
-            .scaleY(1.3f)
-            .setDuration(150)
-            .withEndAction {
-                binding.imgCopy.animate()
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .setDuration(150)
-                    .start()
-            }
-            .start()
+            binding.imgCopy.animate()
+                .scaleX(1.3f)
+                .scaleY(1.3f)
+                .setDuration(150)
+                .withEndAction {
+                    binding.imgCopy.animate()
+                        .scaleX(1f)
+                        .scaleY(1f)
+                        .setDuration(150)
+                        .start()
+                }
+                .start()
 
-        // ✅ 2 saniyə sonra əvvəlki rəngə qayıt
-        binding.imgCopy.postDelayed({
-            resetCopyButton()
-        }, 2000)
+            binding.imgCopy.postDelayed({
+                if (isAdded && view != null && _binding != null) {
+                    resetCopyButton()
+                }
+            }, 2000)
+        }
     }
 
     private fun resetCopyButton() {
-
-        binding.imgCopy.clearColorFilter()
+        _binding?.imgCopy?.clearColorFilter()
     }
+
 
     private fun copyToClipboard(text: String) {
         val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

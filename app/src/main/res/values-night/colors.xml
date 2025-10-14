@@ -2,5 +2,11 @@
 <resources>
    <color name="background">#000000</color>
     <color name="textColor">#FFFFFF</color>
+    <color name="bottom_nav_bg">#121212</color>
+    <color name="bottom_nav_icon_tint">#838383</color>
+    <color name="search">#494949</color>
+    <color name="otherBankBg">#000000</color>
+ <color name="transferBg">#232323</color>
+
 
 </resources>

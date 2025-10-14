@@ -51,7 +51,7 @@ class TransactionAdapter(
                     TransactionType.TRANSFER -> {
                         if (isOutgoing) "Göndərildi" else "Alındı"
                     }
-                    TransactionType.BALANCE_INCREASE -> "Balans artırma" // ✅ YENİ
+                    TransactionType.BALANCE_INCREASE -> "Balans artırma"
                     TransactionType.PAYMENT -> "Ödəniş"
                     TransactionType.DEPOSIT -> "Depozit"
                     TransactionType.WITHDRAWAL -> "Çıxarış"

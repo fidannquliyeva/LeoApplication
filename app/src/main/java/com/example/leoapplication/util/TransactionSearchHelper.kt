@@ -45,20 +45,18 @@ object TransactionSearchHelper {
             "withdraw",
             "nağdlaşdırma",
             "nagdlasdirma"
-        )
+        ),
 
-    )
-
-
-
-    private val transferKeywords = mapOf(
-        "common" to listOf(
+        TransactionType.TRANSFER to listOf(
             "köçürmə",
             "kocurme",
             "transfer",
             "köçür",
             "kocur"
-        ),
+        )
+    )
+
+    private val directionKeywords = mapOf(
         "outgoing" to listOf(
             "göndərildi",
             "gonderildi",
@@ -79,43 +77,6 @@ object TransactionSearchHelper {
         )
     )
 
-    /**
-     * Transaction üçün bütün axtarış keyword-lərini gətirir
-     */
-    fun getSearchKeywords(transaction: Transaction, currentUserId: String): List<String> {
-        val keywords = mutableListOf<String>()
-
-        keywords.add(transaction.description.lowercase())
-        keywords.add(transaction.amount.toString())
-        keywords.add(transaction.currency.lowercase())
-
-        keywords.add(transaction.fromCardId.lowercase())
-        keywords.add(transaction.toCardId.lowercase())
-
-        when (transaction.type) {
-            TransactionType.TRANSFER -> {
-
-                keywords.addAll(transferKeywords["common"] ?: emptyList())
-
-
-                val isOutgoing = transaction.fromUserId == currentUserId
-                val directionKey = if (isOutgoing) "outgoing" else "incoming"
-                keywords.addAll(transferKeywords[directionKey] ?: emptyList())
-            }
-
-            else -> {
-
-                keywords.addAll(typeKeywords[transaction.type] ?: emptyList())
-            }
-        }
-
-        return keywords
-    }
-
-    /**
-     * Transaction query ilə uyğun gəlirmi?
-     */
-
     fun matchesQuery(
         transaction: Transaction,
         query: String,
@@ -124,25 +85,55 @@ object TransactionSearchHelper {
         if (query.isBlank()) return true
 
         val searchQuery = query.lowercase().trim()
-        val keywords = getSearchKeywords(transaction, currentUserId)
 
-
-        // ✅ DEBUG LOG
         Log.d("SearchHelper", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        Log.d("SearchHelper", "Query: '$searchQuery'")
-        Log.d("SearchHelper", "Transaction: [${transaction.type}] ${transaction.amount}")
-        Log.d("SearchHelper", "Keywords: $keywords")
-        return keywords.any { keyword ->
-            keyword.contains(searchQuery)
+        Log.d("SearchHelper", " Query: '$searchQuery'")
+        Log.d("SearchHelper", "Transaction: [${transaction.type}] ${transaction.amount} - ${transaction.description}")
+
+        val matchesDescription = transaction.description.lowercase().contains(searchQuery)
+        val matchesAmount = transaction.amount.toString().contains(searchQuery)
+
+        Log.d("SearchHelper", "Description match: $matchesDescription")
+        Log.d("SearchHelper", "Amount match: $matchesAmount")
+
+        if (matchesDescription || matchesAmount) {
+            Log.d("SearchHelper", "✅ MATCHED by fields")
+            return true
         }
-    }
 
+        val typeKeywordsList = typeKeywords[transaction.type] ?: emptyList()
+        val matchesTypeKeyword = typeKeywordsList.any { keyword ->
+            keyword.startsWith(searchQuery) || searchQuery.startsWith(keyword)
+        }
 
-    /**
-     * YENİ TYPE ƏLAVƏ ETMƏK üçün helper metod
-     */
-    fun addCustomKeywords(type: TransactionType, keywords: List<String>) {
-        // Bu metod gələcəkdə runtime-da keyword əlavə etmək üçün
-        // İndilik static map istifadə edirik
+        Log.d("SearchHelper", "Type keywords: $typeKeywordsList")
+        Log.d("SearchHelper", "Type keyword match: $matchesTypeKeyword")
+
+        if (matchesTypeKeyword) {
+            Log.d("SearchHelper", "MATCHED by type keyword")
+            return true
+        }
+
+        if (transaction.type == TransactionType.TRANSFER) {
+            val isOutgoing = transaction.fromUserId == currentUserId
+            val directionKey = if (isOutgoing) "outgoing" else "incoming"
+            val directionKeywordsList = directionKeywords[directionKey] ?: emptyList()
+
+            val matchesDirection = directionKeywordsList.any { keyword ->
+                keyword.startsWith(searchQuery) || searchQuery.startsWith(keyword)
+            }
+
+            Log.d("SearchHelper", "Direction: ${if (isOutgoing) "Outgoing" else "Incoming"}")
+            Log.d("SearchHelper", "Direction keywords: $directionKeywordsList")
+            Log.d("SearchHelper", "Direction match: $matchesDirection")
+
+            if (matchesDirection) {
+                Log.d("SearchHelper", "MATCHED by direction")
+                return true
+            }
+        }
+
+        Log.d("SearchHelper", "NO MATCH")
+        return false
     }
 }

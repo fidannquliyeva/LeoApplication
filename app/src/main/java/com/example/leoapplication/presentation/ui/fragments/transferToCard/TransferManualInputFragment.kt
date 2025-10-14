@@ -48,7 +48,7 @@ class TransferManualInputFragment : Fragment() {
 
         setupToolbar()
         setupCardNumberInput()
-        setupObservers()  // ✅ YENİ
+        setupObservers()
         setupClickListeners()
     }
 
@@ -59,7 +59,7 @@ class TransferManualInputFragment : Fragment() {
     }
 
     private fun setupCardNumberInput() {
-        // Auto-format card number (4-4-4-4)
+
         binding.cardNumberInput.addTextChangedListener(object : TextWatcher {
             private var isFormatting = false
 
