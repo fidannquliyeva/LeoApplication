@@ -156,14 +156,13 @@ class SmsLoginFragment : Fragment() {
 
     private fun checkUserExists(userId: String) {
         viewLifecycleOwner.lifecycleScope.launch {
-            // Firestore-da user var?
+
             val userExists = viewModel.checkIfUserExists(userId)
 
             if (userExists) {
-                // User var → PIN yoxla
                 checkPinAndNavigate()
             } else {
-                //Yeni user → SignUp-a get
+
                 val action = SmsLoginFragmentDirections
                     .actionSmsLoginToSignUp(userId, args.phoneNumber)
                 findNavController().navigate(action)
@@ -171,16 +170,14 @@ class SmsLoginFragment : Fragment() {
         }
     }
 
-    /**
-     * PIN təyin olunub ya yox yoxlayır və müvafiq ekrana yönləndirir
-     */
+
     private fun checkPinAndNavigate() {
         if (PinManager.isPinSet(requireContext())) {
-            // PIN artıq təyin olunub - PinLogin-ə göndər
+            // PIN teyin olunub
             showToast("PIN ilə daxil olun")
             findNavController().navigate(R.id.action_smsLogin_to_pinLogin)
         } else {
-            // PIN təyin olunmayıb - SetPin-ə göndər
+            // olunmayıb
             showToast("Təhlükəsizlik üçün PIN təyin edin")
             findNavController().navigate(R.id.action_smsLogin_to_setPin)
         }

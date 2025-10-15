@@ -29,7 +29,7 @@ class IncreaseBalanceViewModel @Inject constructor(
     private val _amount = MutableStateFlow(0.0)
     val amount: StateFlow<Double> = _amount.asStateFlow()
 
-    // ✅ Xarici kartın nömrəsi
+    //  Xarici kartın nömrəsi
     private val _externalCardNumber = MutableStateFlow("")
     val externalCardNumber: StateFlow<String> = _externalCardNumber.asStateFlow()
 
@@ -48,13 +48,12 @@ class IncreaseBalanceViewModel @Inject constructor(
                         if (cards.isNotEmpty()) {
                             _selectedCard.value = cards.first()
                             _uiState.value = IncreaseBalanceUiState.CardLoaded
-                            Log.d("IncreaseBalanceVM", "✅ Card loaded: ${cards.first().cardNumber}")
                         } else {
                             _uiState.value = IncreaseBalanceUiState.Error("Kart tapılmadı")
                         }
                     }
                     is Resource.Error -> {
-                        Log.e("IncreaseBalanceVM", "❌ Error: ${result.message}")
+                        Log.e("IncreaseBalanceVM", " Error: ${result.message}")
                         _uiState.value = IncreaseBalanceUiState.Error(result.message ?: "Xəta")
                     }
                     is Resource.Loading -> {

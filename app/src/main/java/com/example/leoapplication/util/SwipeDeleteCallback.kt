@@ -1,4 +1,4 @@
-package com.example.leoapplication.presentation.ui.utils
+package com.example.leoapplication.util
 
 import android.graphics.Canvas
 import android.graphics.Color

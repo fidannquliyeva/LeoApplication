@@ -61,7 +61,6 @@ class TransferAmountFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                // Balance
                 launch {
                     viewModel.currentBalance.collect { balance ->
                         binding.txtBalance.text = "Balans: ${String.format("%.2f", balance)} ₼"
@@ -69,7 +68,7 @@ class TransferAmountFragment : Fragment() {
                     }
                 }
 
-                // Recipient name
+
                 launch {
                     viewModel.recipientName.collect { name ->
                         if (name.isNotEmpty()) {
@@ -81,7 +80,7 @@ class TransferAmountFragment : Fragment() {
                     }
                 }
 
-                // Recipient phone
+
                 launch {
                     viewModel.recipientPhoneNumber.collect { phone ->
                         binding.tvSubtitle.text = phone
@@ -105,8 +104,7 @@ class TransferAmountFragment : Fragment() {
                                     "Transfer uğurla tamamlandı!",
                                     Toast.LENGTH_SHORT
                                 ).show()
-
-                                // Navigate to success screen
+//success
                                 val bundle = Bundle().apply {
                                     putString("transactionId", state.transaction.transactionId)
                                     putDouble("amount", state.transaction.amount)
@@ -118,7 +116,6 @@ class TransferAmountFragment : Fragment() {
                                     bundle
                                 )
 
-                                // Clear data
                                 viewModel.clearTransferData()
                             }
                             is TransferUiState.Error -> {
@@ -131,7 +128,7 @@ class TransferAmountFragment : Fragment() {
                                     Toast.LENGTH_LONG
                                 ).show()
 
-                                // Reset state
+
                                 viewModel.resetState()
                             }
                             else -> {
@@ -182,7 +179,7 @@ class TransferAmountFragment : Fragment() {
             try {
                 val amount = amountText.toDouble()
 
-                // Validation
+
                 if (amount <= 0) {
                     Toast.makeText(
                         requireContext(),
@@ -226,7 +223,7 @@ class TransferAmountFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.refreshBalance()  //Ekrana qayıdanda
+        viewModel.refreshBalance()
     }
 
     override fun onDestroyView() {

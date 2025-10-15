@@ -53,11 +53,10 @@ class IncreaseOtherCardFragment : Fragment() {
     }
 
     private fun setupCardFormatting() {
-        // Kart nömrəsini format et (0000 0000 0000 0000)
+
         binding.cardNumberInput.addTextChangedListener { editable ->
             val text = editable.toString().replace(" ", "")
 
-            // Maksimum 16 rəqəm
             if (text.length > 16) {
                 binding.cardNumberInput.setText(text.substring(0, 16))
                 binding.cardNumberInput.setSelection(16)
@@ -71,7 +70,6 @@ class IncreaseOtherCardFragment : Fragment() {
             }
         }
 
-        // Expiry date format (MM/YY)
         binding.expiryInput.addTextChangedListener { editable ->
             val text = editable.toString().replace("/", "")
 
@@ -93,7 +91,6 @@ class IncreaseOtherCardFragment : Fragment() {
             }
         }
 
-        // CVV - maksimum 3 rəqəm
         binding.cvvInput.addTextChangedListener { editable ->
             val text = editable.toString()
             if (text.length > 3) {

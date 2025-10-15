@@ -26,7 +26,6 @@ class IncreaseBalanceAmountFragment : Fragment() {
     private var _binding: FragmentIncreaseBalanceAmountBinding? = null
     private val binding get() = _binding!!
 
-    // ✅ Eyni ViewModel-i paylaş
     private val viewModel: IncreaseBalanceViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -54,14 +53,12 @@ class IncreaseBalanceAmountFragment : Fragment() {
     }
 
     private fun setupAmountInput() {
-        // Məbləğ daxil ediləndə format et
+
         binding.phoneNumberText.addTextChangedListener { editable ->
             val text = editable.toString()
 
-            // Sadəcə rəqəm və nöqtə qəbul et
             val filtered = text.filter { it.isDigit() || it == '.' }
 
-            // Yalnız bir nöqtə olsun
             val dotCount = filtered.count { it == '.' }
             if (dotCount > 1) {
                 val lastDotIndex = filtered.lastIndexOf('.')
@@ -89,8 +86,7 @@ class IncreaseBalanceAmountFragment : Fragment() {
                             binding.nextButton.text = "Emal edilir..."
                         }
                         is IncreaseBalanceUiState.Success -> {
-                            // Uğurlu oldu - success səhifəsinə keç
-                            Log.d("IncreaseBalanceAmount", "✅ Success - navigating to success page")
+                            Log.d("IncreaseBalanceAmount", "Success - navigating to success page")
                             navigateToSuccess(state.amount)
                         }
                         is IncreaseBalanceUiState.Error -> {
@@ -124,7 +120,6 @@ class IncreaseBalanceAmountFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            // ✅ Xarici kartın nömrəsini ViewModel-dən al
             val externalCardNumber = viewModel.externalCardNumber.value
 
             if (externalCardNumber.isEmpty()) {
@@ -135,7 +130,6 @@ class IncreaseBalanceAmountFragment : Fragment() {
 
             Log.d("IncreaseBalanceAmount", "Processing: Amount=$amount, Card=*${externalCardNumber.replace(" ", "").takeLast(4)}")
 
-            // ✅ Balans artır (indi cardNumber parametri də var)
             viewModel.increaseBalance(amount, externalCardNumber)
         }
     }
@@ -143,7 +137,7 @@ class IncreaseBalanceAmountFragment : Fragment() {
     private fun navigateToSuccess(amount: Double) {
         val bundle = Bundle().apply {
             putDouble("amount", amount)
-            putString("type", "balance_increase") // ✅ Balans artırma tipi
+            putString("type", "balance_increase")
         }
 
         findNavController().navigate(

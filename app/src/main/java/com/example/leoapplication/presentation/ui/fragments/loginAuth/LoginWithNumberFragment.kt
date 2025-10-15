@@ -104,12 +104,9 @@ class LoginWithNumberFragment : Fragment() {
 
         binding.nextButton.setOnClickListener {
             if (phoneNumber.length == Constants.PHONE_NUMBER_LENGTH) {
-                // ✅ Boşluqları təmizlə
+
                 val cleanNumber = phoneNumber.replace(" ", "")
                 val fullPhoneNumber = "${Constants.COUNTRY_CODE}$cleanNumber"
-
-                // ✅ Log (debug üçün)
-                android.util.Log.d("LoginFragment", "📱 Göndərilən nömrə: $fullPhoneNumber")
 
                 viewModel.sendVerificationCode(fullPhoneNumber, requireActivity())
 

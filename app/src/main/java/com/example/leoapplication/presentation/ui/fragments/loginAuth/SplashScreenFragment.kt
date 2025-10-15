@@ -43,16 +43,16 @@ class SplashScreenFragment : Fragment() {
 
     private fun goToNextScreen() {
         Handler(Looper.getMainLooper()).postDelayed({
-            Log.d("SplashScreen", "🔍 CHECKING AUTH & PIN...")
+            Log.d("SplashScreen", "CHECKING AUTH & PIN...")
 
             val currentUser = auth.currentUser
             Log.d("SplashScreen", "Current user: ${currentUser?.uid ?: "NULL"}")
 
             if (currentUser == null) {
-                // User logged out - PIN olsa belə login-ə göndər
-                Log.d("SplashScreen", "❌ User NOT logged in → Going to LoginWithNumber")
 
-                // Təhlükəsizlik üçün PIN-i də təmizlə
+                Log.d("SplashScreen", "User NOT logged in → Going to LoginWithNumber")
+
+
                 if (PinManager.isPinSet(requireContext())) {
                     Log.d("SplashScreen", "⚠️ Cleaning orphaned PIN")
                     PinManager.clearPin(requireContext())
@@ -60,7 +60,7 @@ class SplashScreenFragment : Fragment() {
 
                 findNavController().navigate(R.id.action_splashScreenFragment_to_loginWithNumberFragment)
             } else {
-                // User logged in
+
                 Log.d("SplashScreen", "✅ User IS logged in: ${currentUser.uid}")
 
                 val isPinSet = PinManager.isPinSet(requireContext())
@@ -71,7 +71,6 @@ class SplashScreenFragment : Fragment() {
                     findNavController().navigate(R.id.action_splashScreenFragment_to_pinLoginFragment)
                 } else {
                     Log.d("SplashScreen", "ℹ️ PIN NOT set → Going to Create PIN")
-                    // PIN yaratma ekranına göndər (navigation action-unuza görə dəyişdirin)
                     findNavController().navigate(R.id.action_splashScreenFragment_to_setPinFragment)
                 }
             }

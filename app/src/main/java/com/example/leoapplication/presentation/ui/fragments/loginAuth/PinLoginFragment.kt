@@ -189,7 +189,6 @@ class PinLoginFragment : Fragment() {
 
     private fun setupForgetPin() {
         binding.txtForget.setOnClickListener {
-            // PIN unutmuş - Login-a göndər
             showToast("Yenidən giriş edin")
             PinManager.clearPin(requireContext())
             findNavController().navigate(R.id.action_pinLogin_to_login)

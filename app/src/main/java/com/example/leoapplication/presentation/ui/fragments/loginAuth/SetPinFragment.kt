@@ -75,24 +75,22 @@ class SetPinFragment : Fragment() {
                 updatePinDisplay()
 
                 if (firstPin.length == pinLength) {
-                    // PIN-in gücünü yoxla
                     if (!isPinStrong(firstPin)) {
                         showToast("Zəhmət olmasa daha güclü PIN seçin (ardıcıl və ya təkrar rəqəmlər tövsiyə olunmur)")
                     }
-                    // İlk PIN tamamlandı, təsdiq mərhələsinə keç
+                    //kec digeer
                     isConfirming = true
                     updateInstructions()
                     showToast("İndi PIN-i təsdiqləyin")
                 }
             }
         } else {
-            // Təsdiq PIN daxil edilir
+
             if (confirmPin.length < pinLength) {
                 confirmPin += digit
                 updatePinDisplay()
 
                 if (confirmPin.length == pinLength) {
-                    // Təsdiq PIN tamamlandı, yoxla
                     verifyPins()
                 }
             }
@@ -224,14 +222,12 @@ class SetPinFragment : Fragment() {
 
     private fun verifyPins() {
         if (firstPin == confirmPin) {
-            // PIN-lər uyğundur, saxla
             PinManager.savePin(requireContext(), firstPin)
             showToast("PIN uğurla təyin edildi! İndi PIN ilə daxil olun")
 
-            // PinLogin-a keçid
             findNavController().navigate(R.id.action_pinCreatedFragment_to_pinLoginFragment)
         } else {
-            // PIN-lər uyğun deyil
+
             showToast("PIN kodları uyğun gəlmir! Yenidən cəhd edin")
             resetPins()
         }

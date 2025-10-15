@@ -43,7 +43,6 @@ class TransferSelectFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("TransferSelect", "====== OPENED ======")
 
         setupToolbar()
         setupRecyclerView()
@@ -51,7 +50,6 @@ class TransferSelectFragment : Fragment() {
         setupClickListeners()
         setupSearch()
 
-        // Load recent
         viewModel.loadRecentTransfers()
     }
 
@@ -83,7 +81,6 @@ class TransferSelectFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
-                // setupObservers()-ə əlavə et:
                 launch {
                     viewModel.uiState.collect { state ->
                         when (state) {
@@ -112,7 +109,7 @@ class TransferSelectFragment : Fragment() {
 
                         // Empty state
                         if (contacts.isEmpty()) {
-                            // TODO: Show empty view
+                          
                         }
                     }
                 }

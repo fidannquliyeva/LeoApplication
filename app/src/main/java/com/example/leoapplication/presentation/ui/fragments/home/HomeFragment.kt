@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupSwipeToDelete() {
-        val swipeCallback = com.example.leoapplication.presentation.ui.utils.SwipeDeleteCallback { position ->
+        val swipeCallback = com.example.leoapplication.util.SwipeDeleteCallback { position ->
             val transaction = transactionAdapter.currentList[position]
             deleteTransactionWithUndo(transaction, position)
         }
@@ -213,14 +213,14 @@ class HomeFragment : Fragment() {
                 val card = viewModel.selectedCard.value
 
                 Log.d("HomeFragment", "━━━━━━━━━━━━━━━━━━")
-                Log.d("HomeFragment", "🖱️ Card CLICKED")
+                Log.d("HomeFragment", " Card CLICKED")
                 Log.d("HomeFragment", "Card: $card")
                 Log.d("HomeFragment", "Card ID: ${card?.cardId}")
                 Log.d("HomeFragment", "Card isActive: ${card?.isActive}")
                 Log.d("HomeFragment", "━━━━━━━━━━━━━━━━━━")
 
                 if (card == null) {
-                    Toast.makeText(requireContext(), "❌ Kart tapılmadı!", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), "Kart tapılmadı!", Toast.LENGTH_LONG).show()
                 } else {
                     navigateToCardDetails(card.cardId)
                 }
@@ -229,8 +229,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToCardDetails(cardId: String) {
-        Log.d("HomeFragment", "Navigating to card: $cardId")
-
         try {
             val bundle = Bundle().apply {
                 putString("cardId", cardId)

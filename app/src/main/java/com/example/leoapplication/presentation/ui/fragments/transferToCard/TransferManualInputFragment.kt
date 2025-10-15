@@ -42,8 +42,6 @@ class TransferManualInputFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("TransferManual", "====== OPENED ======")
-
         viewModel.refreshBalance()
 
         setupToolbar()
@@ -72,10 +70,8 @@ class TransferManualInputFragment : Fragment() {
 
                 isFormatting = true
 
-                // Remove all spaces
                 val text = s.toString().replace(" ", "")
 
-                // Add space every 4 digits
                 val formatted = StringBuilder()
                 for (i in text.indices) {
                     if (i > 0 && i % 4 == 0) {
@@ -103,19 +99,18 @@ class TransferManualInputFragment : Fragment() {
                         }
                         is TransferUiState.RecipientFound -> {
                             showLoading(false)
-                            Log.d("TransferManual", "✅ Recipient found!")
+                            Log.d("TransferManual", "Recipient found!")
 
-                            // Navigate to amount screen
+
                             findNavController().navigate(
                                 R.id.action_exportToNewCardFragment_to_exportToMoneyFragment
                             )
 
-                            // Reset state
                             viewModel.resetState()
                         }
                         is TransferUiState.Error -> {
                             showLoading(false)
-                            Log.e("TransferManual", "❌ Error: ${state.message}")
+                            Log.e("TransferManual", " Error: ${state.message}")
 
                             Toast.makeText(
                                 requireContext(),
@@ -157,20 +152,11 @@ class TransferManualInputFragment : Fragment() {
                     ).show()
                 }
                 else -> {
-                    // ✅ Kartı tap və istifadəçini müəyyən et
+
                     Log.d("TransferManual", "Searching for card: $cardNumber")
                     viewModel.findUserByCardNumber(cardNumber)
                 }
             }
-        }
-
-        // Scan button (opsional)
-        binding.scanIcon.setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                "Kart skan funksiyası tezliklə...",
-                Toast.LENGTH_SHORT
-            ).show()
         }
     }
 

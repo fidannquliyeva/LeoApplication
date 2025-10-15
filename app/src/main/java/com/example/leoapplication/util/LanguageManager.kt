@@ -11,25 +11,19 @@ object LanguageManager {
     private const val KEY_LANGUAGE = "selected_language"
     private const val DEFAULT_LANGUAGE = "az"
 
-    /**
-     * Saxlanmış dili oxumaq
-     */
+
     fun getSavedLanguage(context: Context): String {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         return prefs.getString(KEY_LANGUAGE, DEFAULT_LANGUAGE) ?: DEFAULT_LANGUAGE
     }
 
-    /**
-     * Dili saxlamaq
-     */
+
     private fun saveLanguage(context: Context, language: String) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         prefs.edit().putString(KEY_LANGUAGE, language).apply()
     }
 
-    /**
-     * Dili tətbiq etmək və activity-ni yenidən başlatmaq
-     */
+ //apply language
     fun applyLanguage(activity: Activity, language: String) {
         saveLanguage(activity, language)
 
@@ -43,9 +37,9 @@ object LanguageManager {
         activity.recreate()
     }
 
-    /**
-     * Tətbiqi başlatarkən dili yüklə
-     */
+
+     // app acilanda dili yujle
+
     fun loadLanguage(context: Context) {
         val language = getSavedLanguage(context)
         val locale = Locale(language)

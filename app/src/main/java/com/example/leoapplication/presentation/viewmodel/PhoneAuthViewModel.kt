@@ -32,11 +32,9 @@ class PhoneAuthViewModel @Inject constructor(
 
 ) : ViewModel() {
 
-    // OTP göndərilmə vəziyyəti
     private val _verificationState = MutableLiveData<VerificationState>()
     val verificationState: LiveData<VerificationState> = _verificationState
 
-    // Auth vəziyyəti (OTP təsdiqlənməsi)
     private val _authState = MutableLiveData<Resource<String>>()
     val authState: LiveData<Resource<String>> = _authState
 
@@ -48,9 +46,7 @@ class PhoneAuthViewModel @Inject constructor(
     var storedVerificationId: String? = null
     var resendToken: PhoneAuthProvider.ForceResendingToken? = null
 
-    /**
-     * OTP göndərmə
-     */
+
     fun sendVerificationCode(
         phoneNumber: String,
         activity: androidx.fragment.app.FragmentActivity
@@ -73,7 +69,7 @@ class PhoneAuthViewModel @Inject constructor(
                 verificationId: String,
                 token: PhoneAuthProvider.ForceResendingToken
             ) {
-                android.util.Log.d("PhoneAuthVM", "📨 TEST: Kod göndərildi! ID: $verificationId")
+                android.util.Log.d("PhoneAuthVM", " TEST: Kod göndərildi! ID: $verificationId")
                 storedVerificationId = verificationId
                 resendToken = token
                 _verificationState.value = VerificationState.CodeSent
@@ -83,9 +79,9 @@ class PhoneAuthViewModel @Inject constructor(
         sendOtpUseCase(phoneNumber, activity, callbacks)
     }
 
-    /**
-     * OTP təsdiqləmə (manual kod daxil edildikdə)
-     */
+
+    // OTP təsdiqləmə (manual kod daxil edildikdə)
+
     fun verifyCode(code: String) {
         val verificationId = storedVerificationId
         if (verificationId.isNullOrEmpty()) {
@@ -97,9 +93,7 @@ class PhoneAuthViewModel @Inject constructor(
         verifyPhoneNumber(credential)
     }
 
-    /**
-     * Firebase ilə credential yoxlama
-     */
+
     private fun verifyPhoneNumber(credential: PhoneAuthCredential) {
         _authState.value = Resource.Loading()
 
@@ -114,9 +108,6 @@ class PhoneAuthViewModel @Inject constructor(
         }
     }
 
-    /**
-     * İstifadəçi və kart yaratmaq
-     */
     fun createUserProfile(user: User) {
         _userCreationState.value = Resource.Loading()
 
@@ -135,9 +126,6 @@ class PhoneAuthViewModel @Inject constructor(
 
     }
 
-    /**
-     * User artıq qeydiyyatdan keçib?
-     */
     suspend fun checkIfUserExists(userId: String): Boolean {
         return try {
             val result = firestoreDataSource.getUser(userId)
@@ -147,9 +135,7 @@ class PhoneAuthViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Verification State
-     */
+
     sealed class VerificationState {
         object CodeSending : VerificationState()
         object CodeSent : VerificationState()

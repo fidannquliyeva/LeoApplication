@@ -70,7 +70,7 @@ class ProfileFragment : Fragment() {
                     }
                 }
 
-                // UI State
+
                 launch {
                     viewModel.uiState.collect { state ->
                         when (state) {
@@ -190,7 +190,6 @@ class ProfileFragment : Fragment() {
     private fun updateLanguageUI(langCode: String) {
         binding.valueLang.text = when (langCode) {
             "az" -> "Azərbaycan dili"
-            "en" -> "English"
             "ru" -> "Русский"
             else -> "Azərbaycan dili"
         }
@@ -215,7 +214,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun navigateToLogin() {
-        // Activity-ni tamamilə yenidən başlat
+
         requireActivity().apply {
             val intent = intent
             finish()

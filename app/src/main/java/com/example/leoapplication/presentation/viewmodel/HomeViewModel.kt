@@ -42,7 +42,6 @@ class HomeViewModel @Inject constructor(
     private val _selectedCard = MutableStateFlow<Card?>(null)
     val selectedCard: StateFlow<Card?> = _selectedCard.asStateFlow()
 
-    // ✅ YENİ: Balance StateFlow
     private val _balance = MutableStateFlow(0.0)
     val balance: StateFlow<Double> = _balance.asStateFlow()
 
@@ -61,7 +60,7 @@ class HomeViewModel @Inject constructor(
         Log.d("HomeViewModel", "Current user: ${currentUser?.uid}")
 
         if (currentUser == null) {
-            Log.e("HomeViewModel", "❌ User not logged in!")
+            Log.e("HomeViewModel", "User not logged in!")
             _uiState.value = HomeUiState.Error("İstifadəçi daxil olmayıb")
         }
 
@@ -76,9 +75,11 @@ class HomeViewModel @Inject constructor(
                 is Resource.Success -> {
                     _userData.value = result.data
                 }
+
                 is Resource.Error -> {
                     _uiState.value = HomeUiState.Error(result.message)
                 }
+
                 is Resource.Loading -> {
                     _uiState.value = HomeUiState.Loading
                 }
@@ -97,9 +98,12 @@ class HomeViewModel @Inject constructor(
                         val cards = result.data ?: emptyList()
                         _cards.value = cards
 
-                        Log.d("HomeViewModel", "✅ Cards loaded: ${cards.size}")
+                        Log.d("HomeViewModel", "Cards loaded: ${cards.size}")
                         cards.forEach { card ->
-                            Log.d("HomeViewModel", "  - ${card.cardNumber}: ${card.balance} ${card.currency}")
+                            Log.d(
+                                "HomeViewModel",
+                                "  - ${card.cardNumber}: ${card.balance} ${card.currency}"
+                            )
                         }
 
                         if (cards.isNotEmpty()) {
@@ -109,33 +113,44 @@ class HomeViewModel @Inject constructor(
                                 val updatedCard = cards.find { it.cardId == currentSelectedCardId }
                                 if (updatedCard != null) {
                                     _selectedCard.value = updatedCard
-                                    // ✅ Balansı yenilə
+
                                     _balance.value = updatedCard.balance
-                                    Log.d("HomeViewModel", "✅ Selected card updated: ${updatedCard.cardNumber} - Balance: ${updatedCard.balance}")
+                                    Log.d(
+                                        "HomeViewModel",
+                                        " Selected card updated: ${updatedCard.cardNumber} - Balance: ${updatedCard.balance}"
+                                    )
                                 } else {
                                     _selectedCard.value = cards.first()
                                     _balance.value = cards.first().balance
-                                    Log.d("HomeViewModel", "⚠️ Selected card not found, switching to first card")
+                                    Log.d(
+                                        "HomeViewModel",
+                                        "️ Selected card not found, switching to first card"
+                                    )
                                 }
                             } else {
                                 _selectedCard.value = cards.first()
                                 _balance.value = cards.first().balance
-                                Log.d("HomeViewModel", "✅ Selected first card initially: ${cards.first().cardNumber}")
+                                Log.d(
+                                    "HomeViewModel",
+                                    " Selected first card initially: ${cards.first().cardNumber}"
+                                )
                             }
                         } else {
                             _selectedCard.value = null
                             _balance.value = 0.0
-                            Log.d("HomeViewModel", "❌ No cards available")
+                            Log.d("HomeViewModel", " No cards available")
                         }
 
                         _uiState.value = HomeUiState.Success
                     }
+
                     is Resource.Error -> {
-                        Log.e("HomeViewModel", "❌ Cards error: ${result.message}")
+                        Log.e("HomeViewModel", " Cards error: ${result.message}")
                         _uiState.value = HomeUiState.Error(result.message)
                     }
+
                     is Resource.Loading -> {
-                        Log.d("HomeViewModel", "⏳ Loading cards...")
+                        Log.d("HomeViewModel", " Loading cards...")
                         _uiState.value = HomeUiState.Loading
                     }
                 }
@@ -147,7 +162,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val userId = auth.currentUser?.uid
             if (userId == null) {
-                Log.e("HomeViewModel", "❌ Cannot observe transactions: user is null")
+                Log.e("HomeViewModel", "Cannot observe transactions: user is null")
                 return@launch
             }
 
@@ -158,7 +173,7 @@ class HomeViewModel @Inject constructor(
                     _transactions.value = txList
                     _filteredTransactions.value = txList
 
-                    Log.d("HomeViewModel", "✅ Transactions updated: ${txList.size}")
+                    Log.d("HomeViewModel", " Transactions updated: ${txList.size}")
 
                     if (!isFirstLoad && oldTransactionIds.isNotEmpty()) {
                         val currentTime = System.currentTimeMillis()
@@ -169,7 +184,10 @@ class HomeViewModel @Inject constructor(
                                     tx.timestamp >= tenSecondsAgo
                         }
 
-                        Log.d("HomeViewModel", "🔔 New transactions (last 10 sec): ${newTransactions.size}")
+                        Log.d(
+                            "HomeViewModel",
+                            " New transactions (last 10 sec): ${newTransactions.size}"
+                        )
 
                         newTransactions.forEach { tx ->
                             showNotificationForTransaction(tx, userId)
@@ -183,14 +201,14 @@ class HomeViewModel @Inject constructor(
                 result.onFailure { error ->
                     _transactions.value = emptyList()
                     _filteredTransactions.value = emptyList()
-                    Log.e("HomeViewModel", "❌ Transactions error: ${error.message}")
+                    Log.e("HomeViewModel", " Transactions error: ${error.message}")
                 }
             }
         }
     }
 
     private fun showNotificationForTransaction(transaction: Transaction, currentUserId: String) {
-        Log.d("HomeViewModel", "🔔 Showing notification for: ${transaction.type}")
+        Log.d("HomeViewModel", " Showing notification for: ${transaction.type}")
 
         when (transaction.type) {
             TransactionType.BALANCE_INCREASE -> {
@@ -225,11 +243,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun searchTransactions(query: String) {
-        Log.d("HomeViewModel", "🔍 Searching: '$query'")
 
         if (query.isBlank()) {
             _filteredTransactions.value = _transactions.value
-            Log.d("HomeViewModel", "📋 Showing all ${_transactions.value.size} transactions")
             return
         }
 
@@ -241,11 +257,12 @@ class HomeViewModel @Inject constructor(
 
         _filteredTransactions.value = filtered
 
-        Log.d("HomeViewModel", "✅ Found ${filtered.size} of ${_transactions.value.size} transactions")
-
         if (filtered.isNotEmpty()) {
             filtered.forEach { tx ->
-                Log.d("HomeViewModel", "  → [${tx.type}] ${tx.amount} ${tx.currency} - ${tx.description}")
+                Log.d(
+                    "HomeViewModel",
+                    "  → [${tx.type}] ${tx.amount} ${tx.currency} - ${tx.description}"
+                )
             }
         }
     }
@@ -254,17 +271,15 @@ class HomeViewModel @Inject constructor(
     fun deleteTransaction(transaction: Transaction) {
         viewModelScope.launch {
             try {
-                Log.d("HomeViewModel", "Deleting transaction: ${transaction.transactionId}")
-
                 val result = transactionRepository.deleteTransaction(transaction.transactionId)
 
                 if (result.isSuccess) {
-                    Log.d("HomeViewModel", "✅ Transaction deleted")
+                    Log.d("HomeViewModel", " Transaction deleted")
                 } else {
-                    Log.e("HomeViewModel", "❌ Delete failed: ${result.exceptionOrNull()?.message}")
+                    Log.e("HomeViewModel", "Delete failed: ${result.exceptionOrNull()?.message}")
                 }
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "❌ Delete failed: ${e.message}")
+                Log.e("HomeViewModel", " Delete failed: ${e.message}")
             }
         }
     }
@@ -272,17 +287,15 @@ class HomeViewModel @Inject constructor(
     fun restoreTransaction(transaction: Transaction) {
         viewModelScope.launch {
             try {
-                Log.d("HomeViewModel", "Restoring transaction: ${transaction.transactionId}")
-
                 val result = transactionRepository.restoreTransaction(transaction)
 
                 if (result.isSuccess) {
-                    Log.d("HomeViewModel", "✅ Transaction restored successfully")
+                    Log.d("HomeViewModel", "Transaction restored successfully")
                 } else {
-                    Log.e("HomeViewModel", "❌ Restore failed: ${result.exceptionOrNull()?.message}")
+                    Log.e("HomeViewModel", "Restore failed: ${result.exceptionOrNull()?.message}")
                 }
             } catch (e: Exception) {
-                Log.e("HomeViewModel", "❌ Restore failed: ${e.message}")
+                Log.e("HomeViewModel", " Restore failed: ${e.message}")
             }
         }
     }

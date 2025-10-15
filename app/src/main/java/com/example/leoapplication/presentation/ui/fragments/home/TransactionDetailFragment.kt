@@ -61,8 +61,6 @@ class TransactionDetailFragment : Fragment() {
         val fromUserId = arguments?.getString("fromUserId") ?: ""
         val toUserId = arguments?.getString("toUserId") ?: ""
 
-        Log.d("TransactionDetail", "Transaction ID: $transactionId")
-        Log.d("TransactionDetail", "Amount: $amount")
 
         val currentUserId = auth.currentUser?.uid
 
@@ -95,8 +93,7 @@ class TransactionDetailFragment : Fragment() {
 
         // Description
         if (description.isNotEmpty()) {
-            // Əgər layout-da description üçün TextView varsa
-            // binding.tvDescription?.text = description
+
         }
 
         // Icon

@@ -43,7 +43,7 @@ class CardViewModel @Inject constructor(
                     Log.d("CardViewModel", "Card isActive: ${cardData.isActive}, isBlocked: ${!cardData.isActive}")
                 } else {
                     _uiState.value = CardUiState.Error("Kart tapılmadı")
-                    Log.e("CardViewModel", "❌ Card is null")
+                    Log.e("CardViewModel", " Card is null")
                 }
             } else {
                 val error = result.exceptionOrNull()?.message ?: "Xəta baş verdi"
@@ -57,7 +57,6 @@ class CardViewModel @Inject constructor(
         viewModelScope.launch {
             val currentCard = _card.value ?: return@launch
 
-            // ✅ DÜZGÜN: isBlocked tərsinədir isActive-dən
             val currentIsBlocked = _isBlocked.value
             val newIsActive = currentIsBlocked  // Əgər blokludursa, aktivləşdir
             val newIsBlocked = !newIsActive     // Əgər aktivdirsə, blokla
@@ -71,7 +70,6 @@ class CardViewModel @Inject constructor(
                 _isBlocked.value = newIsBlocked
                 _card.value = currentCard.copy(isActive = newIsActive)
 
-                // ✅ DÜZGÜN mesaj
                 val message = if (newIsActive) {
                     "✅ Kart aktivləşdirildi"
                 } else {
@@ -82,7 +80,7 @@ class CardViewModel @Inject constructor(
                 Log.d("CardViewModel", message)
             } else {
                 _uiState.value = CardUiState.Error("Əməliyyat uğursuz oldu")
-                Log.e("CardViewModel", "❌ Toggle failed")
+                Log.e("CardViewModel", "Toggle failed")
             }
         }
     }

@@ -76,7 +76,7 @@ class TransferViewModel @Inject constructor(
         }
     }
 
-    // ============ RECENT CONTACTS ============
+
 
     fun loadRecentTransfers() {
         viewModelScope.launch {
@@ -244,7 +244,7 @@ class TransferViewModel @Inject constructor(
             Log.d("TransferViewModel", "To: ${_recipientPhoneNumber.value}")
             Log.d("TransferViewModel", "Amount: ${_amount.value}")
 
-            // Use case istifadə et
+
             val result = transferMoneyUseCase(
                 fromUserId = userId,
                 toPhoneNumber = _recipientPhoneNumber.value,
@@ -267,7 +267,7 @@ class TransferViewModel @Inject constructor(
         }
     }
 
-    // ============ RESET ============
+
 
     fun resetState() {
         _uiState.value = TransferUiState.Idle

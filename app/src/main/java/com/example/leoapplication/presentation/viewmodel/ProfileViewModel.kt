@@ -64,8 +64,6 @@ class ProfileViewModel @Inject constructor(
     fun logout() {
         viewModelScope.launch {
             try {
-                Log.d("ProfileViewModel", "🔴 LOGOUT STARTED")
-
                 // Auth sign out
                 val userBeforeLogout = auth.currentUser?.uid
                 Log.d("ProfileViewModel", "User before logout: $userBeforeLogout")
@@ -75,11 +73,9 @@ class ProfileViewModel @Inject constructor(
                 val userAfterLogout = auth.currentUser?.uid
                 Log.d("ProfileViewModel", "User after logout: $userAfterLogout (should be null)")
 
-                // Avatar təmizlə
                 AvatarManager.clearAvatar(context)
-                Log.d("ProfileViewModel", "✅ Avatar cleared")
+                Log.d("ProfileViewModel", "Avatar cleared")
 
-                // PIN təmizlə
                 val pinBeforeClear = PinManager.isPinSet(context)
                 Log.d("ProfileViewModel", "PIN before clear: $pinBeforeClear")
 
@@ -91,13 +87,13 @@ class ProfileViewModel @Inject constructor(
                 // SharedPreferences təmizlə
                 val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                 prefs.edit().clear().apply()
-                Log.d("ProfileViewModel", "✅ SharedPreferences cleared")
+                Log.d("ProfileViewModel", " SharedPreferences cleared")
 
-                Log.d("ProfileViewModel", "✅ LOGOUT COMPLETED - all data cleared")
+                Log.d("ProfileViewModel", " LOGOUT COMPLETED - all data cleared")
 
                 _uiState.value = ProfileUiState.LoggedOut
             } catch (e: Exception) {
-                Log.e("ProfileViewModel", "❌ Logout error: ${e.message}")
+                Log.e("ProfileViewModel", "Logout error: ${e.message}")
                 _uiState.value = ProfileUiState.Error("Çıxış zamanı xəta")
             }
         }

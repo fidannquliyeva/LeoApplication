@@ -20,7 +20,7 @@ class LoadingFragment : Fragment() {
     private var _binding: FragmentLoadingBinding? = null
     private val binding get() = _binding!!
 
-    // ✅ Reference-lər saxla
+
     private var progressAnimator: ValueAnimator? = null
     private var handler: Handler? = null
     private var navigationRunnable: Runnable? = null
@@ -42,17 +42,15 @@ class LoadingFragment : Fragment() {
     }
 
     private fun startProgressAnimation() {
-        // ✅ Animator-u reference-də saxla
+
         progressAnimator = ValueAnimator.ofInt(0, 100).apply {
             duration = Constants.LOADING_DELAY
 
             addUpdateListener { animation ->
-                // ✅ Null check - binding varsa update et
                 _binding?.let {
                     val progress = animation.animatedValue as Int
                     it.progressBar?.progress = progress
                 } ?: run {
-                    // Binding null-dursa, animator cancel et
                     animation.cancel()
                 }
             }
@@ -62,11 +60,11 @@ class LoadingFragment : Fragment() {
     }
 
     private fun scheduleNavigation() {
-        // ✅ Handler və Runnable saxla
+
         handler = Handler(Looper.getMainLooper())
 
         navigationRunnable = Runnable {
-            // Fragment hələ mövcuddursa navigate et
+            //fragment varsa
             if (isAdded && _binding != null) {
                 navigateToSetPin()
             }
@@ -79,7 +77,6 @@ class LoadingFragment : Fragment() {
         try {
             findNavController().navigate(R.id.action_loadingFragment_to_setPinFragment)
         } catch (e: Exception) {
-            // Navigation exception handle et
             e.printStackTrace()
         }
     }
@@ -87,11 +84,9 @@ class LoadingFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        // ✅ Animator cancel et
         progressAnimator?.cancel()
         progressAnimator = null
 
-        // ✅ Handler callback-i sil
         navigationRunnable?.let { handler?.removeCallbacks(it) }
         handler = null
         navigationRunnable = null

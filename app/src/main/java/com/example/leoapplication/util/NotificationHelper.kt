@@ -37,9 +37,7 @@ object NotificationHelper {
         }
     }
 
-    /**
-     * Balans artırma notification-u
-     */
+
     fun showBalanceIncreaseNotification(context: Context, amount: Double) {
         val title = "Balans artırıldı"
         val message = "+${String.format("%.2f", amount)} ₼ balansınıza əlavə olundu"
@@ -47,9 +45,7 @@ object NotificationHelper {
         showNotification(context, title, message, 1)
     }
 
-    /**
-     * Transaction (transfer alındı) notification-u
-     */
+
     fun showTransactionReceivedNotification(context: Context, amount: Double, description: String) {
         val title = "Pul alındı"
         val message = "+${String.format("%.2f", amount)} ₼\n$description"
@@ -57,9 +53,6 @@ object NotificationHelper {
         showNotification(context, title, message, 2)
     }
 
-    /**
-     * Transaction (transfer göndərildi) notification-u
-     */
     fun showTransactionSentNotification(context: Context, amount: Double, description: String) {
         val title = "Pul göndərildi"
         val message = "-${String.format("%.2f", amount)} ₼\n$description"
@@ -67,9 +60,6 @@ object NotificationHelper {
         showNotification(context, title, message, 3)
     }
 
-    /**
-     * Generic notification göstərmək
-     */
     private fun showNotification(
         context: Context,
         title: String,
@@ -104,10 +94,6 @@ object NotificationHelper {
             notify(notificationId, builder.build())
         }
     }
-
-    /**
-     * Notification permission-u yoxla (Android 13+)
-     */
     fun hasNotificationPermission(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             NotificationManagerCompat.from(context).areNotificationsEnabled()

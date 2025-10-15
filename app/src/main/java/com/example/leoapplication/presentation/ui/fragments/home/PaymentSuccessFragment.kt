@@ -47,9 +47,7 @@ class PaymentSuccessFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("PaymentSuccess", "====== OPENED ======")
 
-        // ✅ Type-a görə fərqli UI göstər
         val type = arguments?.getString("type") ?: "transfer"
 
         Log.d("PaymentSuccess", "Type: $type")
@@ -65,16 +63,10 @@ class PaymentSuccessFragment : Fragment() {
     private fun setupBalanceIncreaseUI() {
         val amount = arguments?.getDouble("amount") ?: 0.0
 
-        Log.d("PaymentSuccess", "Type: Balance Increase")
-        Log.d("PaymentSuccess", "Amount: $amount")
-
-        // Məbləğ
         binding.tvAmount.text = String.format("%.2f ₼", amount)
 
-        // Status
         binding.tvStatus.text = "✔ Uğurla balans artırıldı"
 
-        // Kart məlumatları
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 // Alıcı (öz Leobank kartı)
@@ -103,7 +95,6 @@ class PaymentSuccessFragment : Fragment() {
             }
         }
 
-        // Tarix
         val dateFormat = SimpleDateFormat("HH:mm, dd.MM.yyyy", Locale("az"))
         binding.tvDate.text = dateFormat.format(Date())
     }
@@ -118,10 +109,7 @@ class PaymentSuccessFragment : Fragment() {
         Log.d("PaymentSuccess", "Amount: $amount")
         Log.d("PaymentSuccess", "Recipient: $recipientName")
 
-        // Məbləğ
         binding.tvAmount.text = String.format("%.2f ₼", amount)
-
-        // Status
         binding.tvStatus.text = "✔ Uğurla köçürüldü"
 
         // Alıcı və Göndərən məlumatları
@@ -149,7 +137,6 @@ class PaymentSuccessFragment : Fragment() {
             }
         }
 
-        // Tarix
         val dateFormat = SimpleDateFormat("HH:mm, dd.MM.yyyy", Locale("az"))
         binding.tvDate.text = dateFormat.format(Date())
     }
@@ -158,11 +145,10 @@ class PaymentSuccessFragment : Fragment() {
         binding.btnReady.setOnClickListener {
             Log.d("PaymentSuccess", "Ready button clicked - going to home")
 
-            // ✅ Type-a görə state təmizlə
             when (type) {
                 "balance_increase" -> {
                     increaseBalanceViewModel.resetState()
-                    Log.d("PaymentSuccess", "Balance increase state reset")
+
                 }
                 else -> {
                     transferViewModel.clearTransferData()
