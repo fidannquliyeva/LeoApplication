@@ -43,7 +43,7 @@ class TransactionAdapter(
                 tvDate.text = dateFormat.format(Date(transaction.timestamp))
 
                 val isOutgoing = when (transaction.type) {
-                    TransactionType.BALANCE_INCREASE -> false // ✅ Həmişə incoming
+                    TransactionType.BALANCE_INCREASE -> false // Həmişə incoming
                     else -> transaction.fromUserId == currentUserId
                 }
 
@@ -72,15 +72,13 @@ class TransactionAdapter(
                 }
                 tvAmount.text = amountText
 
-                // Rəng
                 val color = if (isOutgoing) {
                     ContextCompat.getColor(root.context, android.R.color.holo_red_dark)
                 } else {
                     ContextCompat.getColor(root.context, android.R.color.holo_green_dark)
                 }
                 tvAmount.setTextColor(color)
-
-                // Status icon
+                //iconn st
                 val statusIcon = when (transaction.status) {
                     TransactionStatus.COMPLETED -> R.drawable.ic_check_circle
                     TransactionStatus.PENDING -> R.drawable.ic_pending

@@ -35,13 +35,10 @@ class RecentContactsAdapter(
 
         fun bind(contact: ContactWithLeo) {
             with(binding) {
-                // İsim
                 tvName.text = contact.name
-
-                // Telefon
                 tvPhone.text = contact.phoneNumber
 
-                // Son köçürmə tarixi (varsa)
+
                 if (contact.lastTransferDate != null) {
                     val dateFormat = SimpleDateFormat("dd MMM, HH:mm", Locale("az"))
                     tvLastTransfer.text = "Son: ${dateFormat.format(Date(contact.lastTransferDate))}"

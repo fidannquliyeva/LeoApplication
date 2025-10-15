@@ -65,7 +65,7 @@ class HomeRepositoryImpl @Inject constructor(
 
         val listener = firestore.collection(Constants.CARDS_COLLECTION)
             .whereEqualTo("userId", userId)
-            // ✅ isActive filter-i SİLDİK - Bütün kartları göstər (aktiv və bloklu)
+            // isActive filter sildim bloklu kartlarda gorunsun deye
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
                     trySend(Resource.Error(error.message ?: "Xəta baş verdi"))
@@ -125,7 +125,7 @@ class HomeRepositoryImpl @Inject constructor(
             // 1. Kartı oxu
             val cardResult = firestoreDataSource.getCardById(cardId)
             if (cardResult.isFailure || cardResult.getOrNull() == null) {
-                Log.e("HomeRepository", "❌ Card not found")
+
                 return Resource.Error("Kart tapılmadı")
             }
             val card = cardResult.getOrNull()!!
@@ -153,26 +153,23 @@ class HomeRepositoryImpl @Inject constructor(
 
             Log.d("HomeRepository", "Transaction created: $transactionId")
 
-            // 4. ✅ BATCH WRITE - hər ikisini birdən et
+            //batchh 2si burden
             firestore.runBatch { batch ->
                 // Balansı artır
                 val cardRef = firestore.collection(Constants.CARDS_COLLECTION)
                     .document(card.cardId)
                 batch.update(cardRef, "balance", newBalance)
-                Log.d("HomeRepository", "Batch: Update balance")
 
-                // Transaction-ı save et
+                // Transaction sace
                 val transactionRef = firestore.collection(Constants.TRANSACTIONS_COLLECTION)
                     .document(transactionId)
                 batch.set(transactionRef, transaction)
-                Log.d("HomeRepository", "Batch: Save transaction")
             }.await()
 
-            Log.d("HomeRepository", "✅✅✅ BALANCE INCREASE SUCCESSFUL ✅✅✅")
+            Log.d("HomeRepository", "BALANCE INCREASE SUCCESSFUL")
             Resource.Success(Unit)
 
         } catch (e: Exception) {
-            Log.e("HomeRepository", "❌❌❌ BALANCE INCREASE FAILED ❌❌❌")
             Log.e("HomeRepository", "Error: ${e.message}", e)
             Resource.Error(e.message ?: "Xəta baş verdi")
         }

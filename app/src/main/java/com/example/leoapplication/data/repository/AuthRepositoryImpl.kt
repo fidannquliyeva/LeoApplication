@@ -47,16 +47,15 @@ class AuthRepositoryImpl @Inject constructor(
                 .document()
                 .id
 
-            // Tam kart məlumatları ilə kart generasiya et
+
             val generatedCard = firestoreDataSource.generateFullCard(phoneNumber, fullName)
 
-            // Card ID və userId əlavə et
+
             val card = generatedCard.copy(
                 cardId = cardId,
                 userId = userId
             )
 
-            // Firestore-a yaz
             val result = firestoreDataSource.createCard(card)
             if (result.isSuccess) {
                 Result.success(card)

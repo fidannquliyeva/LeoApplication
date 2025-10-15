@@ -14,9 +14,7 @@ class FirebaseAuthDataSource @Inject constructor(
     private val auth: FirebaseAuth
 ) {
 
-    /**
-     * OTP göndərmə
-     */
+ // send otp
     fun sendVerificationCode(
         phoneNumber: String,
         activity: androidx.fragment.app.FragmentActivity,
@@ -32,9 +30,7 @@ class FirebaseAuthDataSource @Inject constructor(
         PhoneAuthProvider.verifyPhoneNumber(options)
     }
 
-    /**
-     * OTP təsdiqləmə
-     */
+   //tesdiqle
     suspend fun verifyPhoneNumber(credential: PhoneAuthCredential): Result<String> {
         return try {
             val result = auth.signInWithCredential(credential).await()
@@ -45,7 +41,6 @@ class FirebaseAuthDataSource @Inject constructor(
             Result.failure(e)
         }
     }
-
 
     fun getCurrentUserId(): String? = auth.currentUser?.uid
 

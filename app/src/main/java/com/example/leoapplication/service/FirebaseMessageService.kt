@@ -26,8 +26,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onNewToken(token)
         Log.d(TAG, "New FCM Token: $token")
 
-        // TODO: Token-u server-ə göndərmək (gələcəkdə)
-        // sendTokenToServer(token)
     }
 
     override fun onMessageReceived(message: RemoteMessage) {
@@ -35,7 +33,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         Log.d(TAG, "Message received from: ${message.from}")
 
-        // Notification var?
+        // notification var?
         message.notification?.let {
             Log.d(TAG, "Notification Title: ${it.title}")
             Log.d(TAG, "Notification Body: ${it.body}")
@@ -57,9 +55,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    /**
-     * Local notification göstərmək
-     */
+  //local
     private fun showNotification(title: String, message: String) {
         createNotificationChannel()
 

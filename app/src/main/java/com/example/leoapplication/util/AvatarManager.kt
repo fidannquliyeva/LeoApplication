@@ -16,7 +16,7 @@ object AvatarManager {
     private const val AVATAR_FILE_NAME = "user_avatar.jpg"
 
     /**
-     * ✅ Avatar-ı internal storage-a kopyalayıb saxla
+     * Avatar-ı internal storage-a kopyalayıb saxla
      */
     fun saveAvatar(context: Context, uri: Uri) {
         try {

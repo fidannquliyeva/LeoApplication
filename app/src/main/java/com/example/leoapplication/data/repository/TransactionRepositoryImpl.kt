@@ -35,7 +35,7 @@ class TransactionRepositoryImpl @Inject constructor(
             // 1. Alıcı istifadəçini tap
             val recipientResult = firestoreDataSource.getUserByPhoneNumber(toPhoneNumber)
             if (recipientResult.isFailure || recipientResult.getOrNull() == null) {
-                Log.e("TransactionRepo", "❌ Recipient not found")
+
                 return Result.failure(Exception("Alıcı tapılmadı"))
             }
             val recipient = recipientResult.getOrNull()!!
@@ -43,21 +43,21 @@ class TransactionRepositoryImpl @Inject constructor(
             // 2. Göndərənin kartını tap
             val senderCardsResult = firestoreDataSource.getUserCards(fromUserId)
             if (senderCardsResult.isFailure || senderCardsResult.getOrNull()?.isEmpty() == true) {
-                Log.e("TransactionRepo", "❌ Sender card not found")
+                Log.e("TransactionRepo", "Sender card not found")
                 return Result.failure(Exception("Kart tapılmadı"))
             }
             val senderCard = senderCardsResult.getOrNull()!!.first()
 
             // 3. Balans yoxla
             if (senderCard.balance < amount) {
-                Log.e("TransactionRepo", "❌ Insufficient balance")
+                Log.e("TransactionRepo", "insufficient balance")
                 return Result.failure(Exception("Balans kifayət deyil"))
             }
 
             // 4. Alıcının kartını tap
             val recipientCardsResult = firestoreDataSource.getUserCards(recipient.userId)
             if (recipientCardsResult.isFailure || recipientCardsResult.getOrNull()?.isEmpty() == true) {
-                Log.e("TransactionRepo", "❌ Recipient card not found")
+                Log.e("TransactionRepo", " Recipient card not found")
                 return Result.failure(Exception("Alıcının kartı tapılmadı"))
             }
             val recipientCard = recipientCardsResult.getOrNull()!!.first()
@@ -82,7 +82,7 @@ class TransactionRepositoryImpl @Inject constructor(
                 timestamp = System.currentTimeMillis()
             )
 
-            // 7. ✅ BATCH WRITE (atomic)
+            // 7. BATCH WRITE (atomic)
             firestore.runBatch { batch ->
                 val senderRef = firestore.collection(Constants.CARDS_COLLECTION)
                     .document(senderCard.cardId)
@@ -97,21 +97,17 @@ class TransactionRepositoryImpl @Inject constructor(
                 batch.set(transactionRef, transaction)
             }.await()
 
-            Log.d("TransactionRepo", "✅ Transfer completed!")
             Result.success(transaction)
-
         } catch (e: Exception) {
-            Log.e("TransactionRepo", "❌ Transfer failed: ${e.message}")
+
             Result.failure(e)
         }
     }
 
     override suspend fun getUserTransactions(userId: String): Result<List<Transaction>> {
         return try {
-            Log.d("TransactionRepo", "Getting transactions for: $userId")
             firestoreDataSource.getUserTransactions(userId)
         } catch (e: Exception) {
-            Log.e("TransactionRepo", "❌ Error: ${e.message}")
             Result.failure(e)
         }
     }

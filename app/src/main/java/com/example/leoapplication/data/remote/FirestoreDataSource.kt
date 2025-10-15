@@ -158,7 +158,6 @@ class FirestoreDataSource @Inject constructor(
 
             if (snapshot.isEmpty) {
                 val formattedCardNumber = cardNumber.chunked(4).joinToString(" ")
-                Log.d("FirestoreDataSource", "Trying with spaces: $formattedCardNumber")
 
                 snapshot = firestore.collection(Constants.CARDS_COLLECTION)
                     .whereEqualTo("cardNumber", formattedCardNumber)
@@ -168,19 +167,16 @@ class FirestoreDataSource @Inject constructor(
             }
 
             if (snapshot.isEmpty) {
-                Log.e("FirestoreDataSource", "❌ Card not found: $cardNumber")
                 Result.failure(Exception("Kart tapılmadı"))
             } else {
                 val card = snapshot.documents[0].toObject(Card::class.java)
                 if (card != null) {
-                    Log.d("FirestoreDataSource", "✅ Card found: ${card.cardId}")
                     Result.success(card)
                 } else {
                     Result.failure(Exception("Kart məlumatı oxuna bilmədi"))
                 }
             }
         } catch (e: Exception) {
-            Log.e("FirestoreDataSource", "❌ Error: ${e.message}")
             Result.failure(e)
         }
     }
@@ -219,7 +215,7 @@ class FirestoreDataSource @Inject constructor(
             val allTransactions = (sentTransactions + receivedTransactions)
                 .sortedByDescending { it.timestamp }
 
-            Log.d("FirestoreDataSource", "✅ Total transactions: ${allTransactions.size}")
+            Log.d("FirestoreDataSource", " Total transactions: ${allTransactions.size}")
             Log.d("FirestoreDataSource", "  - Sent: ${sentTransactions.size}")
             Log.d("FirestoreDataSource", "  - Received: ${receivedTransactions.size}")
 
@@ -230,12 +226,6 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
-    /**
-     * ✅ YENİ - Real-time transaction observer
-     */
-    /**
-     * ✅ Real-time transaction observer - həm sent həm received
-     */
     fun observeUserTransactions(userId: String): Flow<Result<List<Transaction>>> = callbackFlow {
         Log.d("FirestoreDataSource", "Starting to observe transactions for: $userId")
 
@@ -247,12 +237,8 @@ class FirestoreDataSource @Inject constructor(
                 .distinctBy { it.transactionId }
                 .sortedByDescending { it.timestamp }
 
-            Log.d("FirestoreDataSource", "✅ Combined transactions: ${allTransactions.size}")
-            Log.d("FirestoreDataSource", "  - Sent: ${sentTransactions.size}")
-            Log.d("FirestoreDataSource", "  - Received: ${receivedTransactions.size}")
-
             allTransactions.forEach { tx ->
-                Log.d("FirestoreDataSource", "    [${tx.type}] ${tx.amount} - ${tx.description}")
+                Log.d("FirestoreDataSource", "[${tx.type}] ${tx.amount} - ${tx.description}")
             }
 
             trySend(Result.success(allTransactions))
@@ -262,7 +248,7 @@ class FirestoreDataSource @Inject constructor(
             .whereEqualTo("fromUserId", userId)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
-                    Log.e("FirestoreDataSource", "❌ Sent listener error: ${error.message}")
+                    Log.e("FirestoreDataSource", "Sent listener error: ${error.message}")
                     trySend(Result.failure(error))
                     return@addSnapshotListener
                 }
@@ -279,7 +265,7 @@ class FirestoreDataSource @Inject constructor(
             .whereEqualTo("toUserId", userId)
             .addSnapshotListener { snapshot, error ->
                 if (error != null) {
-                    Log.e("FirestoreDataSource", "❌ Received listener error: ${error.message}")
+                    Log.e("FirestoreDataSource", "Received listener error: ${error.message}")
                     trySend(Result.failure(error))
                     return@addSnapshotListener
                 }
@@ -299,29 +285,23 @@ class FirestoreDataSource @Inject constructor(
         }
     }
 
-    /**
-     * ✅ YENİ - Transaction silmək
-     */
+//delete
     suspend fun deleteTransaction(transactionId: String): Result<Unit> {
         return try {
-            Log.d("FirestoreDataSource", "Deleting transaction: $transactionId")
-
             firestore.collection(Constants.TRANSACTIONS_COLLECTION)
                 .document(transactionId)
                 .delete()
                 .await()
 
-            Log.d("FirestoreDataSource", "✅ Transaction deleted: $transactionId")
+            Log.d("FirestoreDataSource", "Transaction deleted: $transactionId")
             Result.success(Unit)
         } catch (e: Exception) {
-            Log.e("FirestoreDataSource", "❌ Delete failed: ${e.message}")
+            Log.e("FirestoreDataSource", "Delete failed: ${e.message}")
             Result.failure(e)
         }
     }
 
-    /**
-     * ✅ YENİ - Transaction-ı geri yükləmək (Undo)
-     */
+ //restore
     suspend fun restoreTransaction(transaction: Transaction): Result<Unit> {
         return try {
             Log.d("FirestoreDataSource", "Restoring transaction: ${transaction.transactionId}")
@@ -331,10 +311,9 @@ class FirestoreDataSource @Inject constructor(
                 .set(transaction)
                 .await()
 
-            Log.d("FirestoreDataSource", "✅ Transaction restored: ${transaction.transactionId}")
             Result.success(Unit)
         } catch (e: Exception) {
-            Log.e("FirestoreDataSource", "❌ Restore failed: ${e.message}")
+
             Result.failure(e)
         }
     }
@@ -351,10 +330,10 @@ class FirestoreDataSource @Inject constructor(
                 .update("status", status.name)
                 .await()
 
-            Log.d("FirestoreDataSource", "✅ Status updated")
+            Log.d("FirestoreDataSource", " Status updated")
             Result.success(Unit)
         } catch (e: Exception) {
-            Log.e("FirestoreDataSource", "❌ Status update failed: ${e.message}")
+            Log.e("FirestoreDataSource", " Status update failed: ${e.message}")
             Result.failure(e)
         }
     }
