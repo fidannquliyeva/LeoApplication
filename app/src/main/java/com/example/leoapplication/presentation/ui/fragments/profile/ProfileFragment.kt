@@ -168,8 +168,8 @@ class ProfileFragment : Fragment() {
     }
 
     private fun showLanguageDialog() {
-        val languages = arrayOf("Azərbaycan", "English", "Русский")
-        val languageCodes = arrayOf("az", "en", "ru")
+        val languages = arrayOf("Azərbaycan","Русский")
+        val languageCodes = arrayOf("az", "ru")
 
         val currentLang = LanguageManager.getSavedLanguage(requireContext())
         val checkedItem = languageCodes.indexOf(currentLang).takeIf { it >= 0 } ?: 0

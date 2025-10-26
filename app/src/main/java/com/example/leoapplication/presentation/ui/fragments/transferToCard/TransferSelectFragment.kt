@@ -109,7 +109,7 @@ class TransferSelectFragment : Fragment() {
 
                         // Empty state
                         if (contacts.isEmpty()) {
-                          
+
                         }
                     }
                 }

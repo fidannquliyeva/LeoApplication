@@ -27,14 +27,14 @@ object Constants {
     const val LOADING_DELAY = 3000L // 3 saniyə
 
 
-        const val PAYMENTS_COLLECTION = "payments"
-        const val PAYMENT_CATEGORIES_COLLECTION = "payment_categories"
-        const val SERVICE_PROVIDERS_COLLECTION = "service_providers"
+    const val PAYMENTS_COLLECTION = "payments"
+    const val PAYMENT_CATEGORIES_COLLECTION = "payment_categories"
+    const val SERVICE_PROVIDERS_COLLECTION = "service_providers"
 
-        // Preferences
-        const val PREFS_NAME = "leo_prefs"
-        const val KEY_USER_ID = "user_id"
-        const val KEY_PHONE_NUMBER = "phone_number"
-        const val KEY_IS_LOGGED_IN = "is_logged_in"
+    // Preferences
+    const val PREFS_NAME = "leo_prefs"
+    const val KEY_USER_ID = "user_id"
+    const val KEY_PHONE_NUMBER = "phone_number"
+    const val KEY_IS_LOGGED_IN = "is_logged_in"
 
 }

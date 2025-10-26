@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:duration="700"
+    android:interpolator="@android:interpolator/accelerate_quad">
+
+    <!-- ScaleX (kiçilmə - genişlik) -->
+    <objectAnimator
+        android:propertyName="scaleX"
+        android:valueFrom="1.0"
+        android:valueTo="0.3"
+        android:duration="700" />
+
+    <!-- ScaleY (kiçilmə - hündürlük) -->
+    <objectAnimator
+        android:propertyName="scaleY"
+        android:valueFrom="1.0"
+        android:valueTo="0.3"
+        android:duration="700" />
+
+    <!-- Y oxu ətrafında fırlanma -->
+    <objectAnimator
+        android:propertyName="rotationY"
+        android:valueFrom="0"
+        android:valueTo="90"
+        android:duration="700" />
+
+    <!-- Fade out -->
+    <objectAnimator
+        android:propertyName="alpha"
+        android:valueFrom="1.0"
+        android:valueTo="0.0"
+        android:duration="350" />
+
+    <!-- Aşağı hərəkət -->
+    <objectAnimator
+        android:propertyName="translationY"
+        android:valueFrom="0"
+        android:valueTo="200"
+        android:duration="700" />
+
+</set>

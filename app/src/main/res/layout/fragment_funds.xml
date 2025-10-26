@@ -8,5 +8,6 @@
     android:padding="16dp"
     android:clipToPadding="false"
     android:scrollbars="vertical"
+    android:background="@color/background"
     tools:listitem="@layout/item_funds"
     app:layout_behavior="@string/appbar_scrolling_view_behavior" />

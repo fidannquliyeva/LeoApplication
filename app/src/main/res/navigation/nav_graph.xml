@@ -155,8 +155,8 @@
             app:destination="@id/cardFragment"
             app:enterAnim="@anim/card_flip_left_in"
             app:exitAnim="@anim/card_flip_right_out"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+
+           />
         <action
             android:id="@+id/action_nav_home_to_increaseBalanceFragment"
             app:destination="@id/increaseBalanceFragment" />

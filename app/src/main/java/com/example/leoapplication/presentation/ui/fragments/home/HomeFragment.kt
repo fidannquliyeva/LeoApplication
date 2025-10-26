@@ -209,6 +209,8 @@ class HomeFragment : Fragment() {
                     R.id.action_nav_home_to_otherPaysFragment
                 )
             }
+
+            // ⭐ KARTA TOXUNANDA - CARD FRAGMENT-Ə GET
             cardVisa.setOnClickListener {
                 val card = viewModel.selectedCard.value
 
@@ -228,11 +230,16 @@ class HomeFragment : Fragment() {
         }
     }
 
+    /**
+     * Card Detail-ə keçid (sadə, heç bir animasiya əlavə etmirik)
+     */
     private fun navigateToCardDetails(cardId: String) {
         try {
             val bundle = Bundle().apply {
                 putString("cardId", cardId)
             }
+
+            Log.d("HomeFragment", "🎴 Navigating to CardFragment")
 
             findNavController().navigate(
                 R.id.action_nav_home_to_cardFragment,
@@ -274,7 +281,6 @@ class HomeFragment : Fragment() {
         binding.progressBar?.visibility = if (show) View.VISIBLE else View.GONE
         binding.recyclerView.visibility = if (show) View.GONE else View.VISIBLE
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

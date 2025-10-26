@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <androidx.constraintlayout.widget.ConstraintLayout
 
     android:id="@+id/cardFragment"
@@ -34,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar_card"
         app:layout_constraintVertical_bias="0"
-      />
+        />
 
     <View
         android:id="@+id/cardLine"
@@ -94,18 +92,69 @@
         app:layout_constraintStart_toStartOf="@+id/txtDate"
         app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
-
-    <TextView
-        android:id="@+id/txtCvvNum"
+    <!-- CVV Container (FrameLayout ilə sticker üçün) -->
+    <FrameLayout
+        android:id="@+id/cvvContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="111"
-        android:textColor="@color/white"
-        android:textSize="18sp"
         app:layout_constraintHorizontal_bias="0.2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txtDate"
-        app:layout_constraintTop_toTopOf="@+id/txtDate" />
+        app:layout_constraintTop_toTopOf="@+id/txtDate">
+
+        <!-- CVV nömrəsi (altda) -->
+        <TextView
+            android:id="@+id/txtCvvNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="111"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp" />
+
+        <!-- STICKER OVERLAY (üstdə) -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvvStickerOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:elevation="6dp"
+            app:cardCornerRadius="6dp"
+            app:cardBackgroundColor="#E0E0E0">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center"
+            android:background="@color/bottom_nav_icon_tint"
+                android:padding="4dp">
+
+                <!-- Göz ikonu -->
+                <ImageView
+                    android:id="@+id/imgCvvEye"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_emoji"
+                    android:layout_marginEnd="4dp" />
+
+                <!-- Nöqtələr -->
+                <ImageView
+                    android:id="@+id/imgCvvAlien"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_alien"
+                    android:layout_marginEnd="4dp" />
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/txtCvv"
@@ -115,8 +164,8 @@
         android:textColor="#6A6A6A"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/card_visa_card"
-        app:layout_constraintEnd_toEndOf="@+id/txtCvvNum"
-        app:layout_constraintStart_toStartOf="@+id/txtCvvNum"
+        app:layout_constraintEnd_toEndOf="@+id/cvvContainer"
+        app:layout_constraintStart_toStartOf="@+id/cvvContainer"
         app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
 
@@ -194,6 +243,8 @@
         app:layout_constraintTop_toBottomOf="@id/txt_change_pin" />
 
 
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
-
-
