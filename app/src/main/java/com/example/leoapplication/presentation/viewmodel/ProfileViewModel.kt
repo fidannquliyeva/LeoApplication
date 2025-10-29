@@ -74,7 +74,6 @@ class ProfileViewModel @Inject constructor(
                 Log.d("ProfileViewModel", "User after logout: $userAfterLogout (should be null)")
 
                 AvatarManager.clearAvatar(context)
-                Log.d("ProfileViewModel", "Avatar cleared")
 
                 val pinBeforeClear = PinManager.isPinSet(context)
                 Log.d("ProfileViewModel", "PIN before clear: $pinBeforeClear")
@@ -87,13 +86,9 @@ class ProfileViewModel @Inject constructor(
                 // SharedPreferences təmizlə
                 val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
                 prefs.edit().clear().apply()
-                Log.d("ProfileViewModel", " SharedPreferences cleared")
-
-                Log.d("ProfileViewModel", " LOGOUT COMPLETED - all data cleared")
 
                 _uiState.value = ProfileUiState.LoggedOut
             } catch (e: Exception) {
-                Log.e("ProfileViewModel", "Logout error: ${e.message}")
                 _uiState.value = ProfileUiState.Error("Çıxış zamanı xəta")
             }
         }

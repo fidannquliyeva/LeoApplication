@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.leoapplication.databinding.ItemStocksBinding
-import com.example.leoapplication.domain.model.Share
+import com.example.leoapplication.data.model.Share
 
 
 class StocksAdapter(private var list: List<Share>) :

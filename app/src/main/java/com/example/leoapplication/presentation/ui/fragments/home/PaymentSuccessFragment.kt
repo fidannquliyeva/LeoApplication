@@ -50,8 +50,6 @@ class PaymentSuccessFragment : Fragment() {
 
         val type = arguments?.getString("type") ?: "transfer"
 
-        Log.d("PaymentSuccess", "Type: $type")
-
         when (type) {
             "balance_increase" -> setupBalanceIncreaseUI()
             else -> setupTransferUI()
@@ -69,7 +67,7 @@ class PaymentSuccessFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                // Alıcı (öz Leobank kartı)
+
                 launch {
                     increaseBalanceViewModel.selectedCard.collect { card ->
                         card?.let {
@@ -80,7 +78,7 @@ class PaymentSuccessFragment : Fragment() {
                     }
                 }
 
-                // Göndərən (xarici kart)
+
                 launch {
                     increaseBalanceViewModel.externalCardNumber.collect { externalCard ->
                         if (externalCard.isNotEmpty()) {
@@ -104,15 +102,10 @@ class PaymentSuccessFragment : Fragment() {
         val amount = arguments?.getDouble("amount") ?: 0.0
         val recipientName = arguments?.getString("recipientName") ?: "Alıcı"
 
-        Log.d("PaymentSuccess", "Type: Transfer")
-        Log.d("PaymentSuccess", "Transaction ID: $transactionId")
-        Log.d("PaymentSuccess", "Amount: $amount")
-        Log.d("PaymentSuccess", "Recipient: $recipientName")
 
         binding.tvAmount.text = String.format("%.2f ₼", amount)
         binding.tvStatus.text = "✔ Uğurla köçürüldü"
 
-        // Alıcı və Göndərən məlumatları
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 // Alıcı
@@ -126,7 +119,6 @@ class PaymentSuccessFragment : Fragment() {
                     }
                 }
 
-                // Göndərən
                 launch {
                     transferViewModel.currentBalance.collect { _ ->
                         val currentUser = auth.currentUser
@@ -157,7 +149,6 @@ class PaymentSuccessFragment : Fragment() {
                 }
             }
 
-            // Home-a qayıt
             findNavController().popBackStack(R.id.nav_home, false)
         }
     }

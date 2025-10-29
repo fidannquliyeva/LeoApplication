@@ -131,16 +131,11 @@ class IncreaseOtherCardFragment : Fragment() {
     private fun setupClickListeners() {
         binding.nextButton.setOnClickListener {
             if (validateInputs()) {
-                // ✅ Kart nömrəsini al
+
                 val cardNumber = binding.cardNumberInput.text.toString()
 
-                Log.d("IncreaseOtherCard", "✅ Card validation passed")
-                Log.d("IncreaseOtherCard", "Card: *${cardNumber.replace(" ", "").takeLast(4)}")
-
-                // ✅ Kart nömrəsini ViewModel-də save et
                 viewModel.setExternalCardNumber(cardNumber)
 
-                // Növbəti səhifəyə keç
                 findNavController().navigate(
                     R.id.action_increaseOtherCardFragment_to_increaseBalanceOtherCardsFragment
                 )
@@ -201,9 +196,7 @@ class IncreaseOtherCardFragment : Fragment() {
         }
     }
 
-    /**
-     * Luhn algoritmi ilə kart nömrəsini yoxla
-     */
+
     private fun isValidCardNumber(cardNumber: String): Boolean {
         var sum = 0
         var alternate = false
@@ -225,9 +218,6 @@ class IncreaseOtherCardFragment : Fragment() {
         return sum % 10 == 0
     }
 
-    /**
-     * Expiry date-in keçmədiyini yoxla
-     */
     private fun isValidExpiryDate(expiry: String): Boolean {
         try {
             val parts = expiry.split("/")

@@ -142,7 +142,7 @@ class SmsLoginFragment : Fragment() {
                 is Resource.Success -> {
                     val userId = resource.data!!
 
-                    // ✅ User mövcudluğunu yoxla
+
                     checkUserExists(userId)
                 }
                 is Resource.Error -> {
@@ -173,11 +173,9 @@ class SmsLoginFragment : Fragment() {
 
     private fun checkPinAndNavigate() {
         if (PinManager.isPinSet(requireContext())) {
-            // PIN teyin olunub
             showToast("PIN ilə daxil olun")
             findNavController().navigate(R.id.action_smsLogin_to_pinLogin)
         } else {
-            // olunmayıb
             showToast("Təhlükəsizlik üçün PIN təyin edin")
             findNavController().navigate(R.id.action_smsLogin_to_setPin)
         }

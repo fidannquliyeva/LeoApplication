@@ -41,8 +41,6 @@ class TransferAmountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.d("TransferAmount", "====== OPENED ======")
-
         viewModel.refreshBalance()
 
         setupToolbar()
@@ -64,7 +62,6 @@ class TransferAmountFragment : Fragment() {
                 launch {
                     viewModel.currentBalance.collect { balance ->
                         binding.txtBalance.text = "Balans: ${String.format("%.2f", balance)} ₼"
-                        Log.d("TransferAmount", "Balance: $balance")
                     }
                 }
 
@@ -73,7 +70,6 @@ class TransferAmountFragment : Fragment() {
                     viewModel.recipientName.collect { name ->
                         if (name.isNotEmpty()) {
                             binding.tvTitle.text = name
-                            Log.d("TransferAmount", "Recipient: $name")
                         } else {
                             binding.tvTitle.text = "Kart sahibi"
                         }
@@ -84,7 +80,6 @@ class TransferAmountFragment : Fragment() {
                 launch {
                     viewModel.recipientPhoneNumber.collect { phone ->
                         binding.tvSubtitle.text = phone
-                        Log.d("TransferAmount", "Phone: $phone")
                     }
                 }
 
@@ -93,11 +88,9 @@ class TransferAmountFragment : Fragment() {
                         when (state) {
                             is TransferUiState.Loading -> {
                                 showLoading(true)
-                                Log.d("TransferAmount", "Loading...")
                             }
                             is TransferUiState.TransferSuccess -> {
                                 showLoading(false)
-                                Log.d("TransferAmount", "✅ Transfer success!")
 
                                 Toast.makeText(
                                     requireContext(),
@@ -217,7 +210,6 @@ class TransferAmountFragment : Fragment() {
         binding.btnPay.text = if (isLoading) "Gözləyin..." else "Göndər"
         binding.edtMoney.isEnabled = !isLoading
 
-        Log.d("TransferAmount", "Loading state: $isLoading")
     }
 
 

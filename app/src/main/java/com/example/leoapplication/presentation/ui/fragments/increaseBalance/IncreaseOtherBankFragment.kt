@@ -58,11 +58,8 @@ class IncreaseOtherBankFragment : Fragment() {
                 homeViewModel.selectedCard.collect { card ->
                     card?.let {
                         binding.cardNumber.text = it.cardNumber
-                        Log.d("IncreaseBalance", "Card number: ${it.cardNumber}")
                     } ?: run {
-
                         binding.cardNumber.text = "Kart yoxdur"
-                        Log.e("IncreaseBalance", "No card selected")
                     }
                 }
             }
@@ -83,8 +80,6 @@ class IncreaseOtherBankFragment : Fragment() {
                     "Kart nömrəsi kopyalandı",
                     Toast.LENGTH_SHORT
                 ).show()
-
-                Log.d("IncreaseBalance", "Card number copied: $cardNumber")
             } else {
                 Toast.makeText(
                     requireContext(),

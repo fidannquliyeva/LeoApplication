@@ -56,11 +56,8 @@ class HomeViewModel @Inject constructor(
 
     init {
         val currentUser = auth.currentUser
-        Log.d("HomeViewModel", "====== INIT ======")
-        Log.d("HomeViewModel", "Current user: ${currentUser?.uid}")
 
         if (currentUser == null) {
-            Log.e("HomeViewModel", "User not logged in!")
             _uiState.value = HomeUiState.Error("İstifadəçi daxil olmayıb")
         }
 
@@ -89,16 +86,13 @@ class HomeViewModel @Inject constructor(
 
     private fun observeCards() {
         viewModelScope.launch {
-            Log.d("HomeViewModel", "Starting to observe cards...")
             homeRepository.observeUserCards().collect { result ->
-                Log.d("HomeViewModel", "Cards result: $result")
 
                 when (result) {
                     is Resource.Success -> {
                         val cards = result.data ?: emptyList()
                         _cards.value = cards
 
-                        Log.d("HomeViewModel", "Cards loaded: ${cards.size}")
                         cards.forEach { card ->
                             Log.d(
                                 "HomeViewModel",
@@ -166,14 +160,12 @@ class HomeViewModel @Inject constructor(
                 return@launch
             }
 
-            Log.d("HomeViewModel", "Starting to observe transactions...")
 
             transactionRepository.observeUserTransactions(userId).collect { result ->
                 result.onSuccess { txList ->
                     _transactions.value = txList
                     _filteredTransactions.value = txList
 
-                    Log.d("HomeViewModel", " Transactions updated: ${txList.size}")
 
                     if (!isFirstLoad && oldTransactionIds.isNotEmpty()) {
                         val currentTime = System.currentTimeMillis()
@@ -184,10 +176,6 @@ class HomeViewModel @Inject constructor(
                                     tx.timestamp >= tenSecondsAgo
                         }
 
-                        Log.d(
-                            "HomeViewModel",
-                            " New transactions (last 10 sec): ${newTransactions.size}"
-                        )
 
                         newTransactions.forEach { tx ->
                             showNotificationForTransaction(tx, userId)
@@ -201,15 +189,12 @@ class HomeViewModel @Inject constructor(
                 result.onFailure { error ->
                     _transactions.value = emptyList()
                     _filteredTransactions.value = emptyList()
-                    Log.e("HomeViewModel", " Transactions error: ${error.message}")
                 }
             }
         }
     }
 
     private fun showNotificationForTransaction(transaction: Transaction, currentUserId: String) {
-        Log.d("HomeViewModel", " Showing notification for: ${transaction.type}")
-
         when (transaction.type) {
             TransactionType.BALANCE_INCREASE -> {
                 NotificationHelper.showBalanceIncreaseNotification(

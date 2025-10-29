@@ -5,12 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.leoapplication.data.repository.CryptoRepository
 import com.example.leoapplication.data.repository.FundsRepository
-import com.example.leoapplication.domain.model.Crypto
-import com.example.leoapplication.domain.model.Funds
-import com.example.leoapplication.domain.model.Share
-import com.google.firebase.firestore.FirebaseFirestore
+import com.example.leoapplication.data.model.Funds
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

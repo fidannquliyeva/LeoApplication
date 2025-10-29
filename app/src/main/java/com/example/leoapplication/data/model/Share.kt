@@ -1,4 +1,4 @@
-package com.example.leoapplication.domain.model
+package com.example.leoapplication.data.model
 
 
 data class Share(

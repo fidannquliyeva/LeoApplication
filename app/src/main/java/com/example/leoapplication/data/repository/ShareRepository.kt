@@ -1,7 +1,6 @@
 package com.example.leoapplication.data.repository
 
-import com.example.leoapplication.domain.model.Share
-import com.google.firebase.Firebase
+import com.example.leoapplication.data.model.Share
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject

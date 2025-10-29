@@ -168,80 +168,249 @@
         app:layout_constraintStart_toStartOf="@+id/cvvContainer"
         app:layout_constraintTop_toBottomOf="@+id/txtDate" />
 
-
+    <!-- 1. Plastik kartı blokla -->
     <ImageView
         android:id="@+id/img_block"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="16dp"
         android:src="@drawable/baseline_block_flipped_24"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_visa_card"
-        app:tint="@color/textColor"
-        app:layout_constraintVertical_bias="0.06"/>
+        app:tint="@color/textColor" />
 
     <TextView
         android:id="@+id/txt_block"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/plastik_kart_blokla"
-        android:textSize="18sp"
+        android:layout_marginStart="16dp"
+        android:text="Plastik kartı blokla"
+        android:textSize="16sp"
         android:textColor="@color/textColor"
-        app:layout_constraintBottom_toTopOf="@id/txt_block_msg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toEndOf="@+id/img_block"
         app:layout_constraintTop_toTopOf="@id/img_block" />
 
     <TextView
         android:id="@+id/txt_block_msg"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/st_diyiniz_vaxt_onu_blokdan_xara_bil_rsiniz"
-        android:textSize="14sp"
-        android:textColor="@color/textColor"
-        app:layout_constraintBottom_toBottomOf="@id/img_block"
+        android:text="İstənilən vaxt onu blokdan çıxara bilərsiniz"
+        android:textSize="13sp"
+        android:textColor="#808080"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/txt_block"
         app:layout_constraintTop_toBottomOf="@id/txt_block" />
 
+    <!-- 2. Kredit limitini artırmaq -->
+    <ImageView
+        android:id="@+id/img_increase_limit"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/baseline_credit_card_24"
+        app:layout_constraintStart_toStartOf="@id/img_block"
+        app:layout_constraintTop_toBottomOf="@id/txt_block_msg"
+        app:tint="@color/textColor" />
 
+    <TextView
+        android:id="@+id/txt_increase_limit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Kredit limitini artırmaq"
+        android:textSize="16sp"
+        android:textColor="@color/textColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/txt_block"
+        app:layout_constraintTop_toTopOf="@id/img_increase_limit" />
+
+    <TextView
+        android:id="@+id/txt_increase_limit_msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cari limit: 0 ₼"
+        android:textSize="13sp"
+        android:textColor="#808080"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txt_increase_limit"
+        app:layout_constraintTop_toBottomOf="@id/txt_increase_limit" />
+
+    <!-- 3. Google Pay-i qur -->
+    <ImageView
+        android:id="@+id/img_google_pay"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/baseline_contactles_24"
+        app:layout_constraintStart_toStartOf="@id/img_block"
+        app:layout_constraintTop_toBottomOf="@id/txt_increase_limit_msg"
+        app:tint="@color/textColor" />
+
+    <TextView
+        android:id="@+id/txt_google_pay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Google Pay-i qur"
+        android:textSize="16sp"
+        android:textColor="@color/textColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/txt_block"
+        app:layout_constraintTop_toTopOf="@id/img_google_pay" />
+
+    <TextView
+        android:id="@+id/txt_google_pay_msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Kartı əlavə olunub"
+        android:textSize="13sp"
+        android:textColor="#808080"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txt_google_pay"
+        app:layout_constraintTop_toBottomOf="@id/txt_google_pay" />
+
+    <!-- 4. Kartın Google Pay dizaynı -->
+    <ImageView
+        android:id="@+id/img_gpay_design"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/baseline_palette"
+        app:layout_constraintStart_toStartOf="@id/img_block"
+        app:layout_constraintTop_toBottomOf="@id/txt_google_pay_msg"
+        app:tint="@color/textColor" />
+
+    <TextView
+        android:id="@+id/txt_gpay_design"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Kartın Google Pay dizaynı"
+        android:textSize="16sp"
+        android:textColor="@color/textColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/txt_block"
+        app:layout_constraintTop_toTopOf="@id/img_gpay_design" />
+
+    <!-- 5. Kartınızın statusunu təqmilləşdirin 😎 -->
+    <ImageView
+        android:id="@+id/img_upgrade_status"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/baseline_star"
+        app:layout_constraintStart_toStartOf="@id/img_block"
+        app:layout_constraintTop_toBottomOf="@id/txt_gpay_design"
+        app:tint="@color/textColor" />
+
+    <TextView
+        android:id="@+id/txt_upgrade_status"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Kartınızın statusunu təqmilləşdirin 😎"
+        android:textSize="16sp"
+        android:textColor="@color/textColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/txt_block"
+        app:layout_constraintTop_toTopOf="@id/img_upgrade_status" />
+
+    <!-- 6. PIN-kod dəyişmək -->
     <ImageView
         android:id="@+id/img_change_pin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/baseline_edit_24"
-        app:tint="@color/textColor"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/img_block"
-        app:layout_constraintVertical_bias="0.07"/>
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/baseline_more_horiz"
+        app:layout_constraintStart_toStartOf="@id/img_block"
+        app:layout_constraintTop_toBottomOf="@id/txt_upgrade_status"
+        app:tint="@color/textColor" />
 
     <TextView
         android:id="@+id/txt_change_pin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/pin_kod_d_yi_m_k"
-        android:textSize="18sp"
+        android:text="PIN-kod dəyişmək"
+        android:textSize="16sp"
         android:textColor="@color/textColor"
-        app:layout_constraintBottom_toTopOf="@id/txt_change_pin_msg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toEndOf="@+id/img_change_pin"
+        app:layout_constraintStart_toStartOf="@id/txt_block"
         app:layout_constraintTop_toTopOf="@id/img_change_pin" />
 
     <TextView
         android:id="@+id/txt_change_pin_msg"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/kart_v_t_tbiql_r"
-        android:textSize="14sp"
-        android:textColor="@color/textColor"
-        app:layout_constraintBottom_toBottomOf="@id/txt_change_pin_msg"
+        android:text="Kart və tətbiqlər"
+        android:textSize="13sp"
+        android:textColor="#808080"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/txt_change_pin"
         app:layout_constraintTop_toBottomOf="@id/txt_change_pin" />
 
+    <!-- 7. Təhlükəsizlik ayarları -->
+    <ImageView
+        android:id="@+id/img_security"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/baseline_shield"
+        app:layout_constraintStart_toStartOf="@id/img_block"
+        app:layout_constraintTop_toBottomOf="@id/txt_change_pin_msg"
+        app:tint="@color/textColor" />
+
+    <TextView
+        android:id="@+id/txt_security"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Təhlükəsizlik ayarları"
+        android:textSize="16sp"
+        android:textColor="@color/textColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/txt_block"
+        app:layout_constraintTop_toTopOf="@id/img_security" />
+
+    <TextView
+        android:id="@+id/txt_security_msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Bankomatlar, təmirsiz, maqnit zolağı"
+        android:textSize="13sp"
+        android:textColor="#808080"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txt_security"
+        app:layout_constraintTop_toBottomOf="@id/txt_security" />
+
+    <!-- 8. Abunə idarəetməsi -->
+    <ImageView
+        android:id="@+id/img_subscription"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/baseline_notification_24"
+        app:layout_constraintStart_toStartOf="@id/img_block"
+        app:layout_constraintTop_toBottomOf="@id/txt_security_msg"
+        app:tint="@color/textColor" />
+
+    <TextView
+        android:id="@+id/txt_subscription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Abunə idarəetməsi"
+        android:textSize="16sp"
+        android:textColor="@color/textColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/txt_block"
+        app:layout_constraintTop_toTopOf="@id/img_subscription" />
+
+    <TextView
+        android:id="@+id/txt_subscription_msg"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Karta bağlı olan bütün servislər"
+        android:textSize="13sp"
+        android:textColor="#808080"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/txt_subscription"
+        app:layout_constraintTop_toBottomOf="@id/txt_subscription" />
 
 
 

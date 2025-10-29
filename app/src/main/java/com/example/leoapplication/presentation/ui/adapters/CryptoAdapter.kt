@@ -6,9 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.leoapplication.R
 import com.example.leoapplication.databinding.ItemCryptoBinding
-import com.example.leoapplication.databinding.ItemStocksBinding
-import com.example.leoapplication.domain.model.Crypto
-import com.example.leoapplication.domain.model.Share
+import com.example.leoapplication.data.model.Crypto
 
 
 class CryptoAdapter(private var list: List<Crypto>) :

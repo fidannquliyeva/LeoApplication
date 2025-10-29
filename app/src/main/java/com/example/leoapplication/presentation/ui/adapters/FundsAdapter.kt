@@ -5,10 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.leoapplication.R
-import com.example.leoapplication.databinding.ItemCryptoBinding
 import com.example.leoapplication.databinding.ItemFundsBinding
-import com.example.leoapplication.domain.model.Crypto
-import com.example.leoapplication.domain.model.Funds
+import com.example.leoapplication.data.model.Funds
 
 class FundsAdapter (private var list: List<Funds>) :
     RecyclerView.Adapter<FundsAdapter.FundsViewHolder>() {

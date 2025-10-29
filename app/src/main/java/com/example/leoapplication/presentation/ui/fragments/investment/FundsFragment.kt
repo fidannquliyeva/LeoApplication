@@ -32,19 +32,18 @@ class FundsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // RecyclerView setup
+
         adapter = FundsAdapter(emptyList())
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
 
 
 
-// Məlumatları çəkmək və observer-lə RecyclerView-a ötürmək
         observeViewModel()
-       viewModel.loadFunds()
+        viewModel.loadFunds()
 
-        // Firestore-a bir dəfəlik məlumat əlavə et
-        viewModel.uploadSampleFunds() // Bir dəfə işlədikdən sonra comment et
+
+        viewModel.uploadSampleFunds()
     }
 
 

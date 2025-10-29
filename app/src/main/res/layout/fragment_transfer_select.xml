@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#B7AEFB"
-    tools:context=".presentation.ui.fragments.home.MainActivity">
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/topContainer"

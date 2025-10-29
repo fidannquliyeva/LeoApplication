@@ -9,7 +9,7 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.leoapplication.R
-import com.example.leoapplication.presentation.ui.fragments.home.MainActivity
+import com.example.leoapplication.MainActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
@@ -33,7 +33,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
 
         Log.d(TAG, "Message received from: ${message.from}")
 
-        // notification var?
         message.notification?.let {
             Log.d(TAG, "Notification Title: ${it.title}")
             Log.d(TAG, "Notification Body: ${it.body}")
@@ -45,9 +44,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
 
         if (message.data.isNotEmpty()) {
-            Log.d(TAG, "Message data: ${message.data}")
 
-            // Data-dan notification yaratmaq
             val title = message.data["title"] ?: "Leobank"
             val body = message.data["body"] ?: "Yeni bildiriş"
 
@@ -55,7 +52,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-  //local
     private fun showNotification(title: String, message: String) {
         createNotificationChannel()
 

@@ -86,7 +86,6 @@ class IncreaseBalanceAmountFragment : Fragment() {
                             binding.nextButton.text = "Emal edilir..."
                         }
                         is IncreaseBalanceUiState.Success -> {
-                            Log.d("IncreaseBalanceAmount", "Success - navigating to success page")
                             navigateToSuccess(state.amount)
                         }
                         is IncreaseBalanceUiState.Error -> {
@@ -127,8 +126,6 @@ class IncreaseBalanceAmountFragment : Fragment() {
                 findNavController().navigateUp()
                 return@setOnClickListener
             }
-
-            Log.d("IncreaseBalanceAmount", "Processing: Amount=$amount, Card=*${externalCardNumber.replace(" ", "").takeLast(4)}")
 
             viewModel.increaseBalance(amount, externalCardNumber)
         }

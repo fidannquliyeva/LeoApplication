@@ -1,4 +1,4 @@
-package com.example.leoapplication.presentation.ui.fragments.home
+package com.example.leoapplication
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.example.leoapplication.R
 import com.example.leoapplication.databinding.ActivityMainBinding
 import com.example.leoapplication.util.LanguageManager
 import com.example.leoapplication.util.PinManager
@@ -29,19 +28,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
-    // ✅ YENİ: Background vaxtını saxlamaq üçün
     private var backgroundTime: Long = 0
-    private val PIN_TIMEOUT_MS = 10_000L // 10 saniyə (millisaniyə ilə)
+    private val PIN_TIMEOUT_MS = 10_000L
 
     // Notification permission launcher
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         if (isGranted) {
-            Log.d("MainActivity", "✅ Notification permission granted")
             getFCMToken()
         } else {
-            Log.d("MainActivity", "❌ Notification permission denied")
             Toast.makeText(this, "Bildiriş icazəsi verilmədi", Toast.LENGTH_SHORT).show()
         }
     }
@@ -102,7 +98,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Log.d("MainActivity", "Navigation setup complete")
     }
 
     private fun requestNotificationPermission() {
@@ -112,7 +107,6 @@ class MainActivity : AppCompatActivity() {
                     this,
                     Manifest.permission.POST_NOTIFICATIONS
                 ) == PackageManager.PERMISSION_GRANTED -> {
-                    Log.d("MainActivity", "✅ Notification permission already granted")
                     getFCMToken()
                 }
                 shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS) -> {
@@ -135,7 +129,6 @@ class MainActivity : AppCompatActivity() {
     private fun getFCMToken() {
         FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
             if (!task.isSuccessful) {
-                Log.e("MainActivity", "❌ FCM token failed: ${task.exception}")
                 return@addOnCompleteListener
             }
 
@@ -146,11 +139,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ✅ YENİ: App background-a getdikdə
+
     override fun onPause() {
         super.onPause()
 
-        // Yalnız user login olubsa və PIN varsa vaxtı qeyd et
         val isLoggedIn = FirebaseAuth.getInstance().currentUser != null
         val hasPIN = PinManager.isPinSet(this)
 
@@ -160,18 +152,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ✅ YENİ: App foreground-a qayıdanda
     override fun onResume() {
         super.onResume()
 
-        // Əgər background vaxtı qeyd olunubsa
+
         if (backgroundTime > 0) {
             val currentTime = System.currentTimeMillis()
             val elapsedTime = currentTime - backgroundTime
 
-            Log.d("MainActivity", "▶️ App resumed. Elapsed time: ${elapsedTime}ms")
 
-            // Əgər 10 saniyədən çox keçibsə
+
             if (elapsedTime > PIN_TIMEOUT_MS) {
                 Log.d("MainActivity", "🔒 Timeout! Redirecting to PIN login...")
                 navigateToPinLogin()
@@ -182,18 +172,16 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // ✅ YENİ: PIN login ekranına yönləndirmə
+
     private fun navigateToPinLogin() {
         try {
-            // NavController hazır olana qədər gözlə
             if (!::navController.isInitialized) {
-                Log.e("MainActivity", "NavController not initialized yet")
                 return
             }
 
             val currentDest = navController.currentDestination?.id
 
-            // Əgər artıq PIN login ekranındaysa və ya login ekranlarındaysa, yönləndirmə
+
             if (currentDest == R.id.pinLoginFragment ||
                 currentDest == R.id.loginWithNumberFragment ||
                 currentDest == R.id.smsLoginFragment ||
@@ -202,7 +190,7 @@ class MainActivity : AppCompatActivity() {
                 return
             }
 
-            // PIN login ekranına get və bütün stack-i təmizlə
+
             navController.navigate(
                 R.id.pinLoginFragment,
                 null,
@@ -212,7 +200,6 @@ class MainActivity : AppCompatActivity() {
                     .build()
             )
 
-            Log.d("MainActivity", "✅ Navigated to PIN login")
 
         } catch (e: Exception) {
             Log.e("MainActivity", "❌ Navigation error: ${e.message}")

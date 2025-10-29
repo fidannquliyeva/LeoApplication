@@ -95,11 +95,9 @@ class TransferManualInputFragment : Fragment() {
                     when (state) {
                         is TransferUiState.Loading -> {
                             showLoading(true)
-                            Log.d("TransferManual", "Loading...")
                         }
                         is TransferUiState.RecipientFound -> {
                             showLoading(false)
-                            Log.d("TransferManual", "Recipient found!")
 
 
                             findNavController().navigate(
@@ -110,7 +108,6 @@ class TransferManualInputFragment : Fragment() {
                         }
                         is TransferUiState.Error -> {
                             showLoading(false)
-                            Log.e("TransferManual", " Error: ${state.message}")
 
                             Toast.makeText(
                                 requireContext(),
@@ -118,7 +115,6 @@ class TransferManualInputFragment : Fragment() {
                                 Toast.LENGTH_LONG
                             ).show()
 
-                            // Reset state
                             viewModel.resetState()
                         }
                         else -> {
@@ -133,8 +129,6 @@ class TransferManualInputFragment : Fragment() {
     private fun setupClickListeners() {
         binding.nextButton.setOnClickListener {
             val cardNumber = binding.cardNumberInput.text.toString().replace(" ", "")
-
-            Log.d("TransferManual", "Card number entered: $cardNumber")
 
             when {
                 cardNumber.isEmpty() -> {
@@ -153,7 +147,6 @@ class TransferManualInputFragment : Fragment() {
                 }
                 else -> {
 
-                    Log.d("TransferManual", "Searching for card: $cardNumber")
                     viewModel.findUserByCardNumber(cardNumber)
                 }
             }
@@ -165,7 +158,6 @@ class TransferManualInputFragment : Fragment() {
         binding.nextButton.text = if (isLoading) "Yoxlanılır..." else "Davam et"
         binding.cardNumberInput.isEnabled = !isLoading
 
-        Log.d("TransferManual", "Loading state: $isLoading")
     }
 
     override fun onResume() {

@@ -11,9 +11,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 object DialogHelper {
 
-    /**
-     * Dəstək dialog-unu göstər
-     */
     fun Fragment.showSupportDialog() {
         val dialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_support, null)
@@ -47,9 +44,6 @@ object DialogHelper {
         dialog.show()
     }
 
-    /**
-     * Dil dəyişdirmə dialog-unu göstər
-     */
     fun Fragment.showLanguageDialog() {
         val dialog = BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.dialog_language, null)
@@ -59,7 +53,6 @@ object DialogHelper {
         val radioAzerbaijan = view.findViewById<RadioButton>(R.id.radioAzerbaijan)
         val radioRussian = view.findViewById<RadioButton>(R.id.radioRussian)
 
-        // Hazırki dili yoxla
         val currentLanguage = LanguageManager.getSavedLanguage(requireContext())
         if (currentLanguage == "az") {
             radioGroup.check(R.id.radioAzerbaijan)

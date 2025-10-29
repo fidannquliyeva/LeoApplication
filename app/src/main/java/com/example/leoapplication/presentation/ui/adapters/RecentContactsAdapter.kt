@@ -47,7 +47,6 @@ class RecentContactsAdapter(
                     tvLastTransfer.visibility = android.view.View.GONE
                 }
 
-                // Click
                 root.setOnClickListener { onItemClick(contact) }
             }
         }

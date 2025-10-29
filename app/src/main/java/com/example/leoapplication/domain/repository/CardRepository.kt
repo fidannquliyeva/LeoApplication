@@ -10,8 +10,6 @@ interface CardRepository {
 
     suspend fun getCardById(cardId: String): Result<Card?>
 
-
-     // Kart balansını yeniləmək
     suspend fun updateCardBalance(cardId: String, newBalance: Double): Result<Unit>
 
     suspend fun getCardByNumber(cardNumber: String): Result<Card>

@@ -59,7 +59,6 @@ class ProfileFragment : Fragment() {
     private fun setupObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                // User data
                 launch {
                     viewModel.userData.collect { user ->
                         user?.let {

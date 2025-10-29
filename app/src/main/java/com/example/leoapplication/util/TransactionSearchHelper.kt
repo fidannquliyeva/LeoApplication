@@ -86,18 +86,11 @@ object TransactionSearchHelper {
 
         val searchQuery = query.lowercase().trim()
 
-        Log.d("SearchHelper", "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
-        Log.d("SearchHelper", " Query: '$searchQuery'")
-        Log.d("SearchHelper", "Transaction: [${transaction.type}] ${transaction.amount} - ${transaction.description}")
-
         val matchesDescription = transaction.description.lowercase().contains(searchQuery)
         val matchesAmount = transaction.amount.toString().contains(searchQuery)
 
-        Log.d("SearchHelper", "Description match: $matchesDescription")
-        Log.d("SearchHelper", "Amount match: $matchesAmount")
 
         if (matchesDescription || matchesAmount) {
-            Log.d("SearchHelper", "✅ MATCHED by fields")
             return true
         }
 
@@ -106,11 +99,8 @@ object TransactionSearchHelper {
             keyword.startsWith(searchQuery) || searchQuery.startsWith(keyword)
         }
 
-        Log.d("SearchHelper", "Type keywords: $typeKeywordsList")
-        Log.d("SearchHelper", "Type keyword match: $matchesTypeKeyword")
 
         if (matchesTypeKeyword) {
-            Log.d("SearchHelper", "MATCHED by type keyword")
             return true
         }
 
@@ -123,17 +113,12 @@ object TransactionSearchHelper {
                 keyword.startsWith(searchQuery) || searchQuery.startsWith(keyword)
             }
 
-            Log.d("SearchHelper", "Direction: ${if (isOutgoing) "Outgoing" else "Incoming"}")
-            Log.d("SearchHelper", "Direction keywords: $directionKeywordsList")
-            Log.d("SearchHelper", "Direction match: $matchesDirection")
 
             if (matchesDirection) {
-                Log.d("SearchHelper", "MATCHED by direction")
                 return true
             }
         }
 
-        Log.d("SearchHelper", "NO MATCH")
         return false
     }
 }

@@ -24,25 +24,19 @@ class PaymentViewModel @Inject constructor(
     private val getPaymentHistoryUseCase: GetPaymentHistoryUseCase
 ) : ViewModel() {
 
-    // Kateqoriyalar vəziyyəti
     private val _categoriesState = MutableLiveData<Resource<List<PaymentCategory>>>()
     val categoriesState: LiveData<Resource<List<PaymentCategory>>> = _categoriesState
 
-    // Provayderlar vəziyyəti
     private val _providersState = MutableLiveData<Resource<List<ServiceProvider>>>()
     val providersState: LiveData<Resource<List<ServiceProvider>>> = _providersState
 
-    // Ödəniş vəziyyəti
     private val _paymentState = MutableLiveData<Resource<Payment>>()
     val paymentState: LiveData<Resource<Payment>> = _paymentState
 
-    // Ödəniş tarixçəsi
     private val _paymentHistoryState = MutableLiveData<Resource<List<Payment>>>()
     val paymentHistoryState: LiveData<Resource<List<Payment>>> = _paymentHistoryState
 
-    /**
-     * Kateqoriyaları yüklə
-     */
+
     fun loadCategories() {
         _categoriesState.value = Resource.Loading()
 
@@ -57,9 +51,7 @@ class PaymentViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Provayderləri yüklə
-     */
+
     fun loadProviders(categoryId: String) {
         _providersState.value = Resource.Loading()
 
@@ -74,9 +66,6 @@ class PaymentViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Ödəniş et
-     */
     fun makePayment(
         userId: String,
         cardId: String,
@@ -97,9 +86,6 @@ class PaymentViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Ödəniş tarixçəsini yüklə
-     */
     fun loadPaymentHistory(userId: String) {
         _paymentHistoryState.value = Resource.Loading()
 

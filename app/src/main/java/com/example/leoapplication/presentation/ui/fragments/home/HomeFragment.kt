@@ -125,14 +125,12 @@ class HomeFragment : Fragment() {
                 putString("toUserId", transaction.toUserId)
             }
 
-            Log.d("HomeFragment", "Navigating to transaction detail: ${transaction.transactionId}")
 
             findNavController().navigate(
                 R.id.action_nav_home_to_transactionDetailFragment,
                 bundle
             )
         } catch (e: Exception) {
-            Log.e("HomeFragment", "Navigation error: ${e.message}")
             Toast.makeText(
                 requireContext(),
                 "Xəta: ${e.message}",
@@ -210,16 +208,10 @@ class HomeFragment : Fragment() {
                 )
             }
 
-            // ⭐ KARTA TOXUNANDA - CARD FRAGMENT-Ə GET
+
             cardVisa.setOnClickListener {
                 val card = viewModel.selectedCard.value
 
-                Log.d("HomeFragment", "━━━━━━━━━━━━━━━━━━")
-                Log.d("HomeFragment", " Card CLICKED")
-                Log.d("HomeFragment", "Card: $card")
-                Log.d("HomeFragment", "Card ID: ${card?.cardId}")
-                Log.d("HomeFragment", "Card isActive: ${card?.isActive}")
-                Log.d("HomeFragment", "━━━━━━━━━━━━━━━━━━")
 
                 if (card == null) {
                     Toast.makeText(requireContext(), "Kart tapılmadı!", Toast.LENGTH_LONG).show()
@@ -230,23 +222,18 @@ class HomeFragment : Fragment() {
         }
     }
 
-    /**
-     * Card Detail-ə keçid (sadə, heç bir animasiya əlavə etmirik)
-     */
+
     private fun navigateToCardDetails(cardId: String) {
         try {
             val bundle = Bundle().apply {
                 putString("cardId", cardId)
             }
 
-            Log.d("HomeFragment", "🎴 Navigating to CardFragment")
-
             findNavController().navigate(
                 R.id.action_nav_home_to_cardFragment,
                 bundle
             )
         } catch (e: Exception) {
-            Log.e("HomeFragment", "Navigation error: ${e.message}")
             Toast.makeText(
                 requireContext(),
                 "Xəta: ${e.message}",

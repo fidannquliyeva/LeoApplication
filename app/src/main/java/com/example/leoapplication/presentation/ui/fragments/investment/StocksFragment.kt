@@ -7,12 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.leoapplication.R
 import com.example.leoapplication.databinding.FragmentStocksBinding
-import com.example.leoapplication.domain.model.Share
 import com.example.leoapplication.presentation.ui.adapters.StocksAdapter
 import com.example.leoapplication.presentation.viewmodel.StocksViewModel
-import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,7 +34,6 @@ class StocksFragment : Fragment() {
         adapter = StocksAdapter(emptyList())
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = adapter
-
 
 
 // Məlumatları çəkmək və observer-lə RecyclerView-a ötürmək

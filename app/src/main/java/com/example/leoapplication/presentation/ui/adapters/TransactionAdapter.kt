@@ -38,12 +38,12 @@ class TransactionAdapter(
 
         fun bind(transaction: Transaction) {
             with(binding) {
-                // Tarix formatı
+
                 val dateFormat = SimpleDateFormat("dd MMM, HH:mm", Locale("az"))
                 tvDate.text = dateFormat.format(Date(transaction.timestamp))
 
                 val isOutgoing = when (transaction.type) {
-                    TransactionType.BALANCE_INCREASE -> false // Həmişə incoming
+                    TransactionType.BALANCE_INCREASE -> false
                     else -> transaction.fromUserId == currentUserId
                 }
 
@@ -64,7 +64,6 @@ class TransactionAdapter(
                     }
                 }
 
-                // Amount formatı
                 val amountText = if (isOutgoing) {
                     "-${String.format("%.2f", transaction.amount)} ${transaction.currency}"
                 } else {
@@ -78,7 +77,7 @@ class TransactionAdapter(
                     ContextCompat.getColor(root.context, android.R.color.holo_green_dark)
                 }
                 tvAmount.setTextColor(color)
-                //iconn st
+
                 val statusIcon = when (transaction.status) {
                     TransactionStatus.COMPLETED -> R.drawable.ic_check_circle
                     TransactionStatus.PENDING -> R.drawable.ic_pending
@@ -87,7 +86,6 @@ class TransactionAdapter(
                 }
                 ivStatus.setImageResource(statusIcon)
 
-                // Click
                 root.setOnClickListener { onItemClick(transaction) }
             }
         }

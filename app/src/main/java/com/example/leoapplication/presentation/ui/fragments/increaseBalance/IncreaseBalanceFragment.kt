@@ -44,9 +44,6 @@ class IncreaseBalanceFragment : Fragment() {
             findNavController().navigate(R.id.action_increaseBalanceFragment_to_increaseOtherCardFragment)
         }
 
-//        binding.scrollableIncrease.withMoney.setOnClickListener {
-//            findNavController().navigate(R.id.action_increaseBalanceFragment_to_increaseWithMoneyFragment)
-//        }
 
         binding.scrollableIncrease.withSwift.setOnClickListener {
             findNavController().navigate(R.id.action_increaseBalanceFragment_to_increaseWithSwiftFragment)

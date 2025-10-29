@@ -29,7 +29,7 @@ class IncreaseBalanceViewModel @Inject constructor(
     private val _amount = MutableStateFlow(0.0)
     val amount: StateFlow<Double> = _amount.asStateFlow()
 
-    //  Xarici kartın nömrəsi
+
     private val _externalCardNumber = MutableStateFlow("")
     val externalCardNumber: StateFlow<String> = _externalCardNumber.asStateFlow()
 
@@ -53,7 +53,6 @@ class IncreaseBalanceViewModel @Inject constructor(
                         }
                     }
                     is Resource.Error -> {
-                        Log.e("IncreaseBalanceVM", " Error: ${result.message}")
                         _uiState.value = IncreaseBalanceUiState.Error(result.message ?: "Xəta")
                     }
                     is Resource.Loading -> {
@@ -66,7 +65,6 @@ class IncreaseBalanceViewModel @Inject constructor(
 
     fun setExternalCardNumber(cardNumber: String) {
         _externalCardNumber.value = cardNumber
-        Log.d("IncreaseBalanceVM", "External card saved: *${cardNumber.replace(" ", "").takeLast(4)}")
     }
 
     fun increaseBalance(amount: Double, cardNumber: String) {
@@ -86,7 +84,6 @@ class IncreaseBalanceViewModel @Inject constructor(
 
             val externalCardLast4 = cardNumber.replace(" ", "").takeLast(4)
 
-            Log.d("IncreaseBalanceVM", "Increasing balance from card: *$externalCardLast4")
 
             when (val result = homeRepository.increaseBalanceWithTransaction(
                 card.cardId,
@@ -94,12 +91,10 @@ class IncreaseBalanceViewModel @Inject constructor(
                 externalCardLast4
             )) {
                 is Resource.Success -> {
-                    Log.d("IncreaseBalanceVM", "✅ Balance increased successfully")
                     _amount.value = amount
                     _uiState.value = IncreaseBalanceUiState.Success(amount)
                 }
                 is Resource.Error -> {
-                    Log.e("IncreaseBalanceVM", "❌ Failed: ${result.message}")
                     _uiState.value = IncreaseBalanceUiState.Error(
                         result.message ?: "Xəta baş verdi"
                     )

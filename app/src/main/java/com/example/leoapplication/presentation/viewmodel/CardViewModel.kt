@@ -28,7 +28,6 @@ class CardViewModel @Inject constructor(
 
     fun loadCard(cardId: String) {
         viewModelScope.launch {
-            Log.d("CardViewModel", "Loading card: $cardId")
             _uiState.value = CardUiState.Loading
 
             val result = cardRepository.getCardById(cardId)
@@ -39,16 +38,13 @@ class CardViewModel @Inject constructor(
                     _card.value = cardData
                     _isBlocked.value = !cardData.isActive
                     _uiState.value = CardUiState.Success
-                    Log.d("CardViewModel", "✅ Card loaded: ${cardData.cardNumber}")
-                    Log.d("CardViewModel", "Card isActive: ${cardData.isActive}, isBlocked: ${!cardData.isActive}")
-                } else {
+                }
+                else {
                     _uiState.value = CardUiState.Error("Kart tapılmadı")
-                    Log.e("CardViewModel", " Card is null")
                 }
             } else {
                 val error = result.exceptionOrNull()?.message ?: "Xəta baş verdi"
                 _uiState.value = CardUiState.Error(error)
-                Log.e("CardViewModel", "❌ Error: $error")
             }
         }
     }
@@ -61,8 +57,6 @@ class CardViewModel @Inject constructor(
             val newIsActive = currentIsBlocked  // Əgər blokludursa, aktivləşdir
             val newIsBlocked = !newIsActive     // Əgər aktivdirsə, blokla
 
-            Log.d("CardViewModel", "Current: isActive=${currentCard.isActive}, isBlocked=$currentIsBlocked")
-            Log.d("CardViewModel", "Toggling to: isActive=$newIsActive, isBlocked=$newIsBlocked")
 
             val result = cardRepository.toggleCardStatus(currentCard.cardId, newIsActive)
 
@@ -77,10 +71,8 @@ class CardViewModel @Inject constructor(
                 }
 
                 _uiState.value = CardUiState.Message(message)
-                Log.d("CardViewModel", message)
             } else {
                 _uiState.value = CardUiState.Error("Əməliyyat uğursuz oldu")
-                Log.e("CardViewModel", "Toggle failed")
             }
         }
     }

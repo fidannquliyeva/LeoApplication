@@ -38,11 +38,9 @@ class PhoneAuthViewModel @Inject constructor(
     private val _authState = MutableLiveData<Resource<String>>()
     val authState: LiveData<Resource<String>> = _authState
 
-    // İstifadəçi yaradılması vəziyyəti
     private val _userCreationState = MutableLiveData<Resource<Card>>()
     val userCreationState: LiveData<Resource<Card>> = _userCreationState
 
-    // Saxlanmış verification ID və token
     var storedVerificationId: String? = null
     var resendToken: PhoneAuthProvider.ForceResendingToken? = null
 
@@ -55,7 +53,7 @@ class PhoneAuthViewModel @Inject constructor(
 
         val callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                // Avtomatik təsdiqləmə
+
                 verifyPhoneNumber(credential)
             }
 
@@ -80,7 +78,6 @@ class PhoneAuthViewModel @Inject constructor(
     }
 
 
-    // OTP təsdiqləmə (manual kod daxil edildikdə)
 
     fun verifyCode(code: String) {
         val verificationId = storedVerificationId

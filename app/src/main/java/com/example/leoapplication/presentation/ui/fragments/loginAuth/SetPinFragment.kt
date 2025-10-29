@@ -114,7 +114,8 @@ class SetPinFragment : Fragment() {
     private fun updatePinDisplay() {
         // İlk PIN göstərmə
         val pinViews = listOf(binding.pin1, binding.pin2, binding.pin3, binding.pin4)
-        val pinTexts = listOf(binding.pin1Text, binding.pin2Text, binding.pin3Text, binding.pin4Text)
+        val pinTexts =
+            listOf(binding.pin1Text, binding.pin2Text, binding.pin3Text, binding.pin4Text)
 
         pinViews.forEachIndexed { index, imageView ->
             if (index < firstPin.length) {
@@ -148,18 +149,17 @@ class SetPinFragment : Fragment() {
 
         // Təsdiq PIN göstərmə
         val confirmPinViews = listOf(binding.pinC1, binding.pinC2, binding.pinC3, binding.pinC4)
-        val confirmPinTexts = listOf(binding.pinC1Text, binding.pinC2Text, binding.pinC3Text, binding.pinC4Text)
+        val confirmPinTexts =
+            listOf(binding.pinC1Text, binding.pinC2Text, binding.pinC3Text, binding.pinC4Text)
 
         confirmPinViews.forEachIndexed { index, imageView ->
             if (index < confirmPin.length) {
-                // Dolu - qara rəng
+
                 imageView.setImageResource(R.drawable.paw)
                 imageView.setColorFilter(
                     resources.getColor(android.R.color.black, null),
                     android.graphics.PorterDuff.Mode.SRC_IN
                 )
-
-                // Rəqəmi göstər/gizlət
                 if (isConfirmPinVisible) {
                     imageView.visibility = View.GONE
                     confirmPinTexts[index].text = confirmPin[index].toString()
@@ -169,7 +169,7 @@ class SetPinFragment : Fragment() {
                     confirmPinTexts[index].visibility = View.GONE
                 }
             } else {
-                // Boş - boz rəng
+
                 imageView.setImageResource(R.drawable.paw)
                 imageView.setColorFilter(
                     resources.getColor(android.R.color.darker_gray, null),
@@ -182,7 +182,6 @@ class SetPinFragment : Fragment() {
     }
 
     private fun setupEyeToggle() {
-        // İlk PIN göz icon
         binding.eyeToggle.setOnClickListener {
             isPinVisible = !isPinVisible
             binding.eyeToggle.setImageResource(
@@ -191,7 +190,7 @@ class SetPinFragment : Fragment() {
             updatePinDisplay()
         }
 
-        // Təsdiq PIN göz icon
+
         binding.eyeToggleConfirm.setOnClickListener {
             isConfirmPinVisible = !isConfirmPinVisible
             binding.eyeToggleConfirm.setImageResource(

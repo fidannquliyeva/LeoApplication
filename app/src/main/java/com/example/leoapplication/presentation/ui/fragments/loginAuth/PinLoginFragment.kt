@@ -65,7 +65,8 @@ class PinLoginFragment : Fragment() {
                 val seconds = millisUntilFinished / 1000
                 val minutes = seconds / 60
                 val secs = seconds % 60
-                binding.phoneNumberText.text = "Gözləyin: ${minutes}:${secs.toString().padStart(2, '0')}"
+                binding.phoneNumberText.text =
+                    "Gözləyin: ${minutes}:${secs.toString().padStart(2, '0')}"
             }
 
             override fun onFinish() {
@@ -165,12 +166,10 @@ class PinLoginFragment : Fragment() {
 
     private fun verifyPin() {
         if (PinManager.verifyPin(requireContext(), enteredPin)) {
-            // PIN düzgündür
             PinManager.resetFailedAttempts(requireContext())
             showToast("Xoş gəldiniz!")
             findNavController().navigate(R.id.action_pinLoginFragment_to_homeFragment)
         } else {
-            // PIN səhvdir
             PinManager.addFailedAttempt(requireContext())
             val remainingAttempts = PinManager.getRemainingAttempts(requireContext())
 
@@ -209,6 +208,7 @@ class PinLoginFragment : Fragment() {
             binding.imgAvatar.setImageResource(R.drawable.icons8testaccount80)
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         lockTimer?.cancel()

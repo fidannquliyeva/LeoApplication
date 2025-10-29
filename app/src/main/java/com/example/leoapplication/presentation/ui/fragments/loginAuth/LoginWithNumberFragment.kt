@@ -44,7 +44,7 @@ class LoginWithNumberFragment : Fragment() {
         binding.help.setOnClickListener {
             showSupportDialog()
         }
-        binding.infoTextNext.setOnClickListener{
+        binding.infoTextNext.setOnClickListener {
             findNavController().navigate(R.id.action_loginWithNumberFragment_to_aboutLeoFragment)
         }
     }
@@ -83,13 +83,9 @@ class LoginWithNumberFragment : Fragment() {
 
                     if (index == 1 && phoneNumber.length > 2) {
                         append(" ")
-                    }
-
-                    else if (index == 4 && phoneNumber.length > 5) {
+                    } else if (index == 4 && phoneNumber.length > 5) {
                         append(" ")
-                    }
-
-                    else if (index == 6 && phoneNumber.length > 7) {
+                    } else if (index == 6 && phoneNumber.length > 7) {
                         append(" ")
                     }
                 }
@@ -99,6 +95,7 @@ class LoginWithNumberFragment : Fragment() {
         binding.phoneNumberText.text = formattedNumber
         binding.nextButton.isEnabled = phoneNumber.length == Constants.PHONE_NUMBER_LENGTH
     }
+
     private fun setupNextButton() {
         binding.nextButton.isEnabled = false
 

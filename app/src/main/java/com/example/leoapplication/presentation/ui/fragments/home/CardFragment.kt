@@ -47,16 +47,13 @@ class CardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // ⭐ HARDWARE BACK düyməsini deaktiv edirik
         disableBackButton()
 
         val cardId = arguments?.getString("cardId")
 
         if (cardId != null) {
-            Log.d("CardFragment", "Loading card with ID: $cardId")
             viewModel.loadCard(cardId)
         } else {
-            Log.e("CardFragment", " Card ID is NULL!")
             Toast.makeText(
                 requireContext(),
                 "Kart ID tapılmadı",
@@ -70,10 +67,6 @@ class CardFragment : Fragment() {
         setupClickListeners()
     }
 
-    /**
-     * Hardware back düyməsini deaktiv edir
-     * Yalnız karta toxunanda geri qayıtmaq üçün
-     */
     private fun disableBackButton() {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -82,16 +75,13 @@ class CardFragment : Fragment() {
                     "Geri qayıtmaq üçün karta toxunun",
                     Toast.LENGTH_SHORT
                 ).show()
-                Log.d("CardFragment", "🚫 Back button pressed - BLOCKED")
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 
         private fun flipAndGoBack() {
-            Log.d("CardFragment", "🔄 Card clicked - Flipping entire layout")
-
-            val cardContainer = binding.root // Əgər sənin XML-də "root" və ya "mainContainer" kimi adlanırsa, onu yaz
+            val cardContainer = binding.root
 
             cardContainer.animate()
                 .rotationY(180f)
@@ -101,7 +91,6 @@ class CardFragment : Fragment() {
                 .setDuration(700)
                 .setInterpolator(AccelerateInterpolator())
                 .withEndAction {
-                    Log.d("CardFragment", "✅ Flip animation finished - Going back to Home")
                     findNavController().popBackStack()
                 }
                 .start()
@@ -114,20 +103,16 @@ class CardFragment : Fragment() {
 
                 launch {
                     viewModel.uiState.collect { state ->
-                        Log.d("CardFragment", "UI State: $state")
                         when (state) {
                             is CardUiState.Loading -> {
                                 showLoading(true)
-                                Log.d("CardFragment", "⏳ Loading card...")
                             }
                             is CardUiState.Success -> {
                                 showLoading(false)
-                                Log.d("CardFragment", "✅ Card loaded successfully!")
                             }
                             is CardUiState.Error -> {
                                 showLoading(false)
                                 val errorMessage = state.message ?: "Xəta baş verdi"
-                                Log.e("CardFragment", "❌ Error: $errorMessage")
                                 Toast.makeText(
                                     requireContext(),
                                     errorMessage,
@@ -135,7 +120,6 @@ class CardFragment : Fragment() {
                                 ).show()
                             }
                             is CardUiState.Message -> {
-                                Log.d("CardFragment", "💬 Message: ${state.message}")
                                 Toast.makeText(
                                     requireContext(),
                                     state.message,
@@ -148,10 +132,8 @@ class CardFragment : Fragment() {
 
                 launch {
                     viewModel.card.collect { card ->
-                        Log.d("CardFragment", "Card data: $card")
                         card?.let {
                             updateCardUI(it)
-                            Log.d("CardFragment", "Card UI updated: ${it.cardNumber}")
                         }
                     }
                 }
@@ -185,7 +167,6 @@ class CardFragment : Fragment() {
                     "⚠️ Kartın müddəti bitib!",
                     Toast.LENGTH_LONG
                 ).show()
-                Log.w("CardFragment", "⚠️ Card is EXPIRED!")
             } else {
                 txtDateText.setTextColor(
                     resources.getColor(R.color.colorUnchecked, null)
@@ -202,14 +183,12 @@ class CardFragment : Fragment() {
                 imgBlock.setColorFilter(
                     resources.getColor(android.R.color.holo_red_dark, null)
                 )
-                Log.d("CardFragment", "🔒 Card is BLOCKED")
             } else {
                 txtBlock.text = getString(R.string.plastik_kart_blokla)
                 txtBlockMsg.text = getString(R.string.st_diyiniz_vaxt_onu_blokdan_xara_bil_rsiniz)
                 imgBlock.setColorFilter(
                     resources.getColor(android.R.color.black, null)
                 )
-                Log.d("CardFragment", "✅ Card is ACTIVE")
             }
         }
     }
@@ -234,7 +213,6 @@ class CardFragment : Fragment() {
                     isCvvVisible = false
                 }
                 .withEndAction {
-                    Log.d("CardFragment", "🔒 CVV sticker shown with animation")
                 }
                 .start()
         }
@@ -316,9 +294,7 @@ class CardFragment : Fragment() {
                 }
             }
 
-            // ⭐ KARTA TOXUNANDA - Y OXUNDA FLİP (ÖN/ARXA), KİÇİLİR VƏ GERİ QAYIDIR
             cardVisaCard.setOnClickListener {
-                Log.d("CardFragment", "🎴 Card clicked - Starting flip animation")
                 flipAndGoBack()
             }
 
@@ -338,9 +314,7 @@ class CardFragment : Fragment() {
                 Toast.LENGTH_SHORT
             ).show()
 
-            Log.d("CardFragment", "📋 Card number copied to clipboard")
         } catch (e: Exception) {
-            Log.e("CardFragment", "❌ Copy error: ${e.message}")
             Toast.makeText(
                 requireContext(),
                 "Kopyalama xətası",
@@ -361,11 +335,9 @@ class CardFragment : Fragment() {
             .setTitle("⚠️ Təsdiq")
             .setMessage(message)
             .setPositiveButton("Bəli") { _, _ ->
-                Log.d("CardFragment", "✅ Block/Unblock confirmed")
                 viewModel.toggleCardBlock()
             }
             .setNegativeButton("Xeyr") { dialog, _ ->
-                Log.d("CardFragment", "❌ Block/Unblock cancelled")
                 dialog.dismiss()
             }
             .show()

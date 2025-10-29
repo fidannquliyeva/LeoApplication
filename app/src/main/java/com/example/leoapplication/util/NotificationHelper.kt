@@ -9,20 +9,15 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.leoapplication.R
-import com.example.leoapplication.presentation.ui.fragments.home.MainActivity
+import com.example.leoapplication.MainActivity
 
-/**
- * Notification helper - local notifications üçün
- */
 object NotificationHelper {
 
     private const val CHANNEL_ID = "leobank_channel"
     private const val CHANNEL_NAME = "Leobank Notifications"
     private const val CHANNEL_DESCRIPTION = "Balans və transaction bildirişləri"
 
-    /**
-     * Notification channel yaratmaq (Android 8.0+)
-     */
+
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_HIGH

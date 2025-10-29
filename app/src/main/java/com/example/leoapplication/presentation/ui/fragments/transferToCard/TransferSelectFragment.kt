@@ -63,7 +63,6 @@ class TransferSelectFragment : Fragment() {
 
     private fun setupRecyclerView() {
         contactsAdapter = RecentContactsAdapter { contact ->
-            Log.d("TransferSelect", "Selected: ${contact.name}")
             viewModel.selectRecipient(contact)
 
             findNavController().navigate(
@@ -88,15 +87,19 @@ class TransferSelectFragment : Fragment() {
                                 binding.progressBar?.visibility = View.VISIBLE
                                 binding.recyclerView.visibility = View.GONE
                             }
+
                             is TransferUiState.Success -> {
                                 binding.progressBar?.visibility = View.GONE
                                 binding.recyclerView.visibility = View.VISIBLE
                             }
+
                             is TransferUiState.Error -> {
                                 binding.progressBar?.visibility = View.GONE
                                 binding.recyclerView.visibility = View.VISIBLE
-                                Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), state.message, Toast.LENGTH_SHORT)
+                                    .show()
                             }
+
                             else -> {}
                         }
                     }
@@ -104,10 +107,8 @@ class TransferSelectFragment : Fragment() {
 
                 launch {
                     viewModel.filteredContacts.collect { contacts ->
-                        Log.d("TransferSelect", "Contacts: ${contacts.size}")
                         contactsAdapter.submitList(contacts)
 
-                        // Empty state
                         if (contacts.isEmpty()) {
 
                         }

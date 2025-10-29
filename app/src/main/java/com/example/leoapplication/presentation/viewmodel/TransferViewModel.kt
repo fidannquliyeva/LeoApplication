@@ -27,22 +27,18 @@ class TransferViewModel @Inject constructor(
     private val auth: FirebaseAuth
 ) : ViewModel() {
 
-    // UI State
     private val _uiState = MutableStateFlow<TransferUiState>(TransferUiState.Idle)
     val uiState: StateFlow<TransferUiState> = _uiState.asStateFlow()
 
-    // Current balance
     private val _currentBalance = MutableStateFlow(0.0)
     val currentBalance: StateFlow<Double> = _currentBalance.asStateFlow()
 
-    // Recent contacts
     private val _recentContacts = MutableStateFlow<List<ContactWithLeo>>(emptyList())
     val recentContacts: StateFlow<List<ContactWithLeo>> = _recentContacts.asStateFlow()
 
     private val _filteredContacts = MutableStateFlow<List<ContactWithLeo>>(emptyList())
     val filteredContacts: StateFlow<List<ContactWithLeo>> = _filteredContacts.asStateFlow()
 
-    // Transfer data
     private val _recipientPhoneNumber = MutableStateFlow("")
     val recipientPhoneNumber: StateFlow<String> = _recipientPhoneNumber.asStateFlow()
 
@@ -59,7 +55,6 @@ class TransferViewModel @Inject constructor(
         loadCurrentBalance()
     }
 
-    // ============ BALANCE ============
 
     private fun loadCurrentBalance() {
         viewModelScope.launch {
@@ -70,12 +65,10 @@ class TransferViewModel @Inject constructor(
                 val cards = result.getOrNull()
                 if (!cards.isNullOrEmpty()) {
                     _currentBalance.value = cards.first().balance
-                    Log.d("TransferViewModel", "Balance: ${_currentBalance.value}")
                 }
             }
         }
     }
-
 
 
     fun loadRecentTransfers() {
@@ -89,7 +82,6 @@ class TransferViewModel @Inject constructor(
                 if (result.isSuccess) {
                     val transactions = result.getOrNull() ?: emptyList()
 
-                    // Son 20 unique transfer
                     val recentList = transactions
                         .filter { it.type == TransactionType.TRANSFER }
                         .filter { it.toUserId != userId }
@@ -115,12 +107,10 @@ class TransferViewModel @Inject constructor(
                     _filteredContacts.value = recentList
                     _uiState.value = TransferUiState.Success
 
-                    Log.d("TransferViewModel", "Recent transfers loaded: ${recentList.size}")
                 } else {
                     _uiState.value = TransferUiState.Success
                 }
             } catch (e: Exception) {
-                Log.e("TransferViewModel", "Error loading recent: ${e.message}")
                 _uiState.value = TransferUiState.Error(e.message ?: "Xəta")
             }
         }
@@ -137,25 +127,18 @@ class TransferViewModel @Inject constructor(
         }
     }
 
-    // ============ RECIPIENT SELECTION ============
 
     fun selectRecipient(contact: ContactWithLeo) {
         _recipientPhoneNumber.value = contact.phoneNumber
         _recipientName.value = contact.name
-        Log.d("TransferViewModel", "Selected: ${contact.name} - ${contact.phoneNumber}")
     }
 
-    // ============ FIND USER BY CARD NUMBER ============
 
     fun findUserByCardNumber(cardNumber: String) {
         viewModelScope.launch {
             _uiState.value = TransferUiState.Loading
 
-            Log.d("TransferViewModel", "====== SEARCHING CARD ======")
-            Log.d("TransferViewModel", "Card number: $cardNumber")
-
             try {
-                // 1. Kartı tap
                 val cardResult = cardRepository.getCardByNumber(cardNumber)
 
                 if (cardResult.isFailure) {
@@ -167,7 +150,6 @@ class TransferViewModel @Inject constructor(
                 val card = cardResult.getOrNull()!!
                 Log.d("TransferViewModel", "✅ Card found: ${card.cardId}, Owner: ${card.userId}")
 
-                // 2. Kartın sahibini tap
                 val userResult = firestoreDataSource.getUser(card.userId)
 
                 if (userResult.isFailure) {
@@ -178,7 +160,7 @@ class TransferViewModel @Inject constructor(
 
                 val user = userResult.getOrNull()!!
 
-                // 3. Öz kartına göndərməyi yoxla
+
                 val currentUserId = auth.currentUser?.uid
                 if (card.userId == currentUserId) {
                     _uiState.value = TransferUiState.Error("Öz kartınıza köçürə bilməzsiniz")
@@ -186,12 +168,11 @@ class TransferViewModel @Inject constructor(
                     return@launch
                 }
 
-                // 4. Recipient məlumatlarını set et
+
                 _recipientPhoneNumber.value = user.phoneNumber
                 _recipientName.value = user.fullName
                 _uiState.value = TransferUiState.RecipientFound
 
-                Log.d("TransferViewModel", "✅ Recipient found: ${user.fullName} (${user.phoneNumber})")
 
             } catch (e: Exception) {
 
@@ -200,13 +181,10 @@ class TransferViewModel @Inject constructor(
         }
     }
 
-    // ============ AMOUNT & DESCRIPTION ============
 
     fun setAmount(amount: Double) {
         _amount.value = amount
-        Log.d("TransferViewModel", "Amount set: $amount")
     }
-
 
 
     // ============ VALIDATION ============
@@ -217,19 +195,21 @@ class TransferViewModel @Inject constructor(
                 _uiState.value = TransferUiState.Error("Telefon nömrəsi daxil edin")
                 false
             }
+
             _amount.value <= 0 -> {
                 _uiState.value = TransferUiState.Error("Məbləğ daxil edin")
                 false
             }
+
             _amount.value > _currentBalance.value -> {
                 _uiState.value = TransferUiState.Error("Balans kifayət deyil")
                 false
             }
+
             else -> true
         }
     }
 
-    // ============ PERFORM TRANSFER ============
 
     fun performTransfer() {
         if (!validateAndProceed()) return
@@ -238,12 +218,6 @@ class TransferViewModel @Inject constructor(
             _uiState.value = TransferUiState.Loading
 
             val userId = auth.currentUser?.uid ?: return@launch
-
-            Log.d("TransferViewModel", "====== TRANSFER START ======")
-            Log.d("TransferViewModel", "From: $userId")
-            Log.d("TransferViewModel", "To: ${_recipientPhoneNumber.value}")
-            Log.d("TransferViewModel", "Amount: ${_amount.value}")
-
 
             val result = transferMoneyUseCase(
                 fromUserId = userId,
@@ -257,7 +231,6 @@ class TransferViewModel @Inject constructor(
                 _uiState.value = TransferUiState.TransferSuccess(transaction)
 
 
-                // Balance-i yenilə
                 loadCurrentBalance()
             } else {
                 val error = result.exceptionOrNull()?.message ?: "Köçürmə uğursuz"
@@ -266,7 +239,6 @@ class TransferViewModel @Inject constructor(
             }
         }
     }
-
 
 
     fun resetState() {
@@ -281,12 +253,9 @@ class TransferViewModel @Inject constructor(
     }
 
     fun refreshBalance() {
-        Log.d("TransferViewModel", "Refreshing balance...")
         loadCurrentBalance()
     }
 }
-
-// ============ UI STATE ============
 
 sealed class TransferUiState {
     object Idle : TransferUiState()
